@@ -26,6 +26,7 @@ export default function AIPoposu() {
   const [acik, setAcik] = useState(false);
   const [mesajlar, setMesajlar] = useState<Mesaj[]>([]);
   const [girdi, setGirdi] = useState("");
+  const [saat, setSaat] = useState<string | null>(null);
   const [bekliyor, setBekliyor] = useState(false);
   const panel = useRef<HTMLDivElement>(null);
   const tetikleyici = useRef<HTMLButtonElement>(null);
@@ -41,6 +42,15 @@ export default function AIPoposu() {
   useEffect(() => {
     setMesajlar((eski) => (eski.length === 0 ? [karsilama] : eski));
   }, [karsilama]);
+
+  useEffect(() => {
+    setSaat(
+      new Date().toLocaleTimeString(yerel, {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    );
+  }, [yerel]);
 
   useEffect(() => {
     if (acik) {
@@ -139,10 +149,7 @@ export default function AIPoposu() {
                   <span className="inline-flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-ikincil animate-pulse" />
                     {t("aiPoposuAktif")} —{" "}
-                    {new Date().toLocaleTimeString(yerel, {
-                      hour: "2-digit",
-                      minute: "2-digit"
-                    })}
+                    {saat ?? "—"}
                   </span>
                 </p>
               </div>

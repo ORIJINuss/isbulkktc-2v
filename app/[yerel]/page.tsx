@@ -163,7 +163,10 @@ export default function AnaSayfa() {
       {/* ─── NAVBAR ─── */}
       {/* ─── HERO ─── */}
       <section className="relative overflow-hidden border-b border-[#dcdcd1] bg-[#f6f5ef]">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-16">
+        <div className="pointer-events-none absolute -end-24 -top-32 h-80 w-80 rounded-full bg-[#d3e7e8]/60 blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute -start-24 bottom-0 h-56 w-56 rounded-full bg-[#e8f4ee]/70 blur-3xl" aria-hidden="true" />
+        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.58fr)] md:items-center md:px-8 md:py-24">
+          <div>
           {/* Badge */}
           <div className="inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-md bg-[#e8f4ee] border border-[#b3dbc5]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#1e4b39]" />
@@ -173,7 +176,7 @@ export default function AnaSayfa() {
           </div>
 
           {/* Headline */}
-          <h1 className="font-sans-govde font-semibold text-[#183a33] text-[38px] sm:text-[44px] leading-[1.12] tracking-tight mb-4 max-w-3xl">
+          <h1 className="font-display font-bold text-[#183a33] text-[38px] sm:text-[44px] leading-[1.08] tracking-[-0.045em] mb-4 max-w-3xl">
             {t("heroTitle")}
           </h1>
 
@@ -184,7 +187,7 @@ export default function AnaSayfa() {
 
           {/* Search box */}
           <form
-            className="w-full max-w-6xl mb-4 rounded-xl border border-[#dcdcd1] bg-white p-3 md:p-4 shadow-[0_4px_20px_-4px_rgba(26,50,44,0.06)]"
+            className="w-full max-w-6xl mb-4 rounded-2xl border border-[#dcdcd1] bg-white/95 p-3 md:p-4 shadow-[0_18px_45px_-18px_rgba(26,50,44,0.24)] ring-1 ring-white/70 backdrop-blur-sm"
             onSubmit={(event) => {
               event.preventDefault();
               const params = new URLSearchParams();
@@ -302,33 +305,11 @@ export default function AnaSayfa() {
               );
             })}
           </div>
+          </div>
+
         </div>
       </section>
 
-      <section className="border-b border-[#dcdcd1] bg-[#faf9f3] py-6 md:py-7">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8">
-          {[
-            { icon: "verified", value: "B3", label: t("statEmployerVerification") },
-            { icon: "location_on", value: "6", label: t("statDistrictSearch") },
-            { icon: "link", value: "URL", label: t("statShareableJob") },
-            { icon: "language", value: t("statLanguageValue"), label: t("statLanguageSupport") },
-          ].map(({ icon, value, label }) => (
-            <div key={label} className="flex items-center gap-3">
-              <span className="msimge flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#e6e6dd] bg-[#f5f4ee] text-[#305149] text-xl" aria-hidden="true">
-                {icon}
-              </span>
-              <div>
-                <div className="font-sans-govde font-semibold text-[#183a33] text-lg leading-tight">
-                  {value}
-                </div>
-                <div className="text-[#414846] text-xs leading-5 font-sans-govde">
-                  {label}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* ─── KATEGORİLER ─── */}
       <section
@@ -342,7 +323,7 @@ export default function AnaSayfa() {
               <span className="inline-block mb-2 text-[11px] font-sans-govde font-semibold text-[#42655c] tracking-widest uppercase">
                 {t("sectorsEyebrow")}
               </span>
-              <h2 className="font-sans-govde font-semibold text-[#183a33] text-2xl sm:text-3xl tracking-tight">
+              <h2 className="font-baslik font-semibold text-[#183a33] text-2xl sm:text-3xl tracking-[-0.025em]">
                 {t("sectorsHeading")}
               </h2>
             </div>
@@ -374,7 +355,7 @@ export default function AnaSayfa() {
                   </span>
                 </div>
                 <div>
-                  <h3 className="font-sans-govde font-semibold text-[#183a33] text-[18px] leading-snug mb-1 group-hover:text-[#42655c] transition-colors">
+                  <h3 className="font-baslik font-semibold text-[#183a33] text-[18px] leading-snug mb-1 group-hover:text-[#42655c] transition-colors">
                     {label}
                   </h3>
                   <p className="text-[13px] leading-5 text-[#414846] font-sans-govde">
@@ -399,7 +380,7 @@ export default function AnaSayfa() {
               <span className="inline-block mb-2 text-[11px] font-sans-govde font-semibold text-[#42655c] tracking-widest uppercase">
                 {t("jobsEyebrow")}
               </span>
-              <h2 className="font-sans-govde font-semibold text-[#183a33] text-2xl sm:text-3xl tracking-tight">
+              <h2 className="font-baslik font-semibold text-[#183a33] text-2xl sm:text-3xl tracking-[-0.025em]">
                 {t("jobsHeading")}
               </h2>
             </div>
@@ -494,7 +475,7 @@ export default function AnaSayfa() {
                   </div>
                 </div>
                 {/* Title */}
-                <h3 className="font-sans-govde font-extrabold text-[#183a33] text-[17px] leading-snug group-hover:text-[#40655c] transition-colors">
+                <h3 className="font-baslik font-bold text-[#183a33] text-[17px] leading-snug group-hover:text-[#40655c] transition-colors">
                   {job.title}
                 </h3>
                 {/* Tags */}
@@ -606,7 +587,7 @@ export default function AnaSayfa() {
             <span className="inline-block mb-2 text-[11px] font-sans-govde font-semibold text-[#42655c] tracking-widest uppercase">
               {t("howItWorksEyebrow")}
             </span>
-            <h2 className="font-sans-govde font-semibold text-[#183a33] text-2xl sm:text-3xl tracking-tight">
+            <h2 className="font-baslik font-semibold text-[#183a33] text-2xl sm:text-3xl tracking-[-0.025em]">
               {t("howItWorksHeading")}
             </h2>
           </div>
@@ -667,12 +648,12 @@ export default function AnaSayfa() {
             <span className="block mb-2 text-[11px] font-sans-govde font-semibold text-[#42655c] tracking-widest uppercase">
               {t("ctaEyebrow")}
             </span>
-            <h2 className="font-sans-govde font-semibold text-[#183a33] text-2xl sm:text-3xl tracking-tight">
+            <h2 className="font-baslik font-semibold text-[#183a33] text-2xl sm:text-3xl tracking-[-0.025em]">
               {t("ctaHeading")}
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-            <article className="flex flex-col justify-between rounded-xl border border-[#dcdcd1] bg-white p-6 md:p-8">
+            <article className="group flex flex-col justify-between rounded-2xl border border-[#dcdcd1] bg-white p-6 shadow-[0_8px_30px_-24px_rgba(24,58,51,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#9abdb7] hover:shadow-[0_18px_42px_-24px_rgba(24,58,51,0.55)] md:p-8">
               <div>
                 <span className="msimge mb-5 flex h-12 w-12 items-center justify-center rounded-lg border border-[#b3dbc5] bg-[#e8f4ee] text-[#1e4b39] text-2xl" aria-hidden="true">
                   person_pin

@@ -10,6 +10,7 @@ interface LogoProps {
    * Sadece sembol (monogram) mü yoksa marka adıyla birlikte mi?
    */
   yalnizcaSembol?: boolean;
+  sembolGosterilsin?: boolean;
   /**
    * Sembol stili:
    * - "varsayilan": Koyu yeşil zemin, krem geometrik sembol
@@ -40,13 +41,13 @@ const BOYUTLAR: Record<string, { kutu: string; piksel: number }> = {
 };
 
 /**
- * İşBulKKTC Resmi Logo Bileşeni
- * Yeni geometrik marka sembolünü (İ-B harflerini stilize eden ikili rounded üçgen kanat)
- * ve marka tipografisini responsive ve erişilebilir olarak render eder.
+ * İşBulKKTC marka bileşeni.
+ * İş ve bağlantı fikrini taşıyan, iki parçalı özgün monogramı ve wordmark'ı render eder.
  */
 export default function Logo({
   boyut = "md",
   yalnizcaSembol = false,
+  sembolGosterilsin = true,
   tema = "varsayilan",
   sinif,
   metinSinif,
@@ -68,34 +69,45 @@ export default function Logo({
       : "#2c4134";
 
   return (
-    <span className={sb("inline-flex items-center gap-2.5 shrink-0 select-none", sinif)}>
-      <span
-        style={ozelPiksel ? { width: ozelPiksel, height: ozelPiksel } : undefined}
-        className={sb(
-          "inline-flex items-center justify-center shrink-0 overflow-hidden shadow-editoriyel-kart transition-transform duration-200",
-          boyutAyar?.kutu,
-          bgRenk
-        )}
-        aria-hidden="true"
-      >
-        <svg
-          viewBox="0 0 2048 2048"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-full p-[14%]"
+    <span
+      className={sb(
+        "inline-flex items-center gap-2 shrink-0 select-none",
+        "focus-within:outline-none focus-within:ring-2 focus-within:ring-ana/40 focus-within:ring-offset-2 focus-within:ring-offset-yüzey",
+        sinif
+      )}
+      aria-label={markaMetni}
+    >
+      {sembolGosterilsin && (
+        <span
+          style={ozelPiksel ? { width: ozelPiksel, height: ozelPiksel } : undefined}
+          className={sb(
+            "inline-flex items-center justify-center shrink-0 overflow-hidden shadow-editoriyel-kart transition-transform duration-200",
+            boyutAyar?.kutu,
+            bgRenk
+          )}
+          aria-hidden="true"
         >
-          {/* Sol Geometrik Kanat */}
-          <path
-            fill={sembolDolgu}
-            d="M698.199 684.378c39.134-2.542 59.457 19.751 86.681 43.419l62.698 54.483L956.8 876.62c14.919 12.898 29.908 25.765 44.78 38.716 3.64 3.177 15.34 12.29 15.41 16.192-4.53 6.588-17.615 9.246-24.595 13.314-62.696 36.542-59.16 133.988 8.095 163.078 5.53 2.39 14.45 4.48 17 9.95-.17.73-.35 1.46-.52 2.19-30.591 27.65-109.896 96.29-137.218 120.14l-83.627 72.69c-11.458 9.96-36.167 32.47-48.291 39.73a84.4 84.4 0 0 1-32.77 11.17 81.4 81.4 0 0 1-61.008-16.83c-19.698-15.28-34.82-40.27-36.606-64.89-2.09-28.83-1.199-60.87-1.165-90.03l.037-171.81.042-172.095c-.003-9.435-.09-19.087-.05-28.353.161-37-4.681-70.218 20.573-101.145 16.67-20.415 34.943-31.083 61.312-34.259"
-          />
-          {/* Sağ Geometrik Kanat */}
-          <path
-            fill={sembolDolgu}
-            d="M1339.33 684.306a85.18 85.18 0 0 1 56.83 18.815c22.97 18.269 36.64 47.985 35.95 76.972-.16 6.369.02 12.874.02 19.258l-.05 55.384-.05 183.055.03 165.05c-.01 16.35 1.03 65.21-.84 79.72a98.83 98.83 0 0 1-21.38 49.82c-15.09 18.28-36.47 29.99-60.1 32.13-42.2 3.81-72.08-29.9-101.06-55.41a4485 4485 0 0 0-72.87-62.79c-47.61-42.72-96.98-83.65-144.22-126.76-.11-.61-.21-1.22-.32-1.83 4.11-6.53 19.4-9.66 26.23-13.82 4.5-2.74 8.35-5.58 12.3-9.07a92.01 92.01 0 0 0 31.36-64.03c1.95-34.103-13.17-65.157-42.69-84.715-6.54-4.333-22.88-8.507-28.2-14.487 2.97-5.739 29.55-27.396 35.83-32.841l83.2-71.916 99.84-86.422c29.53-25.539 49.85-50.89 90.19-56.113"
-          />
-        </svg>
-      </span>
+          <svg
+            viewBox="450 480 1150 1100"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-full p-[14%]"
+          >
+            <path
+              fill={sembolDolgu}
+              d="M522 544h210c92 0 158 49 158 126 0 47-24 84-64 105 55 17 92 58 92 116 0 85-72 139-181 139H522V544Zm124 104v141h77c47 0 72-25 72-71 0-45-27-70-76-70h-73Zm0 245v137h91c53 0 83-25 83-69 0-45-30-68-85-68h-89Z"
+            />
+            <path
+              fill={sembolDolgu}
+              d="M1162 544h124v486h-124V544Z"
+            />
+            <path
+              fill={sembolDolgu}
+              d="M1247 544h112l167 486h-130l-31-101h-157l-30 101h-128l197-486Zm-7 282h93l-46-154-47 154Z"
+            />
+          </svg>
+        </span>
+      )}
       {!yalnizcaSembol && (
         <span
           className={sb(

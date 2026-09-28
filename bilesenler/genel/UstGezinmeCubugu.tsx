@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/yonlendirme";
 import DilSecici from "@/bilesenler/genel/DilSecici";
+import Logo from "@/bilesenler/genel/Logo";
 import Buton from "@/bilesenler/genel/Buton";
 import Rozet from "@/bilesenler/genel/Rozet";
-import Logo from "@/bilesenler/genel/Logo";
 import type { Yerel } from "@/i18n/yonlendirme";
 import { siniflariBirlestir as sb } from "@/lib/yardimcilar/sinif-yardimcisi";
 import { tarayiciIcinSupabaseOlustur } from "@/lib/supabase/tarayici-istemci";
@@ -15,7 +15,6 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
   const t = useTranslations("gezinme");
   const m = useTranslations("meta");
   const router = useRouter();
-  const [arama, setArama] = useState("");
   const [mobilMenuAcik, setMobilMenuAcik] = useState(false);
   const [oturumAcik, setOturumAcik] = useState(false);
   const [kimlikHatasi, setKimlikHatasi] = useState<
@@ -111,45 +110,19 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
       )}
     >
       <div className="max-w-7xl mx-auto h-16 px-4 sm:px-6 flex items-center justify-between gap-3 min-w-0">
-        <div className="flex items-center gap-4 lg:gap-6 min-w-0 shrink">
-          <Link
-            href="/"
-            className="flex items-center gap-2 shrink-0 group focus:outline-none"
-            aria-label={m("markaAdi")}
-          >
-            <Logo boyut="md" metinSinif="text-baslik-md group-hover:opacity-90 transition-opacity" markaMetni={m("markaAdiKisa")} />
-          </Link>
-
-          <form
-            className="hidden lg:flex items-center relative w-52 xl:w-60 min-w-0"
-            onSubmit={(event) => {
-              event.preventDefault();
-              const sorgu = arama.trim();
-              router.push(
-                (sorgu
-                  ? `/ilan-ara?arananKelime=${encodeURIComponent(sorgu)}`
-                  : "/ilan-ara") as Parameters<typeof router.push>[0]
-              );
-            }}
-          >
-            <span className="msimge pointer-events-none absolute start-3 text-[20px] text-yüzey-uzerinde/50" aria-hidden="true">search</span>
-            <input
-              type="search"
-              aria-label={t("ilanAra")}
-              value={arama}
-              maxLength={120}
-              onChange={(event) => setArama(event.target.value)}
-              placeholder={t("ilanAra")}
-              className="w-full ps-10 pe-3 py-1.5 rounded-xl bg-yüzey-kapsayici-alt text-govde-sm border border-cizgi-degisken focus:border-ana focus:ring-1 focus:ring-ana/50 outline-none transition-colors"
-            />
-          </form>
-        </div>
-
+        <Link href="/" aria-label={m("markaAdiKisa")} className="shrink-0 rounded-2xl transition-transform hover:scale-[1.015]">
+          <Logo
+            boyut="md"
+            tema="saydam"
+            metinSinif="hidden sm:inline-flex text-baslik-md font-bold"
+            markaMetni={m("markaAdiKisa")}
+          />
+        </Link>
         <nav
           aria-label={t("anaSayfa")}
           className="hidden md:flex items-center gap-3 xl:gap-5 text-govde-md font-medium text-yüzey-uzerinde/70 shrink-0"
         >
-          {baglantilar.map((b) => (
+          {baglantilar.slice(1).map((b) => (
             <Link
               key={b.yol}
               href={b.yol}

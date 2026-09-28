@@ -12,19 +12,13 @@ import { clsx, siniflariBirlestir } from "@/lib/yardimcilar/sinif-yardimcisi";
 import UstGezinmeCubugu from "@/bilesenler/genel/UstGezinmeCubugu";
 import AltBilgi from "@/bilesenler/genel/AltBilgi";
 import AIPoposuErtelenmis from "@/bilesenler/genel/AIPoposuErtelenmis";
-import { Assistant, Source_Sans_3 } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "@/app/globals.css";
 
-const sourceSans = Source_Sans_3({
-  subsets: ["latin", "latin-ext", "cyrillic"],
+const manrope = Manrope({
+  subsets: ["latin", "cyrillic"],
   display: "swap",
-  variable: "--font-source-sans",
-});
-
-const assistant = Assistant({
-  subsets: ["latin", "hebrew"],
-  display: "swap",
-  variable: "--font-assistant",
+  variable: "--font-manrope",
 });
 
 // display=block: ikon fontu gelene kadar ligatür metni ("search", "work") görünmesin.
@@ -150,7 +144,7 @@ export default async function KökYerelDüzen({
     <html
       lang={yerel}
       dir={ibrisi ? "rtl" : "ltr"}
-      className={`${sourceSans.variable} ${assistant.variable}`}
+      className={manrope.variable}
       suppressHydrationWarning
     >
       <head>
