@@ -4,10 +4,11 @@
 
 @layer base {
   :root {
-    /* Tipografi: başlık Manrope/Satoshi, gövde Geist, teknik arayüz Inter. */
-    --yazi-baslik: var(--font-manrope, "Manrope"), "Satoshi", system-ui, sans-serif;
+    /* Tipografi: display Satoshi, başlık Manrope, gövde Geist Sans, teknik Geist Mono. */
+    --yazi-display: "Satoshi", var(--font-manrope, "Manrope"), system-ui, sans-serif;
+    --yazi-baslik: var(--font-manrope, "Manrope"), system-ui, sans-serif;
     --yazi-govde: var(--font-geist, "Geist"), system-ui, -apple-system, "Segoe UI", sans-serif;
-    --yazi-teknik: var(--font-inter, "Inter"), ui-monospace, monospace;
+    --yazi-teknik: var(--font-geist-mono, "Geist Mono"), ui-monospace, monospace;
     --yazi-ibranice: var(--font-assistant, "Assistant"), system-ui, -apple-system, "Segoe UI", sans-serif;
 
     /* ───────────────────────────────────────────────────────────────────
@@ -82,7 +83,10 @@
     overflow-x: clip;
   }
 
-  h1,
+  h1 {
+    font-family: var(--yazi-display);
+  }
+
   h2,
   h3,
   h4,
