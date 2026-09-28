@@ -4,8 +4,10 @@
 
 @layer base {
   :root {
-    /* Font Stack: --font-source-sans / --font-assistant next/font tarafından <html> üzerinde tanımlanır. */
-    --yazi-govde: var(--font-source-sans, "Source Sans 3"), system-ui, -apple-system, "Segoe UI", sans-serif;
+    /* Tipografi: başlık Manrope/Satoshi, gövde Geist, teknik arayüz Inter. */
+    --yazi-baslik: var(--font-manrope, "Manrope"), "Satoshi", system-ui, sans-serif;
+    --yazi-govde: var(--font-geist, "Geist"), system-ui, -apple-system, "Segoe UI", sans-serif;
+    --yazi-teknik: var(--font-inter, "Inter"), ui-monospace, monospace;
     --yazi-ibranice: var(--font-assistant, "Assistant"), system-ui, -apple-system, "Segoe UI", sans-serif;
 
     /* ───────────────────────────────────────────────────────────────────
@@ -74,13 +76,68 @@
     background-color: var(--pearl-alan);
     color: var(--bedford-temel);
     font-family: var(--yazi-govde);
+    font-size: 1rem;
+    line-height: 1.6;
+    letter-spacing: -0.006em;
     overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  button,
+  [role="button"],
+  nav {
+    font-family: var(--yazi-baslik);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+    letter-spacing: -0.025em;
+  }
+
+  p,
+  li,
+  label,
+  input,
+  select,
+  textarea {
+    text-wrap: pretty;
+  }
+
+  code,
+  kbd,
+  pre,
+  samp,
+  .font-teknik {
+    font-family: var(--yazi-teknik);
+    letter-spacing: -0.015em;
   }
 
   /* RTL support for Hebrew, Arabic */
   html[dir="rtl"] body {
-    font-family: var(--yazi-ibranice);
+    font-family: var(--yazi-govde), var(--yazi-ibranice);
     direction: rtl;
+  }
+
+  html[dir="rtl"] h1,
+  html[dir="rtl"] h2,
+  html[dir="rtl"] h3,
+  html[dir="rtl"] h4,
+  html[dir="rtl"] h5,
+  html[dir="rtl"] h6,
+  html[dir="rtl"] button,
+  html[dir="rtl"] [role="button"],
+  html[dir="rtl"] nav {
+    font-family: var(--yazi-baslik), var(--yazi-ibranice);
   }
 
   /* Text Selection: Use Mineral background (neutral) */
