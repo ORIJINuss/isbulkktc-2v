@@ -486,7 +486,7 @@ export default function FiltreYanPanel({
           </div>
           <p className="text-[11px] leading-relaxed text-ikincil/80">
             B3 İhtiyat Sandığı kayıtlı işverenlerin yayınladığı ilanlar öncelikli
-            gösterilir ve PES Lisansı ile denetlenir.
+            gösterilir ve ilan bilgileri gözden geçirilir.
           </p>
         </div>
 

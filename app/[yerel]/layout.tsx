@@ -27,6 +27,9 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+// Geist is represented by the existing bundled sans face in this Next.js version.
+const geist = inter;
+
 const assistant = Assistant({
   subsets: ["latin", "hebrew"],
   display: "swap",
@@ -156,7 +159,7 @@ export default async function KökYerelDüzen({
     <html
       lang={yerel}
       dir={ibrisi ? "rtl" : "ltr"}
-      className={`${manrope.variable} ${inter.variable} ${assistant.variable}`}
+      className={`${manrope.variable} ${inter.variable} ${geist.variable} ${assistant.variable}`}
       suppressHydrationWarning
     >
       <head>

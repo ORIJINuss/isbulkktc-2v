@@ -142,8 +142,9 @@ const yapi: Config = {
       },
       fontFamily: {
         "sans": ["var(--font-geist)", "Geist", "system-ui", "sans-serif"],
-        "baslik": ["var(--font-manrope)", "Manrope", "Satoshi", "system-ui", "sans-serif"],
-        "teknik": ["var(--font-inter)", "Inter", "ui-monospace", "monospace"],
+        "display": ["Satoshi", "var(--font-manrope)", "Manrope", "system-ui", "sans-serif"],
+        "baslik": ["var(--font-manrope)", "Manrope", "system-ui", "sans-serif"],
+        "teknik": ["var(--font-geist-mono)", "Geist Mono", "ui-monospace", "monospace"],
         "hebrew": ["var(--font-assistant)", "Assistant", "Hebrew", "sans-serif"],
         "haber": ["var(--yazi-govde)"],
         "sans-govde": ["var(--yazi-ibranice)"],

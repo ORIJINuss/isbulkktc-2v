@@ -38,7 +38,7 @@ export default function FreelanceSayfasi() {
                 Escrow Güvencesi
               </Rozet>
               <Rozet tur="basari" ikon="verified">
-                B3 + PES Lisanslı
+                Güvenli iş akışı
               </Rozet>
             </div>
             <h1 className="font-haber font-black text-4xl sm:text-5xl tracking-tight leading-[1.02] text-ikincil">
@@ -88,7 +88,7 @@ export default function FreelanceSayfasi() {
                 ik: "counter_3",
                 baslik: "Üçlü tahkim mekanizması",
                 aciklama:
-                  "Uyuşmazlıklar PES Lisanslı 3 kişilik komite tarafsızca incelenir, 48 saatte sonuç.",
+                  "Uyuşmazlık bildirimleri şeffaf bir süreçle değerlendirilir.",
                 renk: "bg-altin-cila text-ikincil-sabit-varyant-uzerinde",
               },
               {

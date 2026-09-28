@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/yonlendirme";
 import { kamuyaAcikSirketiGetir } from "@/lib/depolar/isveren-deposu";
@@ -20,13 +19,6 @@ export default async function KamuyaAcikSirketProfili({ params }: Props) {
       <section className="mineral-kart overflow-hidden rounded-3xl">
         <div className="bg-ana-kapsayici/50 p-6 sm:p-10">
           <div className="flex flex-wrap items-center gap-4">
-            {sirket.logo_url ? (
-              <Image src={sirket.logo_url} alt="" width={64} height={64} className="h-16 w-16 rounded-2xl border border-cizgi-degisken bg-yüzey object-contain p-2" />
-            ) : (
-              <div className="grid h-16 w-16 place-items-center rounded-2xl bg-ana text-2xl font-bold text-beyaz">
-                {sirket.company_name.slice(0, 1).toLocaleUpperCase(params.yerel)}
-              </div>
-            )}
             <div className="min-w-0">
               <div className="mb-2 inline-flex items-center gap-1 rounded-full bg-beyaz px-3 py-1 text-xs font-semibold text-ana">
                 <span className="msimge text-sm" aria-hidden="true">verified</span>

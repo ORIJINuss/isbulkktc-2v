@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/yonlendirme";
 import { kamuyaAcikSirketleriGetir } from "@/lib/depolar/isveren-deposu";
@@ -27,14 +26,7 @@ export default async function SirketlerSayfasi({ params }: { params: { yerel: st
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {sirketler.map((sirket) => (
             <li key={sirket.id}>
-              <Link href={{ pathname: "/sirket/[slug]", params: { slug: sirket.slug } }} className="mineral-kart flex h-full items-center gap-4 rounded-2xl p-5 transition hover:-translate-y-0.5 hover:border-ana/40">
-                {sirket.logo_url ? (
-                  <Image src={sirket.logo_url} alt="" width={56} height={56} className="h-14 w-14 shrink-0 rounded-xl border border-cizgi-degisken bg-yüzey object-contain p-2" />
-                ) : (
-                  <span className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-ana-kapsayici font-haber text-xl font-black text-ana">
-                    {sirket.company_name.slice(0, 1)}
-                  </span>
-                )}
+              <Link href={{ pathname: "/sirket/[slug]", params: { slug: sirket.slug } }} className="mineral-kart flex h-full items-center rounded-2xl p-5 transition hover:-translate-y-0.5 hover:border-ana/40">
                 <span className="min-w-0">
                   <span className="block truncate font-haber text-lg font-bold text-ikincil">{sirket.company_name}</span>
                   <span className="mt-1 block truncate text-sm text-ikincil/65">{sirket.location || t("locationMissing")}</span>

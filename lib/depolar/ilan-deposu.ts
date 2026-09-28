@@ -233,7 +233,7 @@ const HAM_ILANLAR: HamIlan[] = [
         etiketler: [
           "KKTC B3 İhtiyat Sandığı mevzuatı",
           "Kambiyo mevzuatı",
-          "PES Lisansı"
+          "Mesleki yeterlilik"
         ]
       },
       { grup: "Yazılım", etiketler: ["Excel ileri seviye", "Kredi skorlama modelleri"] }
@@ -290,7 +290,7 @@ const HAM_ILANLAR: HamIlan[] = [
         etiketler: [
           "KKTC B3 İhtiyat Sandığı mevzuatı",
           "Konaklama ve turizm işletmeleri ruhsatı",
-          "PES Lisansı"
+          "Mesleki yeterlilik"
         ]
       },
       {
@@ -626,7 +626,7 @@ const HAM_ILANLAR: HamIlan[] = [
       },
       {
         grup: "Belgeler",
-        etiketler: ["Kaptan belgesi", "Denizcilik ruhsatları", "PES Lisansı", "İlk yardım sertifikası"]
+        etiketler: ["Kaptan belgesi", "Denizcilik ruhsatları", "Mesleki yeterlilik", "İlk yardım sertifikası"]
       },
       { grup: "Dil", etiketler: ["İngilizce akıcı", "İtalyanca temel"] }
     ],
@@ -784,12 +784,12 @@ const HAM_ILANLAR: HamIlan[] = [
         grup: "Dil",
         etiketler: ["İngilizce akıcı", "Rusça akıcı", "Almanca temel"]
       },
-      { grup: "Mevzuat", etiketler: ["KKTC turizm rehberi belgesi", "PES Lisansı"] }
+      { grup: "Mevzuat", etiketler: ["KKTC turizm rehberi belgesi", "Mesleki yeterlilik"] }
     ],
     yanHakAciklamalari: ["personel servisi", "spor salonu", "egitim"],
     atsYuzdesi: 62,
     eslesmeGerekcesi:
-      "Çok dilli tur anlatımı deneyimi ve turizm rehberi belgesi, yarı zamanlı programın gereksinimlerini karşılamaktadır.",
+      "Çok dilli tur anlatımı deneyimi ve turizm rehberi belgesi, yarı zamanlı program��n gereksinimlerini karşılamaktadır.",
     oneriler: [
       "Rehberlik belgesi numaranızı ve yıllık tur sayınızı belirtin.",
       "Rusça ve Almanca seviyenizi çalışma dili olarak belirtin."
@@ -1004,7 +1004,7 @@ const HAM_ILANLAR: HamIlan[] = [
       },
       {
         grup: "Mevzuat",
-        etiketler: ["KKTC sigorta mevzuatı", "KKTC B3 İhtiyat Sandığı mevzuatı", "PES Lisansı"]
+        etiketler: ["KKTC sigorta mevzuatı", "KKTC B3 İhtiyat Sandığı mevzuatı", "Mesleki yeterlilik"]
       },
       { grup: "Dil", etiketler: ["İngilizce akıcı", "Rusça temel"] }
     ],
@@ -1165,7 +1165,7 @@ const HAM_ILANLAR: HamIlan[] = [
     tanitim:
       "Doğanlı İnşaat olarak Gazimağusa'daki yeni konut ve turizm projelerimizi yürütecek bir Proje Mimarı arıyoruz.",
     pozisyonTanimi: [
-      "Konut ve ticari projelerde tasarım, uygulama ve şantiye süreçlerini yöneteceksiniz.",
+      "Konut ve ticari projelerde tasarım, uygulama ve ��antiye süreçlerini yöneteceksiniz.",
       "Belediye ve ruhsat süreçlerini takip ederek proje dosyalarını yürüteceksiniz.",
       "Taşeron ve tedarikçi koordinasyonunu planlayarak maliyet ve program takibi yapacaksınız.",
       "KKTC imar mevzuatına uygun uygulamaları denetleyeceksiniz."
@@ -1190,7 +1190,7 @@ const HAM_ILANLAR: HamIlan[] = [
           "KKTC imar mevzuatı",
           "KKTC B3 İhtiyat Sandığı mevzuatı",
           "Mimar ruhsatı",
-          "PES Lisansı"
+          "Mesleki yeterlilik"
         ]
       }
     ],
