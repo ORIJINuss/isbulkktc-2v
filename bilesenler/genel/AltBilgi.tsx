@@ -32,9 +32,6 @@ export default async function AltBilgi() {
           <div className="flex items-center gap-2">
             <Logo boyut="md" sembolGosterilsin={false} metinSinif="text-baslik-md font-bold" markaMetni={m("markaAdiKisa")} />
           </div>
-          <p className="text-govde-sm  text-hüküm-sonuk max-w-xl leading-relaxed">
-            {t("hakMetni")}
-          </p>
           <div className="flex items-center gap-3 pt-1">
             {["policy", "verified_user", "gavel", "health_and_safety", "local_police"].map(
               (ikon) => (
@@ -87,9 +84,6 @@ export default async function AltBilgi() {
       </div>
       <div className="border-t border-cizgi-degisken/60">
         <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-govde-xs  text-hüküm-sonuk">
-            © {new Date().getFullYear()} {m("markaAdi")} {t("tumHaklariSaklidir")}
-          </p>
         </div>
       </div>
     </footer>

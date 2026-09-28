@@ -307,24 +307,6 @@ export default function AnaSayfa() {
           </div>
           </div>
 
-          <aside className="hidden min-h-[330px] overflow-hidden rounded-[1.5rem] border border-[#42766b] bg-[radial-gradient(circle_at_100%_0%,rgba(168,212,221,0.22),transparent_38%),linear-gradient(145deg,#183a33_0%,#102a26_100%)] p-7 text-white shadow-[0_24px_60px_-24px_rgba(24,58,51,0.62)] md:block">
-            <div className="mb-10 flex items-center justify-between">
-              <span className="msimge flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 text-2xl" aria-hidden="true">public</span>
-              <span className="rounded-full border border-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-[#d3e7e8]">{t("statLanguageValue")}</span>
-            </div>
-            <p className="mb-2 text-sm font-semibold text-[#a8d4dd]">{t("heroBadge")}</p>
-            <h2 className="max-w-xs text-2xl font-semibold leading-tight tracking-tight">{t("heroTitle")}</h2>
-            <div className="mt-8 grid grid-cols-2 gap-3 border-t border-white/15 pt-5">
-              <div>
-                <p className="text-2xl font-semibold">6</p>
-                <p className="mt-1 text-xs leading-5 text-white/65">{t("statDistrictSearch")}</p>
-              </div>
-              <div>
-                <p className="text-2xl font-semibold">B3</p>
-                <p className="mt-1 text-xs leading-5 text-white/65">{t("statEmployerVerification")}</p>
-              </div>
-            </div>
-          </aside>
         </div>
       </section>
 
