@@ -89,8 +89,8 @@ export default function Logo({
       {!yalnizcaSembol && (
         <span
           className={sb(
-            "inline-flex min-w-0 flex-col items-start whitespace-nowrap font-extrabold tracking-tight leading-tight",
-            metinSinif ?? "text-baslik-sm text-govde"
+            "inline-flex min-w-0 flex-col items-start whitespace-nowrap font-extrabold tracking-tight leading-tight font-[Inter] text-[30px] italic text-[var(--bedford-mineral)] shadow-[0_4px_6px_-1px_rgb(0_0_0_/_0.1),0_2px_4px_-2px_rgb(0_0_0_/_0.1)]",
+            metinSinif
           )}
         >
           <span className="text-ana">{markaMetni}</span>
