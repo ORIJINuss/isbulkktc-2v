@@ -176,7 +176,7 @@ export default function AnaSayfa() {
           </div>
 
           {/* Headline */}
-          <h1 className="font-sans-govde font-semibold text-[#183a33] text-[38px] sm:text-[44px] leading-[1.12] tracking-tight mb-4 max-w-3xl">
+          <h1 className="font-display font-bold text-[#183a33] text-[38px] sm:text-[44px] leading-[1.08] tracking-[-0.045em] mb-4 max-w-3xl">
             {t("heroTitle")}
           </h1>
 
@@ -341,7 +341,7 @@ export default function AnaSayfa() {
                 {icon}
               </span>
               <div>
-                <div className="font-sans-govde font-semibold text-[#183a33] text-lg leading-tight">
+                <div className="font-baslik font-semibold text-[#183a33] text-lg leading-tight">
                   {value}
                 </div>
                 <div className="text-[#414846] text-xs leading-5 font-sans-govde">
@@ -365,7 +365,7 @@ export default function AnaSayfa() {
               <span className="inline-block mb-2 text-[11px] font-sans-govde font-semibold text-[#42655c] tracking-widest uppercase">
                 {t("sectorsEyebrow")}
               </span>
-              <h2 className="font-sans-govde font-semibold text-[#183a33] text-2xl sm:text-3xl tracking-tight">
+              <h2 className="font-baslik font-semibold text-[#183a33] text-2xl sm:text-3xl tracking-[-0.025em]">
                 {t("sectorsHeading")}
               </h2>
             </div>
@@ -397,7 +397,7 @@ export default function AnaSayfa() {
                   </span>
                 </div>
                 <div>
-                  <h3 className="font-sans-govde font-semibold text-[#183a33] text-[18px] leading-snug mb-1 group-hover:text-[#42655c] transition-colors">
+                  <h3 className="font-baslik font-semibold text-[#183a33] text-[18px] leading-snug mb-1 group-hover:text-[#42655c] transition-colors">
                     {label}
                   </h3>
                   <p className="text-[13px] leading-5 text-[#414846] font-sans-govde">
@@ -422,7 +422,7 @@ export default function AnaSayfa() {
               <span className="inline-block mb-2 text-[11px] font-sans-govde font-semibold text-[#42655c] tracking-widest uppercase">
                 {t("jobsEyebrow")}
               </span>
-              <h2 className="font-sans-govde font-semibold text-[#183a33] text-2xl sm:text-3xl tracking-tight">
+              <h2 className="font-baslik font-semibold text-[#183a33] text-2xl sm:text-3xl tracking-[-0.025em]">
                 {t("jobsHeading")}
               </h2>
             </div>
@@ -517,7 +517,7 @@ export default function AnaSayfa() {
                   </div>
                 </div>
                 {/* Title */}
-                <h3 className="font-sans-govde font-extrabold text-[#183a33] text-[17px] leading-snug group-hover:text-[#40655c] transition-colors">
+                <h3 className="font-baslik font-bold text-[#183a33] text-[17px] leading-snug group-hover:text-[#40655c] transition-colors">
                   {job.title}
                 </h3>
                 {/* Tags */}
@@ -629,7 +629,7 @@ export default function AnaSayfa() {
             <span className="inline-block mb-2 text-[11px] font-sans-govde font-semibold text-[#42655c] tracking-widest uppercase">
               {t("howItWorksEyebrow")}
             </span>
-            <h2 className="font-sans-govde font-semibold text-[#183a33] text-2xl sm:text-3xl tracking-tight">
+            <h2 className="font-baslik font-semibold text-[#183a33] text-2xl sm:text-3xl tracking-[-0.025em]">
               {t("howItWorksHeading")}
             </h2>
           </div>
@@ -690,7 +690,7 @@ export default function AnaSayfa() {
             <span className="block mb-2 text-[11px] font-sans-govde font-semibold text-[#42655c] tracking-widest uppercase">
               {t("ctaEyebrow")}
             </span>
-            <h2 className="font-sans-govde font-semibold text-[#183a33] text-2xl sm:text-3xl tracking-tight">
+            <h2 className="font-baslik font-semibold text-[#183a33] text-2xl sm:text-3xl tracking-[-0.025em]">
               {t("ctaHeading")}
             </h2>
           </div>

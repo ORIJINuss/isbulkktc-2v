@@ -4,9 +4,16 @@
 
 @layer base {
   :root {
-    /* Font Stack: --font-source-sans / --font-assistant next/font tarafından <html> üzerinde tanımlanır. */
-    --yazi-govde: var(--font-source-sans, "Source Sans 3"), system-ui, -apple-system, "Segoe UI", sans-serif;
-    --yazi-ibranice: var(--font-assistant, "Assistant"), system-ui, -apple-system, "Segoe UI", sans-serif;
+    /* Typography roles: display, structural headings, reading, technical metadata. */
+    --yazi-satoshi: "Satoshi", "Arial", sans-serif;
+    --yazi-manrope: var(--font-manrope), "Manrope", system-ui, sans-serif;
+    --yazi-geist: var(--font-geist, "Geist"), system-ui, sans-serif;
+    --yazi-geist-mono: var(--font-geist-mono, "Geist Mono"), ui-monospace, monospace;
+    --yazi-govde: var(--yazi-geist);
+    --yazi-ibranice: var(--yazi-geist);
+    --tracking-display: -0.045em;
+    --tracking-heading: -0.025em;
+    --tracking-reading: -0.01em;
 
     /* ───────────────────────────────────────────────────────────────────
      * Stitch 2.0 "Pearl Field Mineral" — lib/tasarim/tasarim-tokenlari.json
@@ -73,15 +80,56 @@
     @apply min-h-screen antialiased;
     background-color: var(--pearl-alan);
     color: var(--bedford-temel);
-    font-family: var(--yazi-govde);
+    font-family: var(--yazi-geist);
+    font-size: 1rem;
+    line-height: 1.6;
+    letter-spacing: var(--tracking-reading);
     overflow-x: clip;
+  }
+
+  h1 {
+    font-family: var(--yazi-satoshi);
+    font-size: clamp(2.25rem, 5vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: var(--tracking-display);
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--yazi-manrope);
+    font-weight: 600;
+    line-height: 1.18;
+    letter-spacing: var(--tracking-heading);
+  }
+
+  h2 { font-size: clamp(1.75rem, 3vw, 3.25rem); }
+  h3 { font-size: clamp(1.5rem, 2vw, 2.25rem); }
+  h4 { font-size: 1.25rem; }
+
+  code,
+  kbd,
+  pre,
+  samp,
+  .font-mono,
+  [data-teknik-metadata] {
+    font-family: var(--yazi-geist-mono);
+    letter-spacing: 0;
   }
 
   /* RTL support for Hebrew, Arabic */
   html[dir="rtl"] body {
-    font-family: var(--yazi-ibranice);
+    font-family: var(--yazi-geist);
     direction: rtl;
   }
+
+  .yazi-display { font-family: var(--yazi-satoshi); }
+  .yazi-baslik { font-family: var(--yazi-manrope); }
+  .yazi-govde { font-family: var(--yazi-geist); }
+  .yazi-teknik { font-family: var(--yazi-geist-mono); letter-spacing: 0; }
 
   /* Text Selection: Use Mineral background (neutral) */
   ::selection {

@@ -141,13 +141,15 @@ const yapi: Config = {
         "dis": "2rem"
       },
       fontFamily: {
-        "sans": ["var(--font-source-sans)", "Source Sans 3", "Inter", "system-ui", "sans-serif"],
-        "hebrew": ["Assistant", "Hebrew", "sans-serif"],
-        // `--font-source-sans` / `--font-assistant` CSS değişkenleri globals.css
-        // `:root` bloğunda tanımlıdır (bkz. app/globals.css).
-        "haber": ["var(--yazi-govde)"],
-        "sans-govde": ["var(--yazi-ibranice)"]
+        sans: ["var(--yazi-geist)"],
+        display: ["var(--yazi-satoshi)"],
+        baslik: ["var(--yazi-manrope)"],
+        teknik: ["var(--yazi-geist-mono)"],
+        hebrew: ["var(--yazi-geist)"],
+        haber: ["var(--yazi-geist)"],
+        "sans-govde": ["var(--yazi-geist)"],
       },
+
       fontSize: {
         // Display & Hero
         "display-lg": ["3.5rem", { lineHeight: "1.2", fontWeight: "400", letterSpacing: "-0.02em" }],
