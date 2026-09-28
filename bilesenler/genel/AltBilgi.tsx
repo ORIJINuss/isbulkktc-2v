@@ -30,8 +30,7 @@ export default async function AltBilgi() {
       <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-12 gap-10">
         <div className="md:col-span-6 space-y-3">
           <div className="flex items-center gap-2">
-            <Logo boyut="md" metinSinif="text-baslik-md font-bold" markaMetni={m("markaAdiKisa")} />
-            <span className="msimge text-ana/70 text-[18px]">policy</span>
+            <Logo boyut="md" sembolGosterilsin={false} metinSinif="text-baslik-md font-bold" markaMetni={m("markaAdiKisa")} />
           </div>
           <p className="text-govde-sm  text-hüküm-sonuk max-w-xl leading-relaxed">
             {t("hakMetni")}
@@ -84,11 +83,6 @@ export default async function AltBilgi() {
               </li>
             ))}
           </ul>
-          <div className="pt-4 flex flex-wrap gap-2 text-etiket-xs">
-            <span className="rozet-ana">{t("pesLisans")}</span>
-            <span className="rozet-basari">{t("b3Tescilli")}</span>
-            <span className="rozet-altin">{t("alo1002")}</span>
-          </div>
         </div>
       </div>
       <div className="border-t border-cizgi-degisken/60">
@@ -96,13 +90,6 @@ export default async function AltBilgi() {
           <p className="text-govde-xs  text-hüküm-sonuk">
             © {new Date().getFullYear()} {m("markaAdi")} {t("tumHaklariSaklidir")}
           </p>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-govde-xs text-yüzey-uzerinde/70">
-            <span>Host: Vercel Edge</span>
-            <span>·</span>
-            <span>DNS &amp; WAF: Cloudflare</span>
-            <span>·</span>
-            <span>Auth: Supabase RLS</span>
-          </div>
         </div>
       </div>
     </footer>

@@ -328,30 +328,6 @@ export default function AnaSayfa() {
         </div>
       </section>
 
-      <section className="border-b border-[#dcdcd1] bg-[#faf9f3] py-6 md:py-7">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8">
-          {[
-            { icon: "verified", value: "B3", label: t("statEmployerVerification") },
-            { icon: "location_on", value: "6", label: t("statDistrictSearch") },
-            { icon: "link", value: "URL", label: t("statShareableJob") },
-            { icon: "language", value: t("statLanguageValue"), label: t("statLanguageSupport") },
-          ].map(({ icon, value, label }) => (
-            <div key={label} className="flex items-center gap-3">
-              <span className="msimge flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#e6e6dd] bg-[#f5f4ee] text-[#305149] text-xl" aria-hidden="true">
-                {icon}
-              </span>
-              <div>
-                <div className="font-baslik font-semibold text-[#183a33] text-lg leading-tight">
-                  {value}
-                </div>
-                <div className="text-[#414846] text-xs leading-5 font-sans-govde">
-                  {label}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* ─── KATEGORİLER ─── */}
       <section
