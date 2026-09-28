@@ -1,0 +1,70 @@
+{
+  "id": "tsk_9fb0c4d3-c3a4-421c-8044-8918bb213c22",
+  "title": "Demo ilandaki doğrulanmamış çalışma izni iddialarını kaldırma",
+  "description": "Follow-up from the demo-detail copy review. DemoIlanDetay contains an unsupported 'PES 2024/9182 Uyumlu' badge and hardcoded KKTC work-permit process claims: B3 registration/pre-permit in five days, two-year permit, and B3/PES conflict check. No verified source or per-listing evidence is connected to this demo detail. In the single assigned file, remove this unsupported legal/process section from the demo detail rather than inventing replacement legal guidance. Preserve unrelated demo listing content, live DB detail branch, CV upload and application flow. No locale/API/schema/dependency changes and no commit.",
+  "acceptanceCriteria": "Demo detail no longer displays PES 2024/9182 compliance, B3 registration as a prerequisite, a five-working-day pre-permit timeline, a two-year permit claim, or the B3/PES conflict-check claim; unrelated listing details, DB-backed branch, CV upload, and application submission remain unchanged; only assigned file changes; npm run kalite, npm run build, and git diff --check pass; OpenCode leaves changes uncommitted.",
+  "createdAt": "2026-09-28T02:10:51.972Z",
+  "updatedAt": "2026-09-28T02:29:15.206Z",
+  "state": "REVIEWING",
+  "attempt": 1,
+  "maxAttempts": 3,
+  "retryableFailure": false,
+  "owner": "OPENCODE",
+  "risk": "HIGH",
+  "riskReasons": [
+    "High-impact signal: \\bapi\\b",
+    "High-impact signal: dependency"
+  ],
+  "requiresHumanApproval": false,
+  "files": [
+    "app/[yerel]/ilan/[slug]/page.tsx"
+  ],
+  "dependencies": [],
+  "currentAgent": "OPENCODE",
+  "lastError": null,
+  "evidenceIds": [
+    "ev_ef253b2e-afaa-4a7f-8bca-4377c70e4a1c",
+    "ev_f35831e9-99de-44c4-9c58-9e289e62bcfd",
+    "ev_76b9ee4b-9530-470f-aa6b-713f537a92f0",
+    "ev_95cbc407-8413-4936-b15a-15895de32d62",
+    "ev_82525246-5c92-4ec1-84ee-d63b3b134361",
+    "ev_027ab42c-a535-45fd-916f-b525508fd362",
+    "ev_c78be4dc-79db-458e-8c43-3c4741974be7",
+    "ev_efd2f1da-8413-42c7-bf57-bb406eae0848",
+    "ev_7e449dba-3855-4c95-8fc3-6059a65286d9",
+    "ev_f67dcf57-805a-43b2-bf7e-2f1ef81cb2a1",
+    "ev_c327158b-b501-4457-86f2-e8f2a59a94da",
+    "ev_49183537-042d-4cc9-9ab3-9aad31032111",
+    "ev_5419e12b-dd9d-4a69-b5a1-289dcd851ff5",
+    "ev_7039ea57-8310-418c-b190-3fddc58b6f2e",
+    "ev_0e29f522-d69d-499e-9bff-9f56a5e5b072"
+  ],
+  "reviewIds": [],
+  "parentTaskId": "tsk_af6da4ac-7f1c-4b03-ad8b-dd175373894f",
+  "correlationId": "cor_1d4209ae-3ff6-45df-8453-e073214b8041",
+  "idempotencyKey": "idem_d2f44e4f93a2dd1361a5a35296d81c0e648bb6d09b22423d67d1a3a6050ab822",
+  "opencode": {
+    "attempt": 2,
+    "sessionId": "ses_f1a34e3d5ffeqHZaOvO517ss2L",
+    "projectId": "97c743cd73393b6648837204171935e967f4ae90",
+    "providerId": "opencode",
+    "modelId": "space-bunny-free",
+    "worktree": "D:\\isbulkktc",
+    "agent": "build",
+    "readOnly": false,
+    "createdAt": "2026-09-28T02:14:48.620Z",
+    "promptMessageId": "msg_35e84c35-73f1-49d0-a553-e8b1cba749f4",
+    "messageId": "msg_0e5ccb265001UPALSRA95VpySQ"
+  },
+  "cline": {
+    "sessionId": null,
+    "reviewId": "rev_744ea32dc7395024455889baca1dd1ce",
+    "correlationId": "cor_1d4209ae-3ff6-45df-8453-e073214b8041",
+    "reviewIteration": 1,
+    "startedAt": "2026-09-28T02:19:12.964Z",
+    "status": "CLINE_TIMEOUT",
+    "readOnly": true,
+    "promptHash": "cc9530361244a2b4835f5785fb0cde4150c5091dca5714c24667792d914e4ecc"
+  },
+  "reviewIteration": 1
+}

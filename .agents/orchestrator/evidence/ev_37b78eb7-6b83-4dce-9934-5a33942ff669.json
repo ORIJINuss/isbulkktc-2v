@@ -1,0 +1,16 @@
+{
+  "id": "ev_37b78eb7-6b83-4dce-9934-5a33942ff669",
+  "taskId": "tsk_d3c5f2d8-7b84-4c3f-9d16-eee6cfaab782",
+  "correlationId": "cor_6430b027-1b70-486d-ace4-6ab21fb1075d",
+  "type": "COMMAND",
+  "command": "node tools/orchestrator.mjs task-retry --id tsk_d3c5f2d8-7b84-4c3f-9d16-eee6cfaab782",
+  "exitCode": 0,
+  "startedAt": "2026-09-27T19:11:35.305Z",
+  "finishedAt": "2026-09-27T19:11:35.305Z",
+  "stdout": "Updated tsk_d3c5f2d8-7b84-4c3f-9d16-eee6cfaab782: FIX_REQUIRED -> DISPATCHING",
+  "stderr": "",
+  "filesChanged": [],
+  "gitStatus": " M .ajan-sahiplik.json\n?? .agents/\n?? tools/opencode-adapter.mjs\n?? tools/opencode-adapter.test.mjs\n?? tools/orchestrator.mjs\n",
+  "hash": "2b3115b00b8e5125725ab3d4f1f5bbeb3e990f085f5a9e311f8099567bf27c3e",
+  "source": "ORCHESTRATOR"
+}

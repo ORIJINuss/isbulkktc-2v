@@ -1,0 +1,65 @@
+# ===============================================================
+#  İşBulKKTC — Kalite Kapısı (type-check · lint · build)
+#  Sahip: Copilot / VS Code Agent (Chief)
+#
+#  NEDEN AYRI BİR WORKFLOW?
+#  Mevcut docker.yml yalnızca `main` ve `production` dallarında
+#  çalışıyor; ancak depo `master` dalında. Yani kalite kontrolü
+#  hiç tetiklenmiyordu. Bu workflow TÜM dallarda ve tüm PR'larda
+#  çalışır ve Docker imajı üretmez (hızlı geri bildirim).
+# ===============================================================
+
+name: Kalite Kapısı
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+# Aynı dala art arda push'ta eski koşuyu iptal et (dakika tasarrufu)
+concurrency:
+  group: kalite-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  kalite:
+    name: type-check · lint · build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    env:
+      # next build NODE_ENV=production ile çalışır; lib/ortam/ortam.ts
+      # bu değişkenler yoksa OrtamYapilandirmaHatasi fırlatır.
+      # Bu yüzden CI'da güvenli yer tutucular zorunludur.
+      NODE_ENV: production
+      NEXT_PUBLIC_SUPABASE_URL: "https://ci-build.invalid"
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: "ci-build-anon-key"
+      SUPABASE_SERVICE_ROLE_KEY: "ci-build-service-role-key"
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: "1x00000000000000000000AA"
+      TURNSTILE_SECRET_KEY: "1x0000000000000000000000000000000AA"
+      PAYMENT_WEBHOOK_SECRET: "ci-build-webhook-secret"
+
+    steps:
+      - name: Depoyu indir
+        uses: actions/checkout@v4
+
+      - name: Node.js 20 kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Bağımlılıkları kur
+        run: npm ci
+
+      - name: Type-check (tsc --noEmit)
+        run: npm run type-check
+
+      - name: Lint (next lint)
+        run: npm run lint
+
+      - name: Derleme (next build)
+        run: npm run build

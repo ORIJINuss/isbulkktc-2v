@@ -1,0 +1,43 @@
+{
+  "id": "tsk_b51791b2-dc16-40aa-9746-e85ba69b8f6c",
+  "title": "Guard OpenCode handoff on the terminal assistant response",
+  "description": "REQ-OPENCODE-TERMINAL-001: The OpenCode adapter may not report a successful implementation handoff from an intermediate completed assistant message. In the live CV task, the session contains a completed initial progress message followed by more assistant messages, and the persisted messageId points to the progress message. Inspect only the latest response belonging to the dispatched prompt; require it to be completed and the session idle before success, while preserving model fallback/error handling.",
+  "acceptanceCriteria": "Regression test with intermediate completed assistant message and a later final response returns only the final response; incomplete latest response cannot be accepted as success; exact message must match session and prompt parent; existing 429 retry, 403 fallback and timeout tests remain passing; npm run kalite and git diff --check pass; no dependencies and no commit.",
+  "createdAt": "2026-09-27T22:37:31.206Z",
+  "updatedAt": "2026-09-27T22:41:13.345Z",
+  "state": "REVIEWING",
+  "attempt": 1,
+  "maxAttempts": 3,
+  "retryableFailure": false,
+  "owner": "CHIEF",
+  "risk": "LOW",
+  "riskReasons": [
+    "Low-risk signal: \\.(?:test|spec)\\.[cm]?[jt]sx?$"
+  ],
+  "requiresHumanApproval": false,
+  "files": [
+    "tools/opencode-adapter.mjs",
+    "tools/opencode-adapter.test.mjs"
+  ],
+  "dependencies": [],
+  "currentAgent": null,
+  "lastError": null,
+  "evidenceIds": [
+    "ev_9c369b60-f9c0-42f7-a541-761248afabce",
+    "ev_dfb4e70c-9123-42e9-ad3b-fb96c881136f",
+    "ev_8a4dbd58-4d4f-4023-adca-be6adb00ea2d",
+    "ev_3017c01e-078b-47af-b538-9deeebabcd71",
+    "ev_03d953a7-cc78-41fb-a9b9-49fd211592bc",
+    "ev_ca004742-c968-4d32-a71a-ac58f4ebae6b",
+    "ev_0ec7bb89-f6ce-40c4-ae77-299ae6f0576a",
+    "ev_970960ef-b7e4-4726-a4dc-9fa91a5cd2b3",
+    "ev_a6efb96c-efc4-445c-80de-54623e25a075"
+  ],
+  "reviewIds": [],
+  "parentTaskId": null,
+  "correlationId": "cor_c04b5b6f-33bb-4850-8c06-5f97979c14e6",
+  "idempotencyKey": "idem_5a1bb75c720980896c5a7dd7df60d9ddbe9732ff37e9d57fb7b58a7075c81234",
+  "opencode": null,
+  "cline": null,
+  "reviewIteration": 0
+}

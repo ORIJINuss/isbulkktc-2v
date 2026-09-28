@@ -1,0 +1,3 @@
+-- Seed file reserved for local dev data.
+-- Phase 2 foundation intentionally keeps this file intentionally empty to avoid
+-- creating application-specific placeholder records during schema setup.

@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-28T10:39:32.840Z",
+  "revision": 274,
+  "taskIds": [
+    "tsk_22b670a1-c503-423d-a14e-e8cc6a5e3a77",
+    "tsk_d3c5f2d8-7b84-4c3f-9d16-eee6cfaab782",
+    "tsk_bacf0c3b-2ba9-4578-9cf7-63f71c98a499",
+    "tsk_98745b29-f27b-498a-b516-3acc4b57a028",
+    "tsk_4333e727-0569-4894-86af-3f883dc1a6c4",
+    "tsk_7b60f9ef-ab83-4632-af8c-2e0ffb1ce612",
+    "tsk_b51791b2-dc16-40aa-9746-e85ba69b8f6c",
+    "tsk_3bd96ca6-3d4c-4188-8ce8-41507d0dd314",
+    "tsk_1e87af96-e866-425e-b42f-5c658a3b61e0",
+    "tsk_b160f747-e870-463c-b35f-db423c61f42c",
+    "tsk_99541582-f790-45a7-a8b6-16dfc5ef6d37",
+    "tsk_9cdc1130-7611-40f8-a3f7-06411164ff86",
+    "tsk_e3af6954-cb95-4588-b42f-32f71e7c5181",
+    "tsk_cb9f4d76-332c-4403-a401-1746c49105ed",
+    "tsk_dc1946cf-d8e4-48c4-8ab3-e4ad834735ab",
+    "tsk_af6da4ac-7f1c-4b03-ad8b-dd175373894f",
+    "tsk_9fb0c4d3-c3a4-421c-8044-8918bb213c22",
+    "tsk_df2ecde9-ac89-4d3e-a73c-8e08557fb8a2",
+    "tsk_5a97a27d-a681-4416-955e-dcc133bc04db",
+    "tsk_f450da26-1d45-488e-a577-bbfdaee991b0"
+  ],
+  "circuitFailures": 8,
+  "circuitOpen": false,
+  "lastRecovery": null,
+  "recoveryIds": []
+}

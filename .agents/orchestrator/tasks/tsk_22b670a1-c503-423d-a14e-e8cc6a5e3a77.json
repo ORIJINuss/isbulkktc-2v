@@ -1,0 +1,36 @@
+{
+  "id": "tsk_22b670a1-c503-423d-a14e-e8cc6a5e3a77",
+  "title": "Phase 1C build quality gate",
+  "description": "",
+  "createdAt": "2026-09-27T18:11:30.728Z",
+  "updatedAt": "2026-09-27T18:12:49.217Z",
+  "state": "REVIEWING",
+  "attempt": 1,
+  "maxAttempts": 3,
+  "retryableFailure": false,
+  "owner": "CHIEF",
+  "risk": "MEDIUM",
+  "riskReasons": [
+    "No low-risk evidence matched; conservative MEDIUM default."
+  ],
+  "requiresHumanApproval": false,
+  "files": [],
+  "dependencies": [],
+  "currentAgent": null,
+  "lastError": null,
+  "evidenceIds": [
+    "ev_44d07313-838e-4946-ab74-a364ded2602e",
+    "ev_c22625e2-6571-46d9-a0b3-1702e3320f10",
+    "ev_77f088d5-4d75-4b8f-9571-156e879fe468",
+    "ev_ee0ba3be-3f5b-42f1-99df-0cde8a99311b",
+    "ev_b87d2253-f091-4765-9f98-c33f27326626",
+    "ev_f697e451-ad08-47e1-b1cc-d95d508fa3a8",
+    "ev_44d529ec-abdd-4978-bfbc-e091074fa838",
+    "ev_80a96660-34cf-4fb4-84a8-07428769efa7",
+    "ev_9642e1ce-2bd0-4765-9ccf-3073b13b3edc"
+  ],
+  "reviewIds": [],
+  "parentTaskId": null,
+  "correlationId": "cor_1344c8ff-dab1-47b3-8b58-a68a2ff832e9",
+  "idempotencyKey": null
+}

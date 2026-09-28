@@ -1,0 +1,73 @@
+{
+  "id": "tsk_9cdc1130-7611-40f8-a3f7-06411164ff86",
+  "title": "Auth oturum kontrolü hatasını kullanıcıya görünür kılma",
+  "description": "Child follow-up for tsk_99541582-f790-45a7-a8b6-16dfc5ef6d37. In UstGezinmeCubugu the getUser() result currently destructures only data and silently ignores Supabase AuthResponse.error; the catch branch also silently sets logged-out state. This makes a failed session verification indistinguishable from a signed-out user even when the anon key is valid. In the assigned header and four locale files, handle both returned error and rejection explicitly: fail closed (oturumAcik=false), expose a distinct accessible localized session-verification failure message rather than claiming the configuration is missing, and clear the status only after a successful auth result/event. Preserve config-init failure behavior, successful auth and sign-out behavior, no fake client, no credentials, no weakened validation. No dependencies/secrets/schema changes; no commit. Cline read-only + Deep Plan, Chief runs commands.",
+  "acceptanceCriteria": "getUser returned error and rejected-promise paths leave oturumAcik=false and show a localized accessible status distinct from missing config; successful getUser/auth event clears the message and sets the real user state; previous initialization/config-failure and sign-out behavior remain correct; four locales remain key-aligned; npm run kalite and production build pass; no secret/config/dependency changes; OpenCode leaves uncommitted.",
+  "createdAt": "2026-09-28T00:39:47.414Z",
+  "updatedAt": "2026-09-28T00:58:34.364Z",
+  "state": "REVIEWING",
+  "attempt": 1,
+  "maxAttempts": 3,
+  "retryableFailure": false,
+  "owner": "OPENCODE",
+  "risk": "HIGH",
+  "riskReasons": [
+    "High-impact signal: \\bauth\\b"
+  ],
+  "requiresHumanApproval": false,
+  "files": [
+    "bilesenler/genel/UstGezinmeCubugu.tsx",
+    "i18n/mesajlar/tr.json",
+    "i18n/mesajlar/en.json",
+    "i18n/mesajlar/ru.json",
+    "i18n/mesajlar/he.json"
+  ],
+  "dependencies": [],
+  "currentAgent": "OPENCODE",
+  "lastError": null,
+  "evidenceIds": [
+    "ev_aa764412-beac-4636-8a53-304cb4b8a501",
+    "ev_81ec8c16-9c49-40d2-b60c-d68c55457734",
+    "ev_e0f1c59b-af7b-44b4-984c-6d6d763438a5",
+    "ev_96ce6f0c-5b62-4f6b-8b40-5f93959a5b2a",
+    "ev_3cdac5bd-4e52-4946-8242-c2696b4edaa9",
+    "ev_4946ab7b-3cec-4418-ab8c-4792f2fc1269",
+    "ev_ed17123d-770a-4131-b803-d7e1d9e4693b",
+    "ev_7a8cfb90-3809-4dd9-bf0a-7e4fb699a52b",
+    "ev_04d50113-3c3b-4ee8-9b65-740a9bd682f7",
+    "ev_9bf4e541-1113-4ef7-ab92-85e7b9e6fb7f",
+    "ev_1e7e37fe-32a9-4675-882a-c8057cb23e8d",
+    "ev_fe752f16-5a67-4e53-ba77-042e65c07a3d",
+    "ev_0d2d9213-cf61-4f97-a4e8-a2a8f274a57c",
+    "ev_e2066da6-cb36-4de9-84d5-0b51609ba258",
+    "ev_1328d81e-b9f5-4c55-b459-560ea447f9c7"
+  ],
+  "reviewIds": [],
+  "parentTaskId": "tsk_99541582-f790-45a7-a8b6-16dfc5ef6d37",
+  "correlationId": "cor_8971b989-17b9-4f20-bb4e-05e1e2977323",
+  "idempotencyKey": "idem_8c037b3e12b4399579d1a15440e101b1ba7031adfb24353c7da09deff37d1c03",
+  "opencode": {
+    "attempt": 2,
+    "sessionId": "ses_f1a8a4771ffep13LJZCxK9SAb5",
+    "projectId": "97c743cd73393b6648837204171935e967f4ae90",
+    "providerId": "opencode",
+    "modelId": "space-bunny-free",
+    "worktree": "D:\\isbulkktc",
+    "agent": "build",
+    "readOnly": false,
+    "createdAt": "2026-09-28T00:41:32.564Z",
+    "promptMessageId": "msg_b5db0413-7668-4185-9e57-35c28e202ad4",
+    "messageId": "msg_0e577c8ec001Oro0GkS4Has1yT"
+  },
+  "cline": {
+    "sessionId": null,
+    "reviewId": "rev_9788386fe7387b1e9c4ecca942ddb186",
+    "correlationId": "cor_8971b989-17b9-4f20-bb4e-05e1e2977323",
+    "reviewIteration": 1,
+    "startedAt": "2026-09-28T00:48:31.754Z",
+    "status": "CLINE_TIMEOUT",
+    "readOnly": true,
+    "promptHash": "af8bd3bf3c59f4c4ff0dcb6e326c713ab3a610d6873ad0216d5b87666f363fea"
+  },
+  "reviewIteration": 1
+}

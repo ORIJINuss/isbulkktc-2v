@@ -1,0 +1,22 @@
+{
+  "id": "ev_f14513ac-268e-4fca-b804-588d568aad93",
+  "taskId": "tsk_bacf0c3b-2ba9-4578-9cf7-63f71c98a499",
+  "correlationId": "cor_d594f5a7-c012-4b9d-9094-856ae46e3c8d",
+  "type": "AGENT_REVIEW",
+  "command": "vscode Cline task URI",
+  "exitCode": 1,
+  "startedAt": "2026-09-27T21:12:51.589Z",
+  "finishedAt": "2026-09-27T21:53:51.348Z",
+  "stdout": "",
+  "stderr": "Cline session 1790527437973_eqjaw could not be read as JSON: Unexpected end of JSON input",
+  "filesChanged": [],
+  "gitStatus": "",
+  "hash": "159af6776924522ef55315f7fd2c801a121c002488ac7539dabc8f3995c82ee0",
+  "source": "cline-adapter",
+  "status": "CLINE_RECOVERY_FAILED",
+  "durationMs": 0,
+  "workingDirectory": "D:\\isbulkktc",
+  "agent": "CLINE",
+  "errorCode": "CLINE_SESSION_STORE_INVALID",
+  "reviewId": "rev_2e04466274dc511fd55a84721e48a8be"
+}

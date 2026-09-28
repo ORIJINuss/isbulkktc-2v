@@ -1,0 +1,16 @@
+{
+  "id": "ev_a5c0b380-848a-47da-8e82-c3ca4c492db2",
+  "taskId": "tsk_98745b29-f27b-498a-b516-3acc4b57a028",
+  "correlationId": "cor_06eec8c4-1862-4744-bed7-07ebafcc5bc6",
+  "type": "COMMAND",
+  "command": "node tools/orchestrator.mjs task-transition --id tsk_98745b29-f27b-498a-b516-3acc4b57a028 --to RISK_ASSESSED",
+  "exitCode": 0,
+  "startedAt": "2026-09-27T21:57:47.040Z",
+  "finishedAt": "2026-09-27T21:57:47.040Z",
+  "stdout": "Updated tsk_98745b29-f27b-498a-b516-3acc4b57a028: PLANNED -> RISK_ASSESSED",
+  "stderr": "",
+  "filesChanged": [],
+  "gitStatus": " M .agents/orchestrator/state/state.json\n M .agents/orchestrator/tasks/tsk_bacf0c3b-2ba9-4578-9cf7-63f71c98a499.json\n M docs/AJAN-KOORDINASYON.md\n M tools/cline-adapter.mjs\n M tools/cline-adapter.test.mjs\n M tools/orchestrator.mjs\n?? .agents/orchestrator/evidence/ev_35850157-679b-472a-8b06-c05fcd756a43.json\n?? .agents/orchestrator/evidence/ev_875f5d74-21f2-4a41-bf70-d4d43335a829.json\n?? .agents/orchestrator/evidence/ev_9aa8fa5d-6456-451c-8cc8-77e1bd7c2bad.json\n?? .agents/orchestrator/evidence/ev_b7f87aaa-85ef-4f80-b9c3-41013881c154.json\n?? .agents/orchestrator/evidence/ev_f14513ac-268e-4fca-b804-588d568aad93.json\n?? .agents/orchestrator/locks/.mutation.lock\n?? .agents/orchestrator/tasks/tsk_98745b29-f27b-498a-b516-3acc4b57a028.json\n",
+  "hash": "f068c9ca045d31bce9776a322debbf85db673ab71aed0f5eb13173df007f2458",
+  "source": "ORCHESTRATOR"
+}

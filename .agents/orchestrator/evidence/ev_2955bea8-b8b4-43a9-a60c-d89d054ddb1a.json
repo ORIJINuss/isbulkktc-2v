@@ -1,0 +1,16 @@
+{
+  "id": "ev_2955bea8-b8b4-43a9-a60c-d89d054ddb1a",
+  "taskId": "tsk_f450da26-1d45-488e-a577-bbfdaee991b0",
+  "correlationId": "cor_6fe0caaa-aa44-4cc9-8c40-b36335dbd4f7",
+  "type": "COMMAND",
+  "command": "OpenCode dispatch start",
+  "exitCode": 0,
+  "startedAt": "2026-09-28T10:29:32.417Z",
+  "finishedAt": "2026-09-28T10:29:32.417Z",
+  "stdout": "Updated tsk_f450da26-1d45-488e-a577-bbfdaee991b0: READY -> DISPATCHING",
+  "stderr": "",
+  "filesChanged": [],
+  "gitStatus": " M .agents/orchestrator/state/state.json\n M .agents/orchestrator/tasks/tsk_df2ecde9-ac89-4d3e-a73c-8e08557fb8a2.json\n M app/[yerel]/ilan/[slug]/page.tsx\n M docs/AJAN-KOORDINASYON.md\n?? .agents/orchestrator/evidence/ev_01d72e9a-d5f5-4d45-acb4-f8ffa956c968.json\n?? .agents/orchestrator/evidence/ev_2c0f073d-d068-463a-949b-7b43a3c237d0.json\n?? .agents/orchestrator/evidence/ev_33e36fce-003c-45ba-b1a3-a5b7d08231e3.json\n?? .agents/orchestrator/evidence/ev_44300600-9141-4f0e-ae0b-ee08da061db0.json\n?? .agents/orchestrator/evidence/ev_44cca3e0-a7ab-4b8a-be5e-38f44da4cc9f.json\n?? .agents/orchestrator/evidence/ev_55f0ef78-cd8a-4dde-89a4-bd9448fae264.json\n?? .agents/orchestrator/evidence/ev_5c625dbb-04d4-4e57-babb-d01853fc62d3.json\n?? .agents/orchestrator/evidence/ev_632845aa-30b9-43b6-9619-13f24d6e298c.json\n?? .agents/orchestrator/evidence/ev_79987df2-e984-4398-97da-c564fa005d4d.json\n?? .agents/orchestrator/evidence/ev_7eace17f-eebc-4c7b-bb5c-3dcd791d87bc.json\n?? .agents/orchestrator/evidence/ev_91c46075-62e3-4c5b-80de-87b17e2a6f96.json\n?? .agents/orchestrator/evidence/ev_97433f59-e8cc-4e7f-b814-e7432afbd80f.json\n?? .agents/orchestrator/evidence/ev_9f966592-d62d-4eb8-989c-c7804dfb20e0.json\n?? .agents/orchestrator/evidence/ev_ac8565dd-e669-488e-9bb9-7cde8de741be.json\n?? .agents/orchestrator/evidence/ev_afa97cde-4f0c-4208-ab62-112001514b40.json\n?? .agents/orchestrator/evidence/ev_bb431ad6-cdb6-4ae9-a639-aa07c716e6e2.json\n?? .agents/orchestrator/evidence/ev_bc6bb7fc-2102-4e8a-927e-00d2dce5dea6.json\n?? .agents/orchestrator/evidence/ev_bc71e514-7d1b-4f70-ad64-0954b787353b.json\n?? .agents/orchestrator/evidence/ev_bec53664-fa57-4a20-ab65-2a140b7b9430.json\n?? .agents/orchestrator/evidence/ev_c2994172-87ad-4606-abc0-fbde988fa480.json\n?? .agents/orchestrator/evidence/ev_dad0c26b-85e8-4615-80f5-d54f3644c210.json\n?? .agents/orchestrator/evidence/ev_ddebc975-f1fc-4e52-8312-2a2352247c7d.json\n?? .agents/orchestrator/locks/.mutation.lock\n?? .agents/orchestrator/locks/file_0504fa2f958be10ec6694df16dec52c92e249e2d1926a87e99c6d66b03a091ff.json\n?? .agents/orchestrator/locks/file_22413417d57c0218470b94fbe0e7172e422055094dc152c2869e5ecbc7bfa725.json\n?? .agents/orchestrator/locks/file_38aa6393205d97354388f37f0dc9cc1d10857c5d1b8d605fe0c918a0d2d19699.json\n?? .agents/orchestrator/locks/file_98d4f18d7ac4ee55dbff4113305f358158e67e5ef9122e13296680b1dcadc179.json\n?? .agents/orchestrator/locks/file_e2df233d4ceb4be2092beeeae4339eb539eb9df02cee04e055077f07561b4e79.json\n?? .agents/orchestrator/locks/task_tsk_f450da26-1d45-488e-a577-bbfdaee991b0.json\n?? .agents/orchestrator/tasks/tsk_5a97a27d-a681-4416-955e-dcc133bc04db.json\n?? .agents/orchestrator/tasks/tsk_f450da26-1d45-488e-a577-bbfdaee991b0.json\n",
+  "hash": "ecb351c2edff14355539ccd15ff6c795c13563895e4061f6de7f3fdf2a2bd1f7",
+  "source": "ORCHESTRATOR"
+}

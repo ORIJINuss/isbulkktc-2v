@@ -1,0 +1,16 @@
+{
+  "id": "ev_9aa8fa5d-6456-451c-8cc8-77e1bd7c2bad",
+  "taskId": "tsk_bacf0c3b-2ba9-4578-9cf7-63f71c98a499",
+  "correlationId": "cor_d594f5a7-c012-4b9d-9094-856ae46e3c8d",
+  "type": "COMMAND",
+  "command": "node tools/orchestrator.mjs task-transition --id tsk_bacf0c3b-2ba9-4578-9cf7-63f71c98a499 --to FIX_REQUIRED",
+  "exitCode": 0,
+  "startedAt": "2026-09-27T21:57:12.006Z",
+  "finishedAt": "2026-09-27T21:57:12.006Z",
+  "stdout": "Updated tsk_bacf0c3b-2ba9-4578-9cf7-63f71c98a499: REVIEWING -> FIX_REQUIRED",
+  "stderr": "",
+  "filesChanged": [],
+  "gitStatus": " M .agents/orchestrator/state/state.json\n M .agents/orchestrator/tasks/tsk_bacf0c3b-2ba9-4578-9cf7-63f71c98a499.json\n M docs/AJAN-KOORDINASYON.md\n M tools/cline-adapter.mjs\n M tools/cline-adapter.test.mjs\n M tools/orchestrator.mjs\n?? .agents/orchestrator/evidence/ev_35850157-679b-472a-8b06-c05fcd756a43.json\n?? .agents/orchestrator/evidence/ev_f14513ac-268e-4fca-b804-588d568aad93.json\n?? .agents/orchestrator/locks/.mutation.lock\n",
+  "hash": "21014bcc757f278c5cddd7e1272c794d5bb94d83bf01db416592ecaf688fb3d5",
+  "source": "ORCHESTRATOR"
+}

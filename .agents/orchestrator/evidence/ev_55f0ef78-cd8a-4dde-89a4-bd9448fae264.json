@@ -1,0 +1,16 @@
+{
+  "id": "ev_55f0ef78-cd8a-4dde-89a4-bd9448fae264",
+  "taskId": "tsk_df2ecde9-ac89-4d3e-a73c-8e08557fb8a2",
+  "correlationId": "cor_0e364c20-e341-4e52-8b1d-d619b4e44f7c",
+  "type": "COMMAND",
+  "command": "node tools/orchestrator.mjs task-retry --id tsk_df2ecde9-ac89-4d3e-a73c-8e08557fb8a2",
+  "exitCode": 0,
+  "startedAt": "2026-09-28T10:19:08.702Z",
+  "finishedAt": "2026-09-28T10:19:08.702Z",
+  "stdout": "Updated tsk_df2ecde9-ac89-4d3e-a73c-8e08557fb8a2: FIX_REQUIRED -> DISPATCHING",
+  "stderr": "",
+  "filesChanged": [],
+  "gitStatus": " M .agents/orchestrator/state/state.json\n M .agents/orchestrator/tasks/tsk_df2ecde9-ac89-4d3e-a73c-8e08557fb8a2.json\n?? .agents/orchestrator/evidence/ev_33e36fce-003c-45ba-b1a3-a5b7d08231e3.json\n?? .agents/orchestrator/locks/.mutation.lock\n",
+  "hash": "731a7efab5d670a691744976be335bef4daf84f629a7db411110d60a95128e6b",
+  "source": "ORCHESTRATOR"
+}

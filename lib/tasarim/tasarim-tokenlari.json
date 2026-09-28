@@ -1,0 +1,168 @@
+{
+  "$aciklama": "İşBulKKTC — Stitch Pearl Field Mineral Design System. Hem web (Next.js) hem de gelecek React Native uygulaması için tek kaynak olarak kullanılır.",
+  "versiyon": "2.0.0-stitch",
+  "tasarim-sistemi": {
+    "ad": "Pearl Field Mineral",
+    "tema": "light-first-material-second",
+    "dil": "Turkish, English, Russian, Hebrew",
+    "yön": "LTR-default, RTL-hebrew"
+  },
+  "renkler": {
+    "pearl-alan": "#FAF9F3",
+    "pearl-sicak": "#FFFBF7",
+    "pearl-ana": "#FEFDFB",
+    "pearl-notr": "#F5F3ED",
+    "pearl-soguk": "#F0EDE5",
+    "bedford-gölge": "#1B3A35",
+    "bedford-temel": "#234C44",
+    "bedford-mineral": "#336B5F",
+    "bedford-hafif": "#5FA29D",
+    "bedford-uzerine": "#FFFFFF",
+    "buzlu-derin": "#4A7C8E",
+    "buzlu-hava": "#A8D4DD",
+    "buzlu-kenar": "#D0E6EC",
+    "buzlu-beyaz": "#F7FBFD",
+    "mineral-50": "#F5F4F1",
+    "mineral-100": "#E8E7E2",
+    "mineral-200": "#D9D8D1",
+    "mineral-300": "#C1BEB6",
+    "mineral-400": "#A89F95",
+    "mineral-500": "#8B8279",
+    "zeytin-inci": "#B8B89F",
+    "verdigris": "#679899",
+    "mineral-teal": "#7BB5A3",
+    "basari": "#1E4B39",
+    "basari-kapsayici": "#E8F4EE",
+    "uyari": "#8B5C0C",
+    "uyari-kapsayici": "#FDF6E7",
+    "bilgi": "#1F4355",
+    "bilgi-kapsayici": "#EDF5FA",
+    "hata": "#C74747",
+    "hata-kapsayici": "#FADADB",
+    "yüzey": "#FAF9F3",
+    "yüzey-uzerinde": "#1B1C19",
+    "cizgi": "#C1C8C5",
+    "cizgi-degisken": "#E0E2DE",
+    "alan": "0"
+  },
+  "malzeme-seviyeleri": {
+    "level-0-alan": {
+      "arka": "pearl-alan",
+      "ozellik": "opaque, minimal decoration, no blur"
+    },
+    "level-1-mineral": {
+      "arka": "mineral-100",
+      "sinir": "1px solid mineral-200",
+      "gölge": "0 1px 3px rgba(35, 62, 52, 0.04), 0 2px 8px rgba(35, 62, 52, 0.04)",
+      "ozellik": "nearly opaque, subtle tonal separation"
+    },
+    "level-2-cam": {
+      "arka": "rgba(250, 249, 243, 0.7)",
+      "gradient": "linear-gradient(to bottom, rgba(255,255,255,0.4), rgba(200,221,236,0.1))",
+      "gölge": "0 8px 24px rgba(35, 62, 52, 0.08)",
+      "ozellik": "translucent, layered gradients, subtle reflection"
+    },
+    "level-3-kristal": {
+      "arka": "rgba(248,250,248,0.85)",
+      "gradient": "conic-gradient accent with frozen-air",
+      "gölge": "0 12px 32px rgba(35, 62, 52, 0.12)",
+      "ozellik": "premium, crystalline appearance, Bedford accent"
+    },
+    "level-4-kahraman": {
+      "arka": "pearl-alan",
+      "ozellik": "3D, Canvas/WebGL optional, material language"
+    }
+  },
+  "bosluklar": {
+    "xs": "0.25rem",
+    "sm": "0.5rem",
+    "md": "1rem",
+    "lg": "1.5rem",
+    "xl": "2.5rem",
+    "olcu": "1.5rem",
+    "dis": "2rem"
+  },
+  "kose-yaricaplari": {
+    "sm": "0.125rem",
+    "md": "0.25rem",
+    "lg": "0.5rem",
+    "kart": "0.75rem",
+    "düğme-sm": "0.5rem",
+    "düğme-lg": "0.75rem",
+    "dolgun": "9999px"
+  },
+  "fontlar": {
+    "latin-family": "Source Sans 3, Inter, system-ui, sans-serif",
+    "hebrew-family": "Assistant, Hebrew, sans-serif",
+    "ikon-family": "Material Symbols Outlined"
+  },
+  "tipografi-hierarşi": {
+    "display-hero": {
+      "boyut": "48px-72px",
+      "satır-yüksekliği": "1.2",
+      "ağırlık": "400",
+      "mobil": "34px-44px"
+    },
+    "h1": {
+      "boyut": "40px-52px",
+      "satır-yüksekliği": "1.3",
+      "ağırlık": "600",
+      "mobil": "30px-36px"
+    },
+    "h2": {
+      "boyut": "30px-38px",
+      "satır-yüksekliği": "1.3",
+      "ağırlık": "600"
+    },
+    "h3": {
+      "boyut": "22px-28px",
+      "satır-yüksekliği": "1.4",
+      "ağırlık": "600"
+    },
+    "body": {
+      "boyut": "16px-18px",
+      "satır-yüksekliği": "1.5",
+      "ağırlık": "400"
+    },
+    "secondary": {
+      "boyut": "14px-16px",
+      "satır-yüksekliği": "1.4",
+      "ağırlık": "400"
+    },
+    "metadata": {
+      "boyut": "12px-14px",
+      "satır-yüksekliği": "1.3",
+      "ağırlık": "500"
+    }
+  },
+  "hareket": {
+    "micro": {
+      "hız": "120ms-220ms",
+      "eğri": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "kullanım": "hover, feedback, focus, icon transitions"
+    },
+    "malzeme": {
+      "hız": "400ms-700ms",
+      "eğri": "cubic-bezier(0.2, 0, 0.2, 1)",
+      "kullanım": "card transitions, surface changes, panels, modals"
+    },
+    "atmosferik": {
+      "hız": "1.5s-8s",
+      "eğri": "ease-in-out",
+      "kullanım": "hero background, 3D objects, slow atmospheric"
+    }
+  },
+  "renk-dağılımı-hedefi": {
+    "pearl-alan": "70-80%",
+    "mineral-notr": "10-18%",
+    "bedford": "5-9%",
+    "optik-renkler": "1-3%",
+    "buzlu-hava": "1-2%"
+  },
+  "yukseklik-seviyeleri": {
+    "alan": "0",
+    "yüzey-karti": "0 1px 3px rgb(35 62 52 / 0.04), 0 2px 8px rgb(35 62 52 / 0.04)",
+    "yukseltilmis-dosye": "0 -1px 0 rgb(200 221 236 / 0.6), 0 8px 24px -4px rgb(35 62 52 / 0.12)",
+    "kaplama": "0 24px 60px -12px rgb(35 62 52 / 0.25)"
+  }
+}

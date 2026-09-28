@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "state.schema.json",
+  "title": "Orchestrator state index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "updatedAt",
+    "revision",
+    "taskIds",
+    "circuitFailures",
+    "circuitOpen",
+    "lastRecovery",
+    "recoveryIds"
+  ],
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "revision": { "type": "integer", "minimum": 0 },
+    "taskIds": { "type": "array", "items": { "type": "string" } },
+    "circuitFailures": { "type": "integer", "minimum": 0 },
+    "circuitOpen": { "type": "boolean" },
+    "lastRecovery": { "type": ["string", "null"] },
+    "recoveryIds": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "ev_5f11f48f-ba41-4bb3-aad4-549deb3a970a",
+  "taskId": "tsk_d3c5f2d8-7b84-4c3f-9d16-eee6cfaab782",
+  "correlationId": "cor_6430b027-1b70-486d-ace4-6ab21fb1075d",
+  "type": "COMMAND",
+  "command": "OpenCode dispatch start",
+  "exitCode": 0,
+  "startedAt": "2026-09-27T19:02:15.352Z",
+  "finishedAt": "2026-09-27T19:02:15.352Z",
+  "stdout": "Updated tsk_d3c5f2d8-7b84-4c3f-9d16-eee6cfaab782: READY -> DISPATCHING",
+  "stderr": "",
+  "filesChanged": [],
+  "gitStatus": " M .ajan-sahiplik.json\n?? .agents/\n?? tools/opencode-adapter.mjs\n?? tools/opencode-adapter.test.mjs\n?? tools/orchestrator.mjs\n",
+  "hash": "c0b487367f81cb82a249acd379b4c9453b0c6442f425a88f1aca69ab7ff5af38",
+  "source": "ORCHESTRATOR"
+}

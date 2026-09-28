@@ -1,0 +1,19 @@
+{
+  "id": "ev_8edca760-fae7-44d6-9899-49342de1dc52",
+  "taskId": "tsk_bacf0c3b-2ba9-4578-9cf7-63f71c98a499",
+  "correlationId": "cor_d594f5a7-c012-4b9d-9094-856ae46e3c8d",
+  "type": "KALITE",
+  "command": "npm run kalite",
+  "exitCode": 0,
+  "startedAt": "2026-09-27T21:10:39.508Z",
+  "finishedAt": "2026-09-27T21:10:58.669Z",
+  "stdout": "\n> isbukktc-istanbul@1.0.0 kalite\n> npm run type-check && npm run lint\n\n\n> isbukktc-istanbul@1.0.0 type-check\n> tsc --noEmit\n\n\n> isbukktc-istanbul@1.0.0 lint\n> next lint --dir app --dir bilesenler --dir lib --dir i18n --dir tools --dir supabase --file middleware.ts --file tailwind.config.ts --file next.config.mjs --file postcss.config.mjs\n\n✔ No ESLint warnings or errors\n",
+  "stderr": "",
+  "filesChanged": [],
+  "gitStatus": " M .agents/orchestrator/state/state.json\n M docs/AJAN-KOORDINASYON.md\n M tools/cline-adapter.mjs\n M tools/cline-adapter.test.mjs\n M tools/orchestrator.mjs\n?? .agents/orchestrator/evidence/ev_1d2ee674-1c91-4075-8b80-4365cc85079f.json\n?? .agents/orchestrator/evidence/ev_37e0fac1-6eb2-4670-a109-df324ddc6e34.json\n?? .agents/orchestrator/evidence/ev_96eddfa8-38f8-4c2b-8f8a-a4bb80500f5f.json\n?? .agents/orchestrator/evidence/ev_975ba3ec-d574-4ce5-a942-b12044c7d28b.json\n?? .agents/orchestrator/evidence/ev_b7adfe69-7df8-4932-9cad-b87ffac5211a.json\n?? .agents/orchestrator/evidence/ev_c455376d-cc62-4b8f-a813-d2f38c1b75d6.json\n?? .agents/orchestrator/evidence/ev_c8efaced-0006-44b9-9eba-fc2528e34c30.json\n?? .agents/orchestrator/locks/.mutation.lock\n?? .agents/orchestrator/state/project-map.json\n?? .agents/orchestrator/tasks/tsk_bacf0c3b-2ba9-4578-9cf7-63f71c98a499.json\n",
+  "hash": "ad2e4b568f0fa2ecc92c0e00e18e9b241fabc78a8165e6f21ed515441c9363d5",
+  "source": "quality-gate",
+  "status": "KALITE_PASS",
+  "durationMs": 19159,
+  "workingDirectory": "D:\\isbulkktc"
+}

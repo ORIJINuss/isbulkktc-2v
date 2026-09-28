@@ -1,0 +1,71 @@
+{
+  "id": "tsk_af6da4ac-7f1c-4b03-ad8b-dd175373894f",
+  "title": "Demo ilanlardaki doğrulanmamış maaş garantisi iddialarını kaldırma",
+  "description": "Follow-up to demo listing trust-claim cleanup. The demo detail page shows every seeded job with localized 'Net Salary Guaranteed' and Labor Law Article 59 compliance badges, and the legacy demo card labels TRY salary as guaranteed. The job data has no per-listing verification for these assurances. In the two assigned UI files only, remove the two guarantee/compliance badges from DemoIlanDetay and make the card salary caption neutral while retaining the displayed salary amount/currency. Preserve other content and navigation; no locale/API/schema/dependency changes and no commit.",
+  "acceptanceCriteria": "Demo detail no longer shows the per-job guaranteed-net-salary or Article 59-compliance badges; demo card salary caption no longer asserts a currency-specific guarantee; actual salary range and currency remain; no other content/API/schema/locale/dependency files change; npm run kalite, npm run build, and git diff --check pass; OpenCode does not commit.",
+  "createdAt": "2026-09-28T01:56:17.981Z",
+  "updatedAt": "2026-09-28T02:10:03.091Z",
+  "state": "REVIEWING",
+  "attempt": 1,
+  "maxAttempts": 3,
+  "retryableFailure": false,
+  "owner": "OPENCODE",
+  "risk": "HIGH",
+  "riskReasons": [
+    "High-impact signal: \\bapi\\b",
+    "High-impact signal: dependency"
+  ],
+  "requiresHumanApproval": false,
+  "files": [
+    "app/[yerel]/ilan/[slug]/page.tsx",
+    "bilesenler/ilan/IlanKartı.tsx"
+  ],
+  "dependencies": [],
+  "currentAgent": "OPENCODE",
+  "lastError": null,
+  "evidenceIds": [
+    "ev_5dcba7fe-f959-4be7-bec5-be768b8ceec1",
+    "ev_e0ab32b2-8110-45dd-871f-a434cd1acf4c",
+    "ev_2f66d597-2db2-41b3-b53d-59aed89e4c3a",
+    "ev_fbdef059-f346-41fe-ac26-85277c72f301",
+    "ev_74924dfe-89c5-4e6e-b6a3-32c744628d82",
+    "ev_ea2b929a-e57a-4550-9720-2a20579377a5",
+    "ev_03fcf355-e800-4393-baae-e99997274b1b",
+    "ev_38ec908d-240d-41e2-8551-11b12e1437d2",
+    "ev_79c49eee-7bd5-4178-b6ee-6b6972c1859f",
+    "ev_537fc39c-0d37-472a-8b7d-4175da6b7b42",
+    "ev_a552fef5-c04e-4801-a8a5-e8597ca4eb04",
+    "ev_caeeeb56-bb01-43d8-88cf-658dfd438b0c",
+    "ev_d3fc816d-5bb6-4d0f-8cdf-e4d02d4f52cc",
+    "ev_e664c595-cb7d-4e58-b17b-a66832c7f679",
+    "ev_da854c67-54ef-446e-9ac1-4e0462955b38"
+  ],
+  "reviewIds": [],
+  "parentTaskId": "tsk_dc1946cf-d8e4-48c4-8ab3-e4ad834735ab",
+  "correlationId": "cor_437cf506-d47a-4a41-bb0d-62f22dcba535",
+  "idempotencyKey": "idem_f558fa80bf074d9087d2cdf18f6587c402513e8170f5fe2b01d2ec4d3c2922a9",
+  "opencode": {
+    "attempt": 2,
+    "sessionId": "ses_f1a458262ffedbIZO0IYxtCrGS",
+    "projectId": "97c743cd73393b6648837204171935e967f4ae90",
+    "providerId": "opencode",
+    "modelId": "space-bunny-free",
+    "worktree": "D:\\isbulkktc",
+    "agent": "build",
+    "readOnly": false,
+    "createdAt": "2026-09-28T01:56:39.455Z",
+    "promptMessageId": "msg_e8cb36f2-d859-428b-b8f9-1f4a9309749b",
+    "messageId": "msg_0e5bbc1bc001mKFOwcxWsWj1nt"
+  },
+  "cline": {
+    "sessionId": null,
+    "reviewId": "rev_fdebe48252d683eb5514cb57a1f9d0e4",
+    "correlationId": "cor_437cf506-d47a-4a41-bb0d-62f22dcba535",
+    "reviewIteration": 1,
+    "startedAt": "2026-09-28T02:00:00.840Z",
+    "status": "CLINE_TIMEOUT",
+    "readOnly": true,
+    "promptHash": "69020c8ab7a174ea942b40d07c5289c8b0dd9646af8b01e5df81ea0f96730440"
+  },
+  "reviewIteration": 1
+}

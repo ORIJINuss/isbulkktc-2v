@@ -1,0 +1,22 @@
+{
+  "id": "ev_e66679ac-fc10-4660-a0b1-018c083de35f",
+  "taskId": "tsk_dc1946cf-d8e4-48c4-8ab3-e4ad834735ab",
+  "correlationId": "cor_9927adce-8da0-4b0c-a676-212827efb046",
+  "type": "AGENT_REVIEW",
+  "command": "vscode Cline task URI",
+  "exitCode": null,
+  "startedAt": "2026-09-28T01:45:21.412Z",
+  "finishedAt": "2026-09-28T01:55:23.781Z",
+  "stdout": "",
+  "stderr": "Timed out waiting for the Cline review response.",
+  "filesChanged": [],
+  "gitStatus": "",
+  "hash": "f9ad2ccbacbf985f1d95c59606e6f4737ddb2b6cd40f9d918695fb4699755842",
+  "source": "cline-adapter",
+  "status": "CLINE_TIMEOUT",
+  "durationMs": 0,
+  "workingDirectory": "D:\\isbulkktc",
+  "agent": "CLINE",
+  "errorCode": "CLINE_TIMEOUT",
+  "reviewId": "rev_89a94e2e5ff94fcf7f1baea6854f7aa7"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "ev_33e36fce-003c-45ba-b1a3-a5b7d08231e3",
+  "taskId": "tsk_df2ecde9-ac89-4d3e-a73c-8e08557fb8a2",
+  "correlationId": "cor_0e364c20-e341-4e52-8b1d-d619b4e44f7c",
+  "type": "COMMAND",
+  "command": "node tools/orchestrator.mjs task-fail --id tsk_df2ecde9-ac89-4d3e-a73c-8e08557fb8a2",
+  "exitCode": 0,
+  "startedAt": "2026-09-28T10:19:07.972Z",
+  "finishedAt": "2026-09-28T10:19:07.972Z",
+  "stdout": "Updated tsk_df2ecde9-ac89-4d3e-a73c-8e08557fb8a2: QUALITY_GATE -> FIX_REQUIRED",
+  "stderr": "",
+  "filesChanged": [],
+  "gitStatus": "?? .agents/orchestrator/locks/.mutation.lock\n",
+  "hash": "9b09db79dde02e5b82bcf50acebf8f42e6bbbea43eda66919084641240663207",
+  "source": "ORCHESTRATOR"
+}

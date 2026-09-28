@@ -1,0 +1,16 @@
+{
+  "id": "ev_84bd4030-b866-48b4-9a99-42fe4989ee4c",
+  "taskId": "tsk_d3c5f2d8-7b84-4c3f-9d16-eee6cfaab782",
+  "correlationId": "cor_6430b027-1b70-486d-ace4-6ab21fb1075d",
+  "type": "COMMAND",
+  "command": "Authorize recovery of timed-out OpenCode session",
+  "exitCode": 0,
+  "startedAt": "2026-09-27T19:07:47.816Z",
+  "finishedAt": "2026-09-27T19:07:47.816Z",
+  "stdout": "Updated tsk_d3c5f2d8-7b84-4c3f-9d16-eee6cfaab782: FIX_REQUIRED -> FIX_REQUIRED",
+  "stderr": "",
+  "filesChanged": [],
+  "gitStatus": " M .ajan-sahiplik.json\n?? .agents/\n?? tools/opencode-adapter.mjs\n?? tools/opencode-adapter.test.mjs\n?? tools/orchestrator.mjs\n",
+  "hash": "ca8ce3ed6a3b06b061ead6e0fb9d90636014bd03c9ba06aa04049e58e85bbf4a",
+  "source": "ORCHESTRATOR"
+}

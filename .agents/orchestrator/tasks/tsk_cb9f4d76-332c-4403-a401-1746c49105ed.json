@@ -1,0 +1,69 @@
+{
+  "id": "tsk_cb9f4d76-332c-4403-a401-1746c49105ed",
+  "title": "Benzer ilan kartlarındaki doğrulanmamış iddiaları kaldırma",
+  "description": "Follow-up to the demo-detail cleanup. DemoIlanDetay renders related demo jobs with IlanKartı, which currently displays B3 verification and urgent badges plus a default ATS score and static ATS/AI recommendation panel that are not backed by live data. In the single assigned file, remove those unsupported signals and their now-unused props/imports/calculations. Preserve normal listing fields, salary/work details, localized save/share actions, and navigation. Do not alter APIs, schemas, dependencies, locales, or other files; do not commit.",
+  "acceptanceCriteria": "Demo detail related-job cards no longer render B3-verified or urgent badges, an ATS percentage/gauge, or the associated generic ATS/AI recommendation panel; no fabricated company identifier is introduced; remaining actual listing fields and save/share/navigation controls remain; only the assigned card file changes; npm run kalite, npm run build, and git diff --check pass; no commit by OpenCode.",
+  "createdAt": "2026-09-28T01:21:02.630Z",
+  "updatedAt": "2026-09-28T01:41:18.071Z",
+  "state": "REVIEWING",
+  "attempt": 1,
+  "maxAttempts": 3,
+  "retryableFailure": false,
+  "owner": "OPENCODE",
+  "risk": "MEDIUM",
+  "riskReasons": [
+    "Scoped-change signal: \\.(?:tsx|jsx|css)$"
+  ],
+  "requiresHumanApproval": false,
+  "files": [
+    "bilesenler/ilan/IlanKartı.tsx"
+  ],
+  "dependencies": [],
+  "currentAgent": "OPENCODE",
+  "lastError": null,
+  "evidenceIds": [
+    "ev_a0892d5d-aecf-4a4c-a6fa-2e5fea8ca1f5",
+    "ev_0fe86876-38eb-441a-adc6-2aafad880388",
+    "ev_18f310a2-a8e7-458a-9e10-e154e8db4a47",
+    "ev_48bc9f8b-6881-42e8-a3fa-5f6fe743eafc",
+    "ev_a61c99f7-a5c3-4e5a-a04c-569adfcc27b0",
+    "ev_a4820046-babb-476d-bc5b-89d71853babb",
+    "ev_151609e9-4c9f-467d-b44a-31acb35bb6c6",
+    "ev_836d39d7-6709-4748-b75b-c09f1ffafbda",
+    "ev_f57fed59-b190-4c85-8e04-46983e257c57",
+    "ev_4a24f641-84f2-4679-aa49-17663f5e9d67",
+    "ev_af1649d9-ec1e-4b49-af24-73d9531a0799",
+    "ev_c2425b1a-7e3a-44c3-9090-fde387f62d17",
+    "ev_fec98d33-1505-4869-acf1-97028b5ab44e",
+    "ev_e64fb264-a021-4cc9-80be-17a92bedc8eb",
+    "ev_8de8cbd2-87a2-4710-b4fc-637cfb932007"
+  ],
+  "reviewIds": [],
+  "parentTaskId": "tsk_e3af6954-cb95-4588-b42f-32f71e7c5181",
+  "correlationId": "cor_6d3e184c-2cb2-4395-8402-b7cb820f3f76",
+  "idempotencyKey": "idem_f13cee84a420d6b81c34b0cc777c38875c5a4dffcdcbd0d3c413221dc6fca0c8",
+  "opencode": {
+    "attempt": 2,
+    "sessionId": "ses_f1a65747affeoRgMrdV55reuS5",
+    "projectId": "97c743cd73393b6648837204171935e967f4ae90",
+    "providerId": "opencode",
+    "modelId": "space-bunny-free",
+    "worktree": "D:\\isbulkktc",
+    "agent": "build",
+    "readOnly": false,
+    "createdAt": "2026-09-28T01:21:45.864Z",
+    "promptMessageId": "msg_007077f4-db70-4baa-9ea1-d45fb9a5e600",
+    "messageId": "msg_0e5a18c3f001TkSMJHsn6rI2NC"
+  },
+  "cline": {
+    "sessionId": null,
+    "reviewId": "rev_2f9d18ce1bd7c3a6c45397638a8839e0",
+    "correlationId": "cor_6d3e184c-2cb2-4395-8402-b7cb820f3f76",
+    "reviewIteration": 1,
+    "startedAt": "2026-09-28T01:31:15.484Z",
+    "status": "CLINE_TIMEOUT",
+    "readOnly": true,
+    "promptHash": "3aea864cbd63ab38fff162cb76d87e57bf23934b9e9677df5bf21f1dbd371df1"
+  },
+  "reviewIteration": 1
+}

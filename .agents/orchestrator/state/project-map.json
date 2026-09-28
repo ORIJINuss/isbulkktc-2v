@@ -1,0 +1,245 @@
+{
+  "version": 1,
+  "verifiedAt": "2026-09-27T21:33:48.000Z",
+  "repository": {
+    "name": "İşBulKKTC",
+    "root": "D:\\isbulkktc",
+    "branch": "master",
+    "headAtDiscovery": "add3710",
+    "framework": "Next.js 14.2.15 App Router",
+    "language": "TypeScript",
+    "packageManager": "npm",
+    "locales": ["tr", "en", "ru", "he"],
+    "rtlLocales": ["he"],
+    "dependenciesPolicy": "No dependencies without demonstrated need."
+  },
+  "architecture": {
+    "pagesRoot": "app/[yerel]",
+    "apiRoot": "app/api",
+    "serverDataAccess": "lib/depolar",
+    "services": "lib/servisler",
+    "validation": "lib/veri (Zod)",
+    "authorization": "lib/guvenlik/yetki.ts and Supabase RLS",
+    "supabaseClients": ["lib/supabase/sunucu-istemci.ts", "lib/supabase/tarayici-istemci.ts"],
+    "localization": "next-intl messages under i18n/mesajlar",
+    "designSystem": "Tailwind CSS, app/globals.css, lib/tasarim/tasarim-tokenlari.json",
+    "database": "Supabase PostgreSQL; ordered SQL migrations in supabase/migrations",
+    "deployment": "Next.js standalone output; Dockerfile/docker-compose and GitHub Actions are present. No live deployment provider or production environment was verified.",
+    "rendering": "Localized App Router pages use a mix of Server and Client Components; SEO metadata stays server-side."
+  },
+  "routes": {
+    "localizedPages": [
+      "/",
+      "/ilan-ara",
+      "/ilan/[slug]",
+      "/sirketler",
+      "/sirket/[slug]",
+      "/giris",
+      "/aday/masam",
+      "/aday-profilim",
+      "/isveren/panel",
+      "/isveren/sirketim",
+      "/isveren/yeni-ilan",
+      "/isveren/sirket-kaydi",
+      "/ilan-paketleri",
+      "/freelance",
+      "/b3-dogrulama",
+      "/birlikte-calisalim",
+      "/gizlilik",
+      "/kvk",
+      "/is-yasasi-md-59",
+      "/pes-lisans",
+      "/ihtiyat-sandigi-b3",
+      "/iletisim",
+      "/kariyer",
+      "/hakkimizda",
+      "/medya"
+    ],
+    "apiRoutes": [
+      "/api/aday/cv",
+      "/api/auth/logout",
+      "/api/auth/password-reset",
+      "/api/basvurular",
+      "/api/bildirim-tercihleri",
+      "/api/destek/ticket",
+      "/api/hazirlik",
+      "/api/ilanlar",
+      "/api/odeme/checkout",
+      "/api/odeme/webhook",
+      "/api/turnstile/verify",
+      "/api/yonetim",
+      "/auth/callback",
+      "/robots.txt",
+      "/sitemap.xml"
+    ]
+  },
+  "dataBoundaries": {
+    "tablesObservedInMigrations": [
+      "profiles",
+      "candidate_profiles",
+      "companies",
+      "company_memberships",
+      "job_posts",
+      "job_skills",
+      "job_locations",
+      "applications",
+      "orders",
+      "payment_events",
+      "invoices",
+      "subscriptions",
+      "entitlement_usage",
+      "cv_documents"
+    ],
+    "confirmedFlows": [
+      "Application API validates a candidate role and active, unexpired job; database uniqueness and application-count trigger are defined by migrations.",
+      "Search repository queries active Supabase job_posts, but the localized search and detail pages still use sample job data.",
+      "Employer listing form currently stores draft/publish state in localStorage rather than a persistent API."
+    ],
+    "databaseMigrationsAreNotProofOfLiveState": true
+  },
+  "toolCapabilities": [
+    {
+      "capability": "Workspace filesystem",
+      "provider": "Copilot workspace tools and PowerShell",
+      "available": true,
+      "approval": "Tool-policy dependent",
+      "read": true,
+      "write": true,
+      "execute": true,
+      "network": false,
+      "bestUse": "Scoped repository discovery, edits, and verification."
+    },
+    {
+      "capability": "OpenCode",
+      "provider": "Local OpenCode server and CLI 1.18.32",
+      "available": true,
+      "approval": "Provider/model quota dependent",
+      "read": true,
+      "write": true,
+      "execute": true,
+      "network": true,
+      "bestUse": "Sole application implementer through the configured project/worktree; Chief retains orchestration ownership."
+    },
+    {
+      "capability": "Cline",
+      "provider": "VS Code extension saoudrizwan.claude-dev 4.1.21",
+      "available": true,
+      "approval": "VS Code extension/session runtime dependent",
+      "read": true,
+      "write": false,
+      "execute": false,
+      "network": false,
+      "bestUse": "Adversarial read-only review through the Cline session store and URI task handler."
+    },
+    {
+      "capability": "Browser",
+      "provider": "Playwright MCP",
+      "available": true,
+      "approval": "Browser tool policy",
+      "read": true,
+      "write": "Page interaction only",
+      "execute": false,
+      "network": true,
+      "bestUse": "Local route, console, network, responsive, and visual validation."
+    },
+    {
+      "capability": "Web research",
+      "provider": "web_fetch and Apify web browser",
+      "available": true,
+      "approval": "Network policy",
+      "read": true,
+      "write": false,
+      "execute": false,
+      "network": true,
+      "bestUse": "Official current documentation; not used for repository-local facts."
+    },
+    {
+      "capability": "GitHub",
+      "provider": "GitHub MCP tools",
+      "available": true,
+      "approval": "Tool-policy dependent",
+      "read": true,
+      "write": "PR/comment tools only",
+      "execute": false,
+      "network": true,
+      "bestUse": "Repository, issue, PR, Actions, and advisory evidence."
+    },
+    {
+      "capability": "Supabase live project",
+      "provider": "No Supabase MCP/API session verified; VS Code extension installed",
+      "available": false,
+      "approval": "Project credentials/session required",
+      "read": false,
+      "write": false,
+      "execute": false,
+      "network": false,
+      "bestUse": "Use migrations and static contracts only until a live project connection is explicitly available."
+    },
+    {
+      "capability": "Figma/Stitch design MCP",
+      "provider": "No connected Figma or Stitch MCP tool verified",
+      "available": false,
+      "approval": "Not applicable",
+      "read": false,
+      "write": false,
+      "execute": false,
+      "network": false,
+      "bestUse": "Do not claim reference-based design validation."
+    }
+  ],
+  "validation": {
+    "typeCheck": "npm run type-check",
+    "lint": "npm run lint",
+    "quality": "npm run kalite",
+    "build": "npm run build; acquire board build lock; use an isolated registered worktree whose tracked and untracked inputs match the current working tree",
+    "tests": [
+      "node --test tools/opencode-adapter.test.mjs tools/cline-adapter.test.mjs"
+    ],
+    "testScript": "No project-wide test script is defined in package.json.",
+    "e2e": "Playwright MCP is available; browser access depends on valid local runtime environment."
+  },
+  "orchestration": {
+    "entryPoint": "tools/orchestrator.mjs",
+    "adapters": ["tools/opencode-adapter.mjs", "tools/cline-adapter.mjs"],
+    "stateMachine": ".agents/orchestrator/state/state.json and task/evidence schemas",
+    "clineSessionLayoutObserved": "<sessionRoot>/<sessionId>/<sessionId>.json with sibling <sessionId>.messages.json",
+    "safety": "Cline is configured for read-only review; the installed URI handler inherits the current Plan/Act mode, and the adapter rejects write, execution, or unknown-tool transcripts before judgment. OpenCode commit/push are denied; Chief-only commits; lock, retry, evidence, recovery, idempotency, and secret redaction are implemented. Operator reports Cline read-only + Deep Plan selected; a fresh session transcript is still pending."
+  },
+  "ownership": {
+    "chief": ["docs/**", "tools/**", ".agents/orchestrator/**", ".github/**", ".clinerules/**"],
+    "opencode": ["app/**", "bilesenler/**", "lib/**", "i18n/**", "supabase/**", "public/**", "middleware.ts"],
+    "cline": "Read-only reviewer; never writes or executes."
+  },
+  "knownRisks": [
+    {
+      "priority": "P0",
+      "id": "REQ-APP-001",
+      "description": "A browser smoke test of localhost:3000/tr/ilan-ara failed with a client-side OrtamYapilandirmaHatasi because NEXT_PUBLIC_SUPABASE_URL is missing or invalid in the running dev server."
+    },
+    {
+      "priority": "P1",
+      "id": "REQ-JOBS-001",
+      "description": "Candidate search/detail still uses sample listings while the application endpoint queries real job_posts."
+    },
+    {
+      "priority": "P1",
+      "id": "REQ-EMPLOYER-001",
+      "description": "Employer publish flow only writes localStorage; entitlement, company membership, moderation, and persistence rules must be reconciled before API implementation."
+    },
+    {
+      "priority": "P1",
+      "id": "REQ-SEARCH-001",
+      "description": "Search API accepts filters not implemented by its repository; some code/enum and multi-district mappings are inconsistent."
+    },
+    {
+      "priority": "P1",
+      "id": "REQ-BILLING-001",
+      "description": "Payment webhook order/event/invoice/subscription writes are not atomic; refund matching and state transitions need provider semantics."
+    },
+    {
+      "priority": "P1",
+      "id": "REQ-APP-002",
+      "description": "Application form carries contact fields and a local CV filename; application schema persists neither contact PII nor an uploaded CV reference."
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+#!/bin/sh
+# ===============================================================
+#  IsBulKKTC - Commit Oncesi Kapi (kalite + sahiplik)
+#  Sahip: Copilot / VS Code Agent (Chief)
+#
+#  Kurulum (bir kez):  npm run hook-kur
+#  Acil durumda atla:   git commit --no-verify
+#
+#  1. type-check  -> BASARISIZSA commit REDDEDILIR
+#  2. lint        -> BASARISIZSA commit REDDEDILIR
+#  3. sahiplik    -> yalnizca UYARI verir (bloklamaz)
+# ===============================================================
+
+echo ""
+echo "[kapi] IsBulKKTC commit oncesi dogrulama"
+
+if ! command -v node >/dev/null 2>&1; then
+  echo "[kapi] UYARI: node bulunamadi, dogrulama atlandi."
+  exit 0
+fi
+
+echo "[1/3] tsc --noEmit"
+if ! npm run --silent type-check; then
+  echo ""
+  echo "[HAYIR] type-check BASARISIZ -> Commit REDDEDILDI."
+  echo "        Duzelt, ya da acil durumda: git commit --no-verify"
+  exit 1
+fi
+
+echo "[2/3] next lint"
+if ! npm run --silent lint; then
+  echo ""
+  echo "[HAYIR] lint BASARISIZ -> Commit REDDEDILDI."
+  echo "        Duzelt, ya da acil durumda: git commit --no-verify"
+  exit 1
+fi
+
+echo "[3/3] sahiplik (cakisma) denetimi"
+if [ -f tools/cakisma-kontrol.mjs ]; then
+  node tools/cakisma-kontrol.mjs --staged || true
+else
+  echo "      (arac yok, atlandi)"
+fi
+
+echo "[TAMAM] kalite kapisi gecti -> commit serbest."
+echo "        (next build kapisi CI'da: .github/workflows/kalite.yml)"
+exit 0

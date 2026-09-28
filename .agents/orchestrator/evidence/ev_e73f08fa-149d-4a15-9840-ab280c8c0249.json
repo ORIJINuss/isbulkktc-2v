@@ -1,0 +1,16 @@
+{
+  "id": "ev_e73f08fa-149d-4a15-9840-ab280c8c0249",
+  "taskId": "tsk_d3c5f2d8-7b84-4c3f-9d16-eee6cfaab782",
+  "correlationId": "cor_6430b027-1b70-486d-ace4-6ab21fb1075d",
+  "type": "COMMAND",
+  "command": "node tools/orchestrator.mjs task-transition --id tsk_d3c5f2d8-7b84-4c3f-9d16-eee6cfaab782 --to RISK_ASSESSED",
+  "exitCode": 0,
+  "startedAt": "2026-09-27T19:02:14.816Z",
+  "finishedAt": "2026-09-27T19:02:14.816Z",
+  "stdout": "Updated tsk_d3c5f2d8-7b84-4c3f-9d16-eee6cfaab782: PLANNED -> RISK_ASSESSED",
+  "stderr": "",
+  "filesChanged": [],
+  "gitStatus": " M .ajan-sahiplik.json\n?? .agents/\n?? tools/opencode-adapter.mjs\n?? tools/opencode-adapter.test.mjs\n?? tools/orchestrator.mjs\n",
+  "hash": "7bcc80910cf563da598030f6c7a41335b7322e7c7106f1923697dc670a905c7e",
+  "source": "ORCHESTRATOR"
+}

@@ -1,0 +1,676 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Font Stack: --font-source-sans / --font-assistant next/font tarafından <html> üzerinde tanımlanır. */
+    --yazi-govde: var(--font-source-sans, "Source Sans 3"), system-ui, -apple-system, "Segoe UI", sans-serif;
+    --yazi-ibranice: var(--font-assistant, "Assistant"), system-ui, -apple-system, "Segoe UI", sans-serif;
+
+    /* ───────────────────────────────────────────────────────────────────
+     * Stitch 2.0 "Pearl Field Mineral" — lib/tasarim/tasarim-tokenlari.json
+     * Bu blok JSON'un `renkler` bölümünün birebir karşılığıdır. Elle
+     * renk değiştirmeyin; JSON güncellenip bu blok buradan tazelenmelidir.
+     * ─────────────────────────────────────────────────────────────────── */
+
+    /* Pearl Field — baskın zemin (%70–80) */
+    --pearl-alan: #faf9f3;
+    --pearl-sicak: #fffbf7;
+    --pearl-ana: #fefdfb;
+    --pearl-notr: #f5f3ed;
+    --pearl-soguk: #f0ede5;
+
+    /* Bedford — marka çapası, nadirlik (%5–10) */
+    --bedford-golge: #1b3a35;
+    --bedford-temel: #234c44;
+    --bedford-mineral: #336b5f;
+    --bedford-hafif: #5fa29d;
+    --bedford-uzerine: #ffffff;
+
+    /* Mineral — nötr rampa (%10–18) */
+    --mineral-50: #f5f4f1;
+    --mineral-100: #e8e7e2;
+    --mineral-200: #d9d8d1;
+    --mineral-300: #c1beb6;
+    --mineral-400: #a89f95;
+    --mineral-500: #8b8279;
+
+    /* Frozen Air — optik aksan (%1–3) */
+    --buzlu-derin: #4a7c8e;
+    --buzlu-hava: #a8d4dd;
+    --buzlu-kenar: #d0e6ec;
+    --buzlu-beyaz: #f7fbfd;
+
+    /* Durum renkleri */
+    --basari: #1e4b39;
+    --basari-kapsayici: #e8f4ee;
+    --uyari: #8b5c0c;
+    --uyari-kapsayici: #fdf6e7;
+    --bilgi: #1f4355;
+    --bilgi-kapsayici: #edf5fa;
+    --hata: #c74747;
+    --hata-kapsayici: #fadadb;
+
+    /* Hareket — JSON `hareket` bölümündeki aralıkların alt sınırı.
+       Tailwind `duration-micro|material|atmosferik` ile de kullanılabilir. */
+    --motion-mikro: 120ms;
+    --motion-malzeme: 400ms;
+    --motion-atmosferik: 1500ms;
+    --ease-mikro: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-malzeme: cubic-bezier(0.2, 0, 0.2, 1);
+    --ease-atmosferik: ease-in-out;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Body: Pearl Field primary, 70–80% of viewport */
+  body {
+    @apply min-h-screen antialiased;
+    background-color: var(--pearl-alan);
+    color: var(--bedford-temel);
+    font-family: var(--yazi-govde);
+    overflow-x: clip;
+  }
+
+  /* RTL support for Hebrew, Arabic */
+  html[dir="rtl"] body {
+    font-family: var(--yazi-ibranice);
+    direction: rtl;
+  }
+
+  /* Text Selection: Use Mineral background (neutral) */
+  ::selection {
+    background-color: var(--mineral-200);
+    color: var(--bedford-temel);
+  }
+
+  /* Scrollbar: Clean, Mineral-tinted */
+  /* Standart özellikler: Firefox ince kaydırma çubuğunu destekler. */
+  .ozel-kaydirma {
+    scrollbar-width: thin;
+    scrollbar-color: var(--mineral-300) transparent;
+  }
+  .ozel-kaydirma::-webkit-scrollbar {
+    height: 4px;
+    width: 4px;
+  }
+  .ozel-kaydirma::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  .ozel-kaydirma::-webkit-scrollbar-thumb {
+    background-color: var(--mineral-300);
+    border-radius: 9999px;
+  }
+  .ozel-kaydirma::-webkit-scrollbar-thumb:hover {
+    background-color: var(--mineral-400);
+  }
+
+  /* Material Symbols: Standard icon font setup */
+  .msimge {
+    font-family: "Material Symbols Outlined";
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "liga";
+    font-variation-settings:
+      "FILL" 0,
+      "wght" 400,
+      "GRAD" 0,
+      "opsz" 24;
+    vertical-align: middle;
+    user-select: none;
+  }
+  .msimge-dolu {
+    font-variation-settings:
+      "FILL" 1,
+      "wght" 500,
+      "GRAD" 0,
+      "opsz" 24;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  img,
+  svg,
+  video {
+    max-width: 100%;
+  }
+
+  /* Lazy-load offscreen sections (performance) */
+  [data-below-fold] {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 720px;
+  }
+
+  /* Focus ring: Bedford + contrast mix */
+  :focus-visible {
+    outline: 3px solid var(--bedford-temel);
+    outline-offset: 3px;
+  }
+
+  /* Reduce Motion: Honor user preference */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* ─── MATERIAL LEVELS (Stitch 5-Level Hierarchy) ─── */
+
+  /* Level 1: Mineral (Dense Product UI) - Nearly opaque, subtle tonal separation */
+  .mineral-kart {
+    background-color: var(--mineral-50);
+    border: 1px solid var(--mineral-200);
+    box-shadow: 
+      0 1px 2px rgba(24, 58, 51, 0.08),
+      inset 0 1px 0.5px rgba(255, 255, 255, 0.4);
+    transition: all var(--motion-malzeme) var(--ease-malzeme);
+  }
+  .mineral-kart:hover {
+    background-color: var(--mineral-100);
+    border-color: var(--bedford-temel);
+    box-shadow: 
+      0 2px 8px rgba(24, 58, 51, 0.12),
+      inset 0 1px 0.5px rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+  }
+
+  /* Level 2: Glass/Cam (Job Cards, Floating Controls) - Translucent, premium appearance */
+  .camsi-kart {
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.7) 0%, 
+      rgba(209, 232, 228, 0.35) 100%);
+    border: 1px solid rgba(209, 232, 228, 0.5);
+    box-shadow: 
+      0 4px 16px rgba(24, 58, 51, 0.12),
+      inset 0 1px 1px rgba(255, 255, 255, 0.5),
+      inset 0 -1px 2px rgba(24, 58, 51, 0.06);
+    backdrop-filter: blur(8px);
+    transition: all var(--motion-malzeme) var(--ease-malzeme);
+  }
+  .camsi-kart:hover {
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.8) 0%, 
+      rgba(209, 232, 228, 0.45) 100%);
+    border-color: rgba(209, 232, 228, 0.65);
+    box-shadow: 
+      0 8px 24px rgba(24, 58, 51, 0.15),
+      inset 0 1px 1px rgba(255, 255, 255, 0.6);
+    transform: translateY(-3px);
+  }
+
+  /* Level 3: Crystal/Kristal (Featured Jobs, Premium Packages) - Premium crystalline appearance */
+  .kristal-kart {
+    background: conic-gradient(from 180deg at 40% 30%, 
+      rgba(35, 76, 68, 0.15) 0deg, 
+      rgba(209, 232, 228, 0.3) 90deg, 
+      rgba(255, 255, 255, 0.5) 180deg, 
+      rgba(189, 207, 201, 0.2) 270deg, 
+      rgba(35, 76, 68, 0.15) 360deg);
+    border: 2px solid var(--bedford-hafif);
+    box-shadow: 
+      0 6px 20px rgba(35, 76, 68, 0.18),
+      inset 0 1px 2px rgba(255, 255, 255, 0.6),
+      inset 0 -1px 3px rgba(35, 76, 68, 0.08);
+    transition: all var(--motion-malzeme) var(--ease-malzeme);
+    position: relative;
+  }
+  .kristal-kart::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.3) 0%, 
+      transparent 50%);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .kristal-kart:hover {
+    border-color: var(--bedford-mineral);
+    box-shadow: 
+      0 12px 32px rgba(35, 76, 68, 0.25),
+      inset 0 1px 2px rgba(255, 255, 255, 0.7);
+    transform: translateY(-4px);
+  }
+
+  /* ─── BUTTONS (Bedford Scarcity Principle) ─── */
+  
+  /* Base button styles */
+  .buton {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-xl
+           font-semibold transition-all duration-200 ease-out
+           focus:outline-none focus-visible:ring-2 
+           disabled:opacity-50 disabled:cursor-not-allowed;
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    color: white;
+  }
+
+  /* Primary: Bedford (SCARCE - use only for critical CTAs) */
+  .buton-ana {
+    @apply buton;
+    background-color: var(--bedford-temel);
+    box-shadow: 
+      0 2px 6px rgba(35, 76, 68, 0.2),
+      inset 0 1px 0.5px rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+  }
+  .buton-ana:hover {
+    background-color: var(--bedford-mineral);
+    box-shadow: 
+      0 4px 12px rgba(35, 76, 68, 0.3),
+      inset 0 1px 0.5px rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+  }
+  .buton-ana:active {
+    transform: translateY(0);
+    box-shadow: 
+      0 2px 4px rgba(35, 76, 68, 0.15),
+      inset 0 1px 0.5px rgba(255, 255, 255, 0.2);
+  }
+
+  /* Secondary: Mineral (Default, product UI) */
+  .buton-ikincil {
+    @apply buton;
+    background-color: var(--mineral-100);
+    color: var(--bedford-temel);
+    border: 1px solid var(--mineral-200);
+    font-weight: 600;
+  }
+  .buton-ikincil:hover {
+    background-color: var(--mineral-200);
+    border-color: var(--mineral-300);
+    transform: translateY(-1px);
+  }
+  .buton-ikincil:active {
+    background-color: var(--mineral-100);
+    transform: translateY(0);
+  }
+
+  /* Tertiary: Glass/Cam (Floating, premium affordance) */
+  .buton-tersiyer {
+    @apply buton;
+    background: rgba(255, 255, 255, 0.6);
+    color: var(--bedford-temel);
+    border: 1px solid rgba(209, 232, 228, 0.4);
+    backdrop-filter: blur(4px);
+    font-weight: 500;
+  }
+  .buton-tersiyer:hover {
+    background: rgba(255, 255, 255, 0.8);
+    border-color: rgba(209, 232, 228, 0.6);
+  }
+
+  /* Silinmis: geri al / sıfırla gibi düşük ağırlıklı yıkıcı eylemler.
+     Nötr bir görünüm korunur, yıkıcı ton yalnızca metin ve kenarlıkta. */
+  .buton-silinmis {
+    @apply buton;
+    background-color: transparent;
+    color: var(--hata);
+    border: 1px solid color-mix(in srgb, var(--hata) 30%, transparent);
+    font-weight: 600;
+  }
+  .buton-silinmis:hover:not(:disabled) {
+    background-color: var(--hata-kapsayici);
+    border-color: color-mix(in srgb, var(--hata) 45%, transparent);
+  }
+  .buton-silinmis:active:not(:disabled) {
+    background-color: color-mix(in srgb, var(--hata) 18%, transparent);
+  }
+
+  /* Text/Link: No affordance, typography only */
+  .buton-metinsel {
+    @apply inline-flex items-center gap-1 px-0.5 py-1;
+    color: var(--bedford-temel);
+    background: none;
+    border: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color var(--motion-mikro) var(--ease-mikro);
+  }
+  .buton-metinsel:hover {
+    color: var(--bedford-mineral);
+  }
+
+  /* Premium/Crystal: Rare, conic-gradient with Bedford accent */
+  .buton-kristal {
+    @apply buton;
+    background: conic-gradient(from 45deg at 60% 40%,
+      var(--bedford-temel) 0deg,
+      var(--buzlu-hava) 120deg,
+      var(--bedford-golge) 360deg);
+    color: white;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    box-shadow: 
+      0 8px 24px rgba(35, 76, 68, 0.3),
+      inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    position: relative;
+  }
+  .buton-kristal::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.4) 0%, 
+      transparent 50%);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .buton-kristal:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 12px 32px rgba(35, 76, 68, 0.4),
+      inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  }
+  .buton-kristal:active {
+    transform: translateY(0);
+  }
+
+  /* ─── BADGES (Rozetler) ─── */
+  
+  .rozet {
+    @apply inline-flex items-center gap-1 rounded-full;
+    padding: 0.125rem 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* Varyantlar taban .rozet'i MUTLAKA alır: tek başına kullanıldığında
+     padding/yuvarlaklık/hizalama kayboluyordu. Renkler yalnızca token
+     katmanından türetilir (color-mix); ham renk burada tanımlanmaz. */
+
+  .rozet-ana {
+    @apply rozet;
+    background-color: var(--bedford-temel);
+    color: var(--bedford-uzerine);
+    border: 1px solid var(--bedford-golge);
+  }
+
+  .rozet-ikincil {
+    @apply rozet;
+    background-color: var(--mineral-100);
+    color: var(--bedford-temel);
+    border: 1px solid var(--mineral-300);
+  }
+
+  .rozet-tersiyer {
+    @apply rozet;
+    background-color: var(--buzlu-kenar);
+    color: var(--bedford-temel);
+    border: 1px solid var(--buzlu-hava);
+  }
+
+  .rozet-basari {
+    @apply rozet;
+    background-color: var(--basari-kapsayici);
+    color: var(--basari);
+    border: 1px solid color-mix(in srgb, var(--basari) 30%, transparent);
+  }
+
+  .rozet-hata {
+    @apply rozet;
+    background-color: var(--hata-kapsayici);
+    color: var(--hata);
+    border: 1px solid color-mix(in srgb, var(--hata) 30%, transparent);
+  }
+
+  .rozet-bilgi {
+    @apply rozet;
+    background-color: var(--bilgi-kapsayici);
+    color: var(--bilgi);
+    border: 1px solid color-mix(in srgb, var(--bilgi) 30%, transparent);
+  }
+
+  .rozet-altin {
+    @apply rozet;
+    background-color: var(--uyari-kapsayici);
+    color: var(--uyari);
+    border: 1px solid color-mix(in srgb, var(--uyari) 40%, transparent);
+  }
+
+  /* Nötr metadata çipi (konut, önizleme, değişim vb.).
+     Büyük/küçük harf dönüşümü bilinçli olarak kapalı: bu rozetler
+     "Konut", "Önizleme" gibi cümle içi etiketlerdir. */
+  .rozet-ozel-mineral {
+    @apply rozet;
+    background-color: var(--mineral-100);
+    color: var(--bedford-mineral);
+    border: 1px solid var(--mineral-200);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-transform: none;
+  }
+
+  /* ─── FORM INPUTS ─── */
+  
+  .girdi {
+    @apply w-full rounded-lg px-3 py-2.5;
+    background-color: var(--mineral-100);
+    border: 1px solid var(--mineral-200);
+    color: var(--bedford-temel);
+    font-size: 0.875rem;
+    transition: border-color var(--motion-mikro) var(--ease-mikro),
+                box-shadow var(--motion-mikro) var(--ease-mikro);
+  }
+  .girdi::placeholder {
+    color: var(--mineral-500);
+  }
+  .girdi:focus {
+    outline: none;
+    border-color: var(--bedford-temel);
+    box-shadow: 0 0 0 2px rgba(35, 76, 68, 0.1);
+  }
+  .girdi:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  /* Cam (glass) yüzey varyantı.
+     Form.tsx `yuzeySeviyesi()` fonksiyonu `seviye="cam"` değerini
+     `"camsi"` sınıf adına çevirir; burada `.girdi.camsi` olarak uygulanır. */
+  .girdi.camsi {
+    background-color: color-mix(in srgb, var(--pearl-ana) 70%, transparent);
+    border-color: color-mix(in srgb, var(--bedford-hafif) 30%, transparent);
+    backdrop-filter: blur(8px);
+  }
+  .girdi.camsi:focus {
+    border-color: var(--bedford-hafif);
+    box-shadow: 0 0 0 2px var(--buzlu-kenar);
+  }
+
+  .etiket,
+  .girdiEtiket {
+    @apply block mb-1.5;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--bedford-temel);
+  }
+
+  .alanHatasi {
+    @apply block mt-1.5;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: #5a1e1e;
+  }
+
+  .yardimci-metin {
+    @apply mt-1;
+    font-size: 0.8125rem;
+    color: var(--mineral-500);
+  }
+
+  /* ─── PAGINATION (Sayfalama) ─── */
+  
+  .sayfalama-buton {
+    @apply inline-flex items-center justify-center w-9 h-9 rounded-lg;
+    background-color: var(--pearl-notr);
+    border: 1px solid var(--mineral-200);
+    color: var(--bedford-temel);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--motion-mikro) var(--ease-mikro);
+  }
+  .sayfalama-buton:hover {
+    background-color: var(--mineral-100);
+    border-color: var(--mineral-300);
+  }
+
+  .sayfalama-aktif {
+    @apply sayfalama-buton;
+    background-color: var(--bedford-temel);
+    color: white;
+    border-color: var(--bedford-temel);
+    font-weight: 700;
+  }
+
+  /* ─── FOCUS RING ─── */
+  .odak-halkasi {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+    @apply focus-visible:ring-[rgba(35,76,68,0.3)] focus-visible:ring-offset-pearl-alan;
+  }
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 560ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* CSS-only hero layer is the intentional GPU-safe fallback for unsupported WebGL. */
+.hero-motion-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  perspective: 900px;
+  contain: paint;
+}
+
+.hero-motion-orb,
+.hero-motion-plane {
+  position: absolute;
+  display: block;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.hero-motion-orb {
+  width: clamp(8rem, 16vw, 14rem);
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.68), rgba(64, 101, 92, 0.1) 42%, transparent 72%);
+  filter: blur(1px);
+  opacity: 0.55;
+}
+
+.hero-motion-orb-a {
+  top: 14%;
+  right: 14%;
+  animation: hero-orb-a 6s ease-in-out infinite;
+}
+
+.hero-motion-orb-b {
+  bottom: 8%;
+  left: 12%;
+  width: clamp(5rem, 10vw, 9rem);
+  opacity: 0.38;
+  animation: hero-orb-b 7s ease-in-out infinite;
+}
+
+.hero-motion-plane {
+  width: clamp(10rem, 24vw, 22rem);
+  height: clamp(6rem, 12vw, 10rem);
+  border: 1px solid rgba(24, 58, 51, 0.1);
+  border-radius: 2rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(64, 101, 92, 0.04));
+  box-shadow: 0 24px 70px rgba(24, 58, 51, 0.06);
+  opacity: 0.7;
+}
+
+.hero-motion-plane-a {
+  top: 22%;
+  left: 8%;
+  transform: rotate(-14deg) translate3d(0, 0, 0);
+  animation: hero-plane-a 5.5s ease-in-out infinite;
+}
+
+.hero-motion-plane-b {
+  right: 6%;
+  bottom: 12%;
+  transform: rotate(18deg) translate3d(0, 0, 0);
+  animation: hero-plane-b 6.5s ease-in-out infinite;
+}
+
+@keyframes hero-orb-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-18px, 14px, 0) scale(1.08); }
+}
+
+@keyframes hero-orb-b {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(20px, -18px, 0); }
+}
+
+@keyframes hero-plane-a {
+  0%, 100% { transform: rotate(-14deg) translate3d(0, 0, 0); }
+  50% { transform: rotate(-8deg) translate3d(18px, -12px, 0); }
+}
+
+@keyframes hero-plane-b {
+  0%, 100% { transform: rotate(18deg) translate3d(0, 0, 0); }
+  50% { transform: rotate(12deg) translate3d(-16px, 10px, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-motion-orb,
+  .hero-motion-plane {
+    animation: none !important;
+  }
+}

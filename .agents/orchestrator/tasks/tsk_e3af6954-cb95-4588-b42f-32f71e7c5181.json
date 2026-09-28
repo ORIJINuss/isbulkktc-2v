@@ -1,0 +1,70 @@
+{
+  "id": "tsk_e3af6954-cb95-4588-b42f-32f71e7c5181",
+  "title": "Demo ilan detayındaki doğrulanmamış metrikleri kaldırma",
+  "description": "Follow-up to REQ-JOB-LIVE-001. The live DB-backed job detail flow is safe from the legacy demo data, but DemoIlanDetay (app/[yerel]/ilan/[slug]/page.tsx) still displays seeded view/application counts, default ATS threshold, B3 verification, urgent badge, company B3 code/job-count generated with Math.random, and related B3 claims in demo JSON-LD. These are not backed by live data and can mislead applicants/employers. In the one assigned page file only, remove unsupported numeric/verification/urgency claims from visible demo UI and structured data, and remove nondeterministic Math.random output. Preserve demo slug rendering, descriptive listing content, live database detail branch, actual /api/basvurular submission and CV-upload flow, locale coverage (no new strings). Do not edit any other files, APIs, schema, dependencies or env; no commit.",
+  "acceptanceCriteria": "Demo detail page no longer renders fabricated view/application counts, ATS percentage/threshold, B3 verified claims, urgent status or randomized employer listing count in DOM or JSON-LD; live DB-backed detail branch and application/CV submission logic are unchanged; remaining demo content still renders; no other files/schema/dependency/env changes; npm run kalite, build and git diff --check pass; OpenCode leaves changes uncommitted.",
+  "createdAt": "2026-09-28T00:58:04.018Z",
+  "updatedAt": "2026-09-28T01:19:18.820Z",
+  "state": "REVIEWING",
+  "attempt": 1,
+  "maxAttempts": 3,
+  "retryableFailure": false,
+  "owner": "OPENCODE",
+  "risk": "HIGH",
+  "riskReasons": [
+    "High-impact signal: database",
+    "High-impact signal: \\bapi\\b"
+  ],
+  "requiresHumanApproval": false,
+  "files": [
+    "app/[yerel]/ilan/[slug]/page.tsx"
+  ],
+  "dependencies": [],
+  "currentAgent": "OPENCODE",
+  "lastError": null,
+  "evidenceIds": [
+    "ev_a8efe70f-712b-451f-ad89-0ca4c4e0938b",
+    "ev_10406153-a2e0-4de0-bbba-ad3df7116524",
+    "ev_be9fba52-6de9-463f-8140-aeebcafead19",
+    "ev_d7bd5a99-31bd-4e0f-bff2-2f31b25bd43e",
+    "ev_712680c0-beff-4036-afbd-b19fc7fb16a8",
+    "ev_daa56fa2-8efb-457f-a44d-c2734e058230",
+    "ev_c417c68a-14d1-4790-ba45-3bf43745389d",
+    "ev_17578fa8-91a2-44a4-a1d6-c214e08b26f0",
+    "ev_d0b1017a-d72a-4d2d-8d5b-6c9675669c9a",
+    "ev_c79264a3-d99e-48cf-9f75-f08624744d68",
+    "ev_f4959e58-f849-4b46-b794-3c384ee68b97",
+    "ev_e9914e08-8ec5-4dcd-866e-bda0fb71fb05",
+    "ev_a43f5263-32d8-4eb3-bd27-2bfaafa096f1",
+    "ev_9c99f044-54f4-4c27-8df0-4db65421f701",
+    "ev_6e881202-204f-41ba-9437-553b08158b62"
+  ],
+  "reviewIds": [],
+  "parentTaskId": "tsk_1e87af96-e866-425e-b42f-5c658a3b61e0",
+  "correlationId": "cor_7542aefe-03e0-4476-be2d-e10e88137396",
+  "idempotencyKey": "idem_cd7369a35a4502897c3a0eca19929213863be34efc79f7f1b8e21eb75604b3ea",
+  "opencode": {
+    "attempt": 2,
+    "sessionId": "ses_f1a7a9578ffeBF0OgD032S8llL",
+    "projectId": "97c743cd73393b6648837204171935e967f4ae90",
+    "providerId": "opencode",
+    "modelId": "space-bunny-free",
+    "worktree": "D:\\isbulkktc",
+    "agent": "build",
+    "readOnly": false,
+    "createdAt": "2026-09-28T00:58:41.165Z",
+    "promptMessageId": "msg_a1003acd-0726-4aad-957f-b130641a67d1",
+    "messageId": "msg_0e587cd11001bbKnAvmd2V9k7R"
+  },
+  "cline": {
+    "sessionId": null,
+    "reviewId": "rev_efa6052aa5602196be31568074cfb74d",
+    "correlationId": "cor_7542aefe-03e0-4476-be2d-e10e88137396",
+    "reviewIteration": 1,
+    "startedAt": "2026-09-28T01:09:16.470Z",
+    "status": "CLINE_TIMEOUT",
+    "readOnly": true,
+    "promptHash": "911750640fdb55241b7a8add4219dbffbf805434d6528ec072bf5583b344dc52"
+  },
+  "reviewIteration": 1
+}

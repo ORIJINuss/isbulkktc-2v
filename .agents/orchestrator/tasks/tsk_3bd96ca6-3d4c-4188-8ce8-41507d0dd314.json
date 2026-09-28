@@ -1,0 +1,46 @@
+{
+  "id": "tsk_3bd96ca6-3d4c-4188-8ce8-41507d0dd314",
+  "title": "Gerçek ilan arama ve detay akışını bağlama",
+  "description": "REQ-JOB-LIVE-001: Replace the `/ilan-ara` demo-only result source with validated public `job_posts` results and make database-backed job slugs open a real detail page while preserving current demo-slug behavior and the existing CV application flow. Use only evidenced columns from `job_posts` (`id`, `company_id`, `title`, `slug`, `summary`, `description`, `location`, `employment_type`, `remote_policy`, `salary_min`, `salary_max`, `currency`, `is_featured`, `published_at`, `expires_at`) and public company fields (`company_name`, `slug`, `logo_url`). Enforce active/published/not-expired visibility for search and details. Wire search and pagination to the real API; apply only filters with verified column semantics and do not silently pretend unsupported sector, permit, B3, urgent, lodging, ATS, or analytics filters work. Render only actual DB data; do not fabricate defaults or metrics. Add accessible loading/error/empty states and correct localized labels/messages in tr/en/ru/he. Keep the anon/RLS Supabase client and never use the service-role key. Preserve the existing CV upload-before-application and candidate-owned storage path validation in the assigned detail page. Do not add a database migration or new dependency. OpenCode is the sole writer and must leave changes uncommitted.",
+  "acceptanceCriteria": "Real DB-backed jobs render in /ilan-ara from GET /api/ilanlar; search/pagination and backed filters produce matching results, while unsupported filters are not shown as applied; malformed DB rows/API failures show explicit error rather than demo/empty success; active/published/expiry constraints hold on list and detail; DB slug renders its real job data and metadata without breaking demo slug pages or CV application; all new text exists in tr/en/ru/he; npm run kalite and npm run build pass; no dependency/migration/secret exposure; OpenCode does not commit.",
+  "createdAt": "2026-09-27T22:51:46.492Z",
+  "updatedAt": "2026-09-27T22:51:46.492Z",
+  "state": "CREATED",
+  "attempt": 1,
+  "maxAttempts": 3,
+  "retryableFailure": false,
+  "owner": "CHIEF",
+  "risk": "CRITICAL",
+  "riskReasons": [
+    "Critical signal: database migration"
+  ],
+  "requiresHumanApproval": true,
+  "files": [
+    "app/[yerel]/ilan-ara/page.tsx",
+    "app/api/ilanlar/route.ts",
+    "app/api/ilanlar/[slug]/route.ts",
+    "lib/depolar/ilan-arama-deposu.ts",
+    "app/[yerel]/ilan/[slug]/page.tsx",
+    "app/[yerel]/ilan/[slug]/layout.tsx",
+    "bilesenler/ilan/VeritabaniIlanKart.tsx",
+    "bilesenler/ilan/VeritabaniIlanDetayi.tsx",
+    "bilesenler/ilan/VeritabaniIlanBasvurusu.tsx",
+    "i18n/mesajlar/tr.json",
+    "i18n/mesajlar/en.json",
+    "i18n/mesajlar/ru.json",
+    "i18n/mesajlar/he.json"
+  ],
+  "dependencies": [],
+  "currentAgent": null,
+  "lastError": null,
+  "evidenceIds": [
+    "ev_6a5686f9-6c8a-4534-a9dd-9cd641869e92"
+  ],
+  "reviewIds": [],
+  "parentTaskId": null,
+  "correlationId": "cor_b753791c-f542-4f55-99de-acf31e9a2e35",
+  "idempotencyKey": "idem_4451afc17362fdea25352d9038a6d7f9d4e487cafc5faaa2a7ee7fd22aa5f54b",
+  "opencode": null,
+  "cline": null,
+  "reviewIteration": 0
+}

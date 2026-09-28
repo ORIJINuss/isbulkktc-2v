@@ -1,0 +1,19 @@
+{
+  "id": "ev_7be8e59a-de41-48a8-b573-44bfc8c8a1b1",
+  "taskId": "tsk_98745b29-f27b-498a-b516-3acc4b57a028",
+  "correlationId": "cor_06eec8c4-1862-4744-bed7-07ebafcc5bc6",
+  "type": "KALITE",
+  "command": "npm run kalite",
+  "exitCode": 0,
+  "startedAt": "2026-09-27T21:58:09.140Z",
+  "finishedAt": "2026-09-27T21:58:19.615Z",
+  "stdout": "\n> isbukktc-istanbul@1.0.0 kalite\n> npm run type-check && npm run lint\n\n\n> isbukktc-istanbul@1.0.0 type-check\n> tsc --noEmit\n\n\n> isbukktc-istanbul@1.0.0 lint\n> next lint --dir app --dir bilesenler --dir lib --dir i18n --dir tools --dir supabase --file middleware.ts --file tailwind.config.ts --file next.config.mjs --file postcss.config.mjs\n\n✔ No ESLint warnings or errors\n",
+  "stderr": "",
+  "filesChanged": [],
+  "gitStatus": " M .agents/orchestrator/state/state.json\n M .agents/orchestrator/tasks/tsk_bacf0c3b-2ba9-4578-9cf7-63f71c98a499.json\n M docs/AJAN-KOORDINASYON.md\n M tools/cline-adapter.mjs\n M tools/cline-adapter.test.mjs\n M tools/orchestrator.mjs\n?? .agents/orchestrator/evidence/ev_35850157-679b-472a-8b06-c05fcd756a43.json\n?? .agents/orchestrator/evidence/ev_875f5d74-21f2-4a41-bf70-d4d43335a829.json\n?? .agents/orchestrator/evidence/ev_9aa8fa5d-6456-451c-8cc8-77e1bd7c2bad.json\n?? .agents/orchestrator/evidence/ev_a5c0b380-848a-47da-8e82-c3ca4c492db2.json\n?? .agents/orchestrator/evidence/ev_adc62c1d-e3e2-4708-87e0-9c425433f6e3.json\n?? .agents/orchestrator/evidence/ev_b7f87aaa-85ef-4f80-b9c3-41013881c154.json\n?? .agents/orchestrator/evidence/ev_cf58f253-9d26-4fab-a196-3f5cbec5905c.json\n?? .agents/orchestrator/evidence/ev_ead13fea-e8be-41d4-9eab-911602d4d181.json\n?? .agents/orchestrator/evidence/ev_eef86ed1-60fc-435b-a1ed-e091e4895e37.json\n?? .agents/orchestrator/evidence/ev_f14513ac-268e-4fca-b804-588d568aad93.json\n?? .agents/orchestrator/locks/.mutation.lock\n?? .agents/orchestrator/tasks/tsk_98745b29-f27b-498a-b516-3acc4b57a028.json\n",
+  "hash": "e5a6e324a1782ae7cfe8f3fc6e5701c8f8c0bb933910ae65e3fd915b85a3cf9d",
+  "source": "quality-gate",
+  "status": "KALITE_PASS",
+  "durationMs": 10474,
+  "workingDirectory": "D:\\isbulkktc"
+}

@@ -1,0 +1,179 @@
+{
+  "version": 1,
+  "enabled": true,
+  "maxAttempts": 3,
+  "timeouts": {
+    "defaultMs": 300000,
+    "agentMs": 900000,
+    "reviewMs": 600000,
+    "qualityGateMs": 600000
+  },
+  "opencode": {
+    "enabled": true,
+    "baseUrl": "http://127.0.0.1:4096",
+    "projectId": "97c743cd73393b6648837204171935e967f4ae90",
+    "worktree": "D:\\isbulkktc",
+    "providerId": "opencode",
+    "modelId": "longcat-2.5-preview-free",
+    "fallbackModelIds": ["space-bunny-free"],
+    "agent": "build",
+    "readOnlyAgent": "plan",
+    "timeouts": {
+      "connectMs": 8000,
+      "dispatchMs": 30000,
+      "resultMs": 600000,
+      "pollMs": 1000,
+      "maxPollMs": 8000
+    },
+    "retry": {
+      "maxAttempts": 3,
+      "backoffMs": 1000,
+      "maxBackoffMs": 8000
+    }
+  },
+  "cline": {
+    "enabled": true,
+    "extensionId": "saoudrizwan.claude-dev",
+    "version": "4.1.21",
+    "cliCommand": "code",
+    "timeouts": {
+      "dispatchMs": 15000,
+      "resultMs": 600000,
+      "pollMs": 1000
+    },
+    "maxReviewIterations": 3,
+    "permissions": {
+      "read": true,
+      "write": false,
+      "execute": false,
+      "commit": false,
+      "push": false,
+      "network": false
+    }
+  },
+  "agents": {
+    "CHIEF": {
+      "capabilities": ["plan", "risk", "dispatch", "judge", "commit", "push"],
+      "permissions": {
+        "orchestration": true,
+        "commit": true,
+        "push": true,
+        "write": true,
+        "execute": true,
+        "review": true
+      }
+    },
+    "OPENCODE": {
+      "capabilities": ["implement", "fix", "inspect"],
+      "permissions": {
+        "implementation": true,
+        "review": false,
+        "commit": false,
+        "push": false,
+        "write": true,
+        "execute": true
+      }
+    },
+    "CLINE": {
+      "capabilities": ["review", "inspect"],
+      "permissions": {
+        "write": false,
+        "execute": false,
+        "review": true,
+        "commit": false,
+        "push": false
+      }
+    }
+  },
+  "states": {
+    "lifecycle": [
+      "CREATED",
+      "PLANNED",
+      "RISK_ASSESSED",
+      "READY",
+      "DISPATCHING",
+      "IMPLEMENTING",
+      "QUALITY_GATE",
+      "REVIEWING",
+      "JUDGING",
+      "PASSED",
+      "COMPLETED",
+      "FIX_REQUIRED",
+      "CIRCUIT_OPEN",
+      "RECOVERABLE",
+      "FAILED"
+    ],
+    "transitions": {
+      "CREATED": ["PLANNED"],
+      "PLANNED": ["RISK_ASSESSED"],
+      "RISK_ASSESSED": ["READY"],
+      "READY": ["DISPATCHING", "FIX_REQUIRED"],
+      "DISPATCHING": ["IMPLEMENTING", "FIX_REQUIRED", "RECOVERABLE"],
+      "IMPLEMENTING": ["QUALITY_GATE", "FIX_REQUIRED", "RECOVERABLE"],
+      "QUALITY_GATE": ["REVIEWING", "FIX_REQUIRED", "RECOVERABLE"],
+      "REVIEWING": ["JUDGING", "FIX_REQUIRED", "RECOVERABLE", "FAILED"],
+      "JUDGING": ["PASSED", "FIX_REQUIRED", "RECOVERABLE", "FAILED"],
+      "PASSED": ["COMPLETED"],
+      "FIX_REQUIRED": ["DISPATCHING", "CIRCUIT_OPEN"],
+      "RECOVERABLE": ["REVIEWING", "FAILED"],
+      "CIRCUIT_OPEN": [],
+      "FAILED": [],
+      "COMPLETED": []
+    }
+  },
+  "risk": {
+    "levels": ["LOW", "MEDIUM", "HIGH", "CRITICAL"],
+    "criticalPatterns": [
+      "\\.env(?:\\.|$)",
+      "production secret",
+      "private key",
+      "force[ -]push",
+      "git reset",
+      "git clean",
+      "destructive",
+      "database migration",
+      "supabase/migrations",
+      "production infrastructure",
+      "mass file"
+    ],
+    "highPatterns": [
+      "authentication",
+      "\\bauth\\b",
+      "database",
+      "\\bapi\\b",
+      "deployment",
+      "dependency",
+      "package\\.json",
+      "package-lock",
+      "infrastructure"
+    ],
+    "mediumPatterns": [
+      "component",
+      "styling",
+      "style",
+      "frontend",
+      "\\.(?:tsx|jsx|css)$"
+    ],
+    "lowPatterns": [
+      "^docs/",
+      "documentation",
+      "read.only",
+      "\\.(?:test|spec)\\.[cm]?[jt]sx?$"
+    ]
+  },
+  "security": {
+    "redactSecrets": true,
+    "allowForcePush": false,
+    "allowDestructiveGit": false
+  },
+  "git": {
+    "chiefOnlyCommit": true,
+    "chiefOnlyPush": true,
+    "allowedReadOnlyCommands": ["status", "diff", "rev-parse", "show"]
+  },
+  "locks": {
+    "mutationTtlMs": 1800000,
+    "defaultTtlMs": 1800000,
+    "maxTtlMs": 86400000
+  }
+}

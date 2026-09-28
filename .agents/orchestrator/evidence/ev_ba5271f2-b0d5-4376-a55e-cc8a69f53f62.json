@@ -1,0 +1,19 @@
+{
+  "id": "ev_ba5271f2-b0d5-4376-a55e-cc8a69f53f62",
+  "taskId": "tsk_d3c5f2d8-7b84-4c3f-9d16-eee6cfaab782",
+  "correlationId": "cor_6430b027-1b70-486d-ace4-6ab21fb1075d",
+  "type": "KALITE",
+  "command": "npm run kalite",
+  "exitCode": 0,
+  "startedAt": "2026-09-27T19:15:56.376Z",
+  "finishedAt": "2026-09-27T19:16:04.698Z",
+  "stdout": "\n> isbukktc-istanbul@1.0.0 kalite\n> npm run type-check && npm run lint\n\n\n> isbukktc-istanbul@1.0.0 type-check\n> tsc --noEmit\n\n\n> isbukktc-istanbul@1.0.0 lint\n> next lint --dir app --dir bilesenler --dir lib --dir i18n --dir tools --dir supabase --file middleware.ts --file tailwind.config.ts --file next.config.mjs --file postcss.config.mjs\n\n✔ No ESLint warnings or errors\n",
+  "stderr": "",
+  "filesChanged": [],
+  "gitStatus": " M .ajan-sahiplik.json\n?? .agents/\n?? tools/opencode-adapter.mjs\n?? tools/opencode-adapter.test.mjs\n?? tools/orchestrator.mjs\n",
+  "hash": "2b5cf5b819c3f8f4ac9bff2abb584468b3a2a1362d266deb487a625436ee06e6",
+  "source": "quality-gate",
+  "status": "KALITE_PASS",
+  "durationMs": 8321,
+  "workingDirectory": "D:\\isbulkktc"
+}

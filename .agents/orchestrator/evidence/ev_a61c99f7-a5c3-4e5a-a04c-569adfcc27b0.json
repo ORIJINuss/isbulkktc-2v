@@ -1,0 +1,16 @@
+{
+  "id": "ev_a61c99f7-a5c3-4e5a-a04c-569adfcc27b0",
+  "taskId": "tsk_cb9f4d76-332c-4403-a401-1746c49105ed",
+  "correlationId": "cor_6d3e184c-2cb2-4395-8402-b7cb820f3f76",
+  "type": "COMMAND",
+  "command": "OpenCode dispatch start",
+  "exitCode": 0,
+  "startedAt": "2026-09-28T01:21:39.466Z",
+  "finishedAt": "2026-09-28T01:21:39.466Z",
+  "stdout": "Updated tsk_cb9f4d76-332c-4403-a401-1746c49105ed: READY -> DISPATCHING",
+  "stderr": "",
+  "filesChanged": [],
+  "gitStatus": " M .agents/orchestrator/state/state.json\n M .agents/orchestrator/tasks/tsk_e3af6954-cb95-4588-b42f-32f71e7c5181.json\n M docs/AJAN-KOORDINASYON.md\n?? .agents/orchestrator/evidence/ev_0fe86876-38eb-441a-adc6-2aafad880388.json\n?? .agents/orchestrator/evidence/ev_18f310a2-a8e7-458a-9e10-e154e8db4a47.json\n?? .agents/orchestrator/evidence/ev_48bc9f8b-6881-42e8-a3fa-5f6fe743eafc.json\n?? .agents/orchestrator/evidence/ev_6e881202-204f-41ba-9437-553b08158b62.json\n?? .agents/orchestrator/evidence/ev_9c99f044-54f4-4c27-8df0-4db65421f701.json\n?? .agents/orchestrator/evidence/ev_a0892d5d-aecf-4a4c-a6fa-2e5fea8ca1f5.json\n?? .agents/orchestrator/evidence/ev_a43f5263-32d8-4eb3-bd27-2bfaafa096f1.json\n?? .agents/orchestrator/locks/.mutation.lock\n?? .agents/orchestrator/locks/file_94383c49dddee61a583be6a7fb54203181895e517134bbbb1b4bc192eed00fe0.json\n?? .agents/orchestrator/locks/task_tsk_cb9f4d76-332c-4403-a401-1746c49105ed.json\n?? .agents/orchestrator/tasks/tsk_cb9f4d76-332c-4403-a401-1746c49105ed.json\n",
+  "hash": "6ce9998efc9cba7a9fc345f0cf812fc41a17e3e17601b52b01c8dc4c04797f4b",
+  "source": "ORCHESTRATOR"
+}

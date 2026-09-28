@@ -1,0 +1,16 @@
+{
+  "id": "ev_44300600-9141-4f0e-ae0b-ee08da061db0",
+  "taskId": "tsk_5a97a27d-a681-4416-955e-dcc133bc04db",
+  "correlationId": "cor_7bc0cb0d-ac04-4046-9231-b4e3e0e5bd56",
+  "type": "COMMAND",
+  "command": "node tools/orchestrator.mjs task-transition --id tsk_5a97a27d-a681-4416-955e-dcc133bc04db --to PLANNED",
+  "exitCode": 0,
+  "startedAt": "2026-09-28T10:20:43.095Z",
+  "finishedAt": "2026-09-28T10:20:43.095Z",
+  "stdout": "Updated tsk_5a97a27d-a681-4416-955e-dcc133bc04db: CREATED -> PLANNED",
+  "stderr": "",
+  "filesChanged": [],
+  "gitStatus": " M .agents/orchestrator/state/state.json\n M .agents/orchestrator/tasks/tsk_df2ecde9-ac89-4d3e-a73c-8e08557fb8a2.json\n M docs/AJAN-KOORDINASYON.md\n?? .agents/orchestrator/evidence/ev_33e36fce-003c-45ba-b1a3-a5b7d08231e3.json\n?? .agents/orchestrator/evidence/ev_55f0ef78-cd8a-4dde-89a4-bd9448fae264.json\n?? .agents/orchestrator/evidence/ev_97433f59-e8cc-4e7f-b814-e7432afbd80f.json\n?? .agents/orchestrator/evidence/ev_afa97cde-4f0c-4208-ab62-112001514b40.json\n?? .agents/orchestrator/evidence/ev_dad0c26b-85e8-4615-80f5-d54f3644c210.json\n?? .agents/orchestrator/locks/.mutation.lock\n?? .agents/orchestrator/tasks/tsk_5a97a27d-a681-4416-955e-dcc133bc04db.json\n",
+  "hash": "dd9f94ea24e0d176669ad248bc55834440de78724d1bdbd7e5781d3dd2401c10",
+  "source": "ORCHESTRATOR"
+}

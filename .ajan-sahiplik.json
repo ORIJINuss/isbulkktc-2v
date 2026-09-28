@@ -1,0 +1,57 @@
+{
+  "aciklama": "İşBulKKTC — Ajan rol ve dosya sahipliği haritası. Yazmadan önce tools/cakisma-kontrol.mjs --agent <copilot|opencode|cline> <dosyalar...> ile denetle.",
+  "surum": "2.0.0",
+  "guncelleme": "2026-09-27",
+  "beklemeDakika": 2,
+  "kuralOzeti": "Copilot koordine eder; OpenCode tek implementerdir; Cline salt okunur review yapar. Her iş panoda tek sahip ve izinli dosyalarla kaydedilir.",
+  "ortakAlanlar": [],
+  "ortakNot": "Yeni görevde dosya kesişmesi varsa paralel yazma; görev panosunda tek sahip ata. Haritada olmayan yol sahipsizdir ve Chief ataması olmadan düzenlenmez.",
+  "sahiplik": {
+    "Copilot / VS Code Agent (Chief)": [
+      "AGENTS.md",
+      ".ajan-sahiplik.json",
+      ".agents/orchestrator/**",
+      "docs/**",
+      "tools/**",
+      ".githooks/**",
+      ".github/**",
+      ".clinerules/**",
+      ".gitignore",
+      ".gitattributes",
+      ".vscode/**",
+      ".trae/**"
+    ],
+    "OpenCode (Implementer)": [
+      "app/**",
+      "bilesenler/**",
+      "lib/**",
+      "i18n/**",
+      "supabase/**",
+      "public/**",
+      "middleware.ts",
+      "next.config.mjs",
+      "tailwind.config.ts",
+      "postcss.config.mjs",
+      "tsconfig.json",
+      ".eslintrc.json",
+      "package.json",
+      "package-lock.json",
+      ".env.example",
+      "Dockerfile",
+      "docker-compose.yml",
+      ".dockerignore"
+    ]
+  },
+  "yazmayanAjanlar": {
+    "Cline (Reviewer)": "Salt okunur inceleme yapar; kaynak dosyaları değiştirmez. Bulguları Chief'e devreder."
+  },
+  "sadeceOkurDosyalar": [
+    ".env.local",
+    ".env.production",
+    "*.log"
+  ],
+  "commitKapisi": {
+    "aciklama": "Pre-commit type-check ve lint'i zorunlu tutar; sahiplik denetimi bilinmeyen/salt-okunur dosyalar için uyarı verir. Dosya yazma kuralları görev panosu ve --agent denetimiyle uygulanır.",
+    "uyariModu": true
+  }
+}

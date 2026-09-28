@@ -1,0 +1,16 @@
+{
+  "id": "ev_c2994172-87ad-4606-abc0-fbde988fa480",
+  "taskId": "tsk_5a97a27d-a681-4416-955e-dcc133bc04db",
+  "correlationId": "cor_7bc0cb0d-ac04-4046-9231-b4e3e0e5bd56",
+  "type": "COMMAND",
+  "command": "node tools/orchestrator.mjs cline-review --id tsk_5a97a27d-a681-4416-955e-dcc133bc04db",
+  "exitCode": 0,
+  "startedAt": "2026-09-28T10:24:48.303Z",
+  "finishedAt": "2026-09-28T10:24:48.303Z",
+  "stdout": "Updated tsk_5a97a27d-a681-4416-955e-dcc133bc04db: REVIEWING -> REVIEWING",
+  "stderr": "",
+  "filesChanged": [],
+  "gitStatus": " M .agents/orchestrator/state/state.json\n M .agents/orchestrator/tasks/tsk_df2ecde9-ac89-4d3e-a73c-8e08557fb8a2.json\n M app/[yerel]/ilan/[slug]/page.tsx\n M docs/AJAN-KOORDINASYON.md\n?? .agents/orchestrator/evidence/ev_01d72e9a-d5f5-4d45-acb4-f8ffa956c968.json\n?? .agents/orchestrator/evidence/ev_2c0f073d-d068-463a-949b-7b43a3c237d0.json\n?? .agents/orchestrator/evidence/ev_33e36fce-003c-45ba-b1a3-a5b7d08231e3.json\n?? .agents/orchestrator/evidence/ev_44300600-9141-4f0e-ae0b-ee08da061db0.json\n?? .agents/orchestrator/evidence/ev_55f0ef78-cd8a-4dde-89a4-bd9448fae264.json\n?? .agents/orchestrator/evidence/ev_5c625dbb-04d4-4e57-babb-d01853fc62d3.json\n?? .agents/orchestrator/evidence/ev_632845aa-30b9-43b6-9619-13f24d6e298c.json\n?? .agents/orchestrator/evidence/ev_7eace17f-eebc-4c7b-bb5c-3dcd791d87bc.json\n?? .agents/orchestrator/evidence/ev_91c46075-62e3-4c5b-80de-87b17e2a6f96.json\n?? .agents/orchestrator/evidence/ev_97433f59-e8cc-4e7f-b814-e7432afbd80f.json\n?? .agents/orchestrator/evidence/ev_9f966592-d62d-4eb8-989c-c7804dfb20e0.json\n?? .agents/orchestrator/evidence/ev_ac8565dd-e669-488e-9bb9-7cde8de741be.json\n?? .agents/orchestrator/evidence/ev_afa97cde-4f0c-4208-ab62-112001514b40.json\n?? .agents/orchestrator/evidence/ev_bc71e514-7d1b-4f70-ad64-0954b787353b.json\n?? .agents/orchestrator/evidence/ev_bec53664-fa57-4a20-ab65-2a140b7b9430.json\n?? .agents/orchestrator/evidence/ev_dad0c26b-85e8-4615-80f5-d54f3644c210.json\n?? .agents/orchestrator/evidence/ev_ddebc975-f1fc-4e52-8312-2a2352247c7d.json\n?? .agents/orchestrator/locks/.mutation.lock\n?? .agents/orchestrator/tasks/tsk_5a97a27d-a681-4416-955e-dcc133bc04db.json\n",
+  "hash": "f716431e2a7a687156f2c4e78e097e7c6dcd20d48c5f12bc37b701f1989daf5b",
+  "source": "ORCHESTRATOR"
+}

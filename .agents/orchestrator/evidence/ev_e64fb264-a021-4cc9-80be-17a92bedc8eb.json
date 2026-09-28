@@ -1,0 +1,16 @@
+{
+  "id": "ev_e64fb264-a021-4cc9-80be-17a92bedc8eb",
+  "taskId": "tsk_cb9f4d76-332c-4403-a401-1746c49105ed",
+  "correlationId": "cor_6d3e184c-2cb2-4395-8402-b7cb820f3f76",
+  "type": "COMMAND",
+  "command": "node tools/orchestrator.mjs cline-review --id tsk_cb9f4d76-332c-4403-a401-1746c49105ed",
+  "exitCode": 0,
+  "startedAt": "2026-09-28T01:31:15.561Z",
+  "finishedAt": "2026-09-28T01:31:15.561Z",
+  "stdout": "Updated tsk_cb9f4d76-332c-4403-a401-1746c49105ed: REVIEWING -> REVIEWING",
+  "stderr": "",
+  "filesChanged": [],
+  "gitStatus": " M .agents/orchestrator/state/state.json\n M .agents/orchestrator/tasks/tsk_e3af6954-cb95-4588-b42f-32f71e7c5181.json\n M \"bilesenler/ilan/IlanKart\\304\\261.tsx\"\n M docs/AJAN-KOORDINASYON.md\n?? .agents/orchestrator/evidence/ev_0fe86876-38eb-441a-adc6-2aafad880388.json\n?? .agents/orchestrator/evidence/ev_151609e9-4c9f-467d-b44a-31acb35bb6c6.json\n?? .agents/orchestrator/evidence/ev_18f310a2-a8e7-458a-9e10-e154e8db4a47.json\n?? .agents/orchestrator/evidence/ev_48bc9f8b-6881-42e8-a3fa-5f6fe743eafc.json\n?? .agents/orchestrator/evidence/ev_4a24f641-84f2-4679-aa49-17663f5e9d67.json\n?? .agents/orchestrator/evidence/ev_6e881202-204f-41ba-9437-553b08158b62.json\n?? .agents/orchestrator/evidence/ev_836d39d7-6709-4748-b75b-c09f1ffafbda.json\n?? .agents/orchestrator/evidence/ev_9c99f044-54f4-4c27-8df0-4db65421f701.json\n?? .agents/orchestrator/evidence/ev_a0892d5d-aecf-4a4c-a6fa-2e5fea8ca1f5.json\n?? .agents/orchestrator/evidence/ev_a43f5263-32d8-4eb3-bd27-2bfaafa096f1.json\n?? .agents/orchestrator/evidence/ev_a4820046-babb-476d-bc5b-89d71853babb.json\n?? .agents/orchestrator/evidence/ev_a61c99f7-a5c3-4e5a-a04c-569adfcc27b0.json\n?? .agents/orchestrator/evidence/ev_af1649d9-ec1e-4b49-af24-73d9531a0799.json\n?? .agents/orchestrator/evidence/ev_c2425b1a-7e3a-44c3-9090-fde387f62d17.json\n?? .agents/orchestrator/evidence/ev_f57fed59-b190-4c85-8e04-46983e257c57.json\n?? .agents/orchestrator/evidence/ev_fec98d33-1505-4869-acf1-97028b5ab44e.json\n?? .agents/orchestrator/locks/.mutation.lock\n?? .agents/orchestrator/tasks/tsk_cb9f4d76-332c-4403-a401-1746c49105ed.json\n",
+  "hash": "6f6846a310fd58bfbd2d7309fcac253865c61b1292eb81062e7b43d4298f251b",
+  "source": "ORCHESTRATOR"
+}

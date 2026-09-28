@@ -1,0 +1,39 @@
+{
+  "id": "tsk_4333e727-0569-4894-86af-3f883dc1a6c4",
+  "title": "Persist applicant CV uploads and reject foreign CV paths",
+  "description": "REQ-APPLY-CV-001: Fix candidate application submission so a selected PDF/DOCX is uploaded through the existing authenticated private CV endpoint and the returned storage_path is submitted instead of the browser filename. On the server, accept cv_url only when that path belongs to a cv_documents row owned by the authenticated candidate; preserve optional CV behavior, existing candidate role checks, Turnstile and application uniqueness behavior. Keep employer CV download authorization [REDACTED] of scope; no new RLS policy or database migration. Update the four locale CV size labels from 4 MB to the actual existing upload limit (10 MB). OpenCode is the sole implementation writer; Chief validates; Cline is read-only reviewer.",
+  "acceptanceCriteria": "Selected CV is uploaded to /api/aday/cv before application POST; the submitted cvDosyaYolu is the server-returned storage_path, never the File.name; unauthenticated or failed upload does not create an application; server rejects unregistered/foreign candidate CV paths and accepts registered paths belonging to the current candidate; no-CV submission retains existing optional behavior; only PDF/DOCX files up to 10 MB are represented in all four locale labels; no new dependencies or schema migrations; type-check and lint pass; Cline review only after complete validation; no commit by OpenCode.",
+  "createdAt": "2026-09-27T22:17:11.167Z",
+  "updatedAt": "2026-09-27T22:17:11.167Z",
+  "state": "CREATED",
+  "attempt": 1,
+  "maxAttempts": 3,
+  "retryableFailure": false,
+  "owner": "CHIEF",
+  "risk": "CRITICAL",
+  "riskReasons": [
+    "Critical signal: database migration"
+  ],
+  "requiresHumanApproval": true,
+  "files": [
+    "app/[yerel]/ilan/[slug]/page.tsx",
+    "app/api/basvurular/route.ts",
+    "i18n/mesajlar/tr.json",
+    "i18n/mesajlar/en.json",
+    "i18n/mesajlar/ru.json",
+    "i18n/mesajlar/he.json"
+  ],
+  "dependencies": [],
+  "currentAgent": null,
+  "lastError": null,
+  "evidenceIds": [
+    "ev_32b752fb-36b8-4050-9f14-a455c60a809d"
+  ],
+  "reviewIds": [],
+  "parentTaskId": null,
+  "correlationId": "cor_6e91b8c2-ed94-4a5a-99c2-e7c1a673d4b1",
+  "idempotencyKey": "idem_3ff2740d3c162c2c29e26c7ae9c63e2921262392cc46829af2c8b43bbd86a5f0",
+  "opencode": null,
+  "cline": null,
+  "reviewIteration": 0
+}

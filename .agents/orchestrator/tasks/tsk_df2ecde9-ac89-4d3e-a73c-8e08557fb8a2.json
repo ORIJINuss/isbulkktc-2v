@@ -1,0 +1,60 @@
+{
+  "id": "tsk_df2ecde9-ac89-4d3e-a73c-8e08557fb8a2",
+  "title": "Demo ilan detayındaki kaynaksız çalışma koşullarını kaldırma",
+  "description": "The demo detail page applies the same unsupported schedule and employer benefits to every seeded listing: 09:00-18:00 hours, two office days, Apple/4K equipment, and 22 days of paid leave. The seed data instead carries per-listing work-model descriptions (for example one hybrid day for the first listing) and a separate dynamic yanHaklar field. In the single assigned page file, remove the fabricated universal schedule/equipment/leave claims and present only existing listing-backed work arrangement and benefits where appropriate; do not invent replacements or alter database-backed rendering/application flow.",
+  "acceptanceCriteria": "No universal hardcoded 09:00-18:00, two-office-days, Apple/4K device, or 22-day leave claim remains in demo detail; any replacement work arrangement uses existing per-listing listing data only; dynamic ilan.yanHaklar remains intact; unrelated demo content, database detail branch, CV upload and application submission remain unchanged; only the assigned page file changes; npm run kalite, npm run build and git diff --check pass; OpenCode does not commit.",
+  "createdAt": "2026-09-28T02:29:46.126Z",
+  "updatedAt": "2026-09-28T10:19:19.938Z",
+  "state": "QUALITY_GATE",
+  "attempt": 2,
+  "maxAttempts": 3,
+  "retryableFailure": false,
+  "owner": "OPENCODE",
+  "risk": "HIGH",
+  "riskReasons": [
+    "High-impact signal: database"
+  ],
+  "requiresHumanApproval": false,
+  "files": [
+    "app/[yerel]/ilan/[slug]/page.tsx"
+  ],
+  "dependencies": [],
+  "currentAgent": "OPENCODE",
+  "lastError": "Chief scope review found the handoff incorrectly appends ekMeta.izinTipiAciklama (permit category) to the work-schedule card. Remove only that item. Keep listing-backed schedule fields; do not modify other files. This is a correctable scope mismatch; retryable=true.",
+  "evidenceIds": [
+    "ev_114ea9fc-bd83-4b66-bf37-44e6d6f8c475",
+    "ev_3e46f291-0c6b-46d1-9df0-67e426518136",
+    "ev_5c1582d5-1a4e-46c1-b461-c12b7a1891bd",
+    "ev_ed93522e-7789-4de9-a01e-8f22e4948112",
+    "ev_f05f4d2a-891d-47a2-9988-40b6db2aa01e",
+    "ev_7e93240d-4060-40fd-ac18-46dbeef2d7a0",
+    "ev_c0bbfc8d-76d1-49cf-956b-ca65d6f1e61d",
+    "ev_407f0895-a493-4352-86ba-947686b7ad98",
+    "ev_7a684023-b047-44c5-9f2f-b24ba6f8f66b",
+    "ev_f5e9decb-9d93-4da5-8b91-d965e0d6ebca",
+    "ev_d13b7225-1859-4ade-8fce-78fa70f9949c",
+    "ev_33e36fce-003c-45ba-b1a3-a5b7d08231e3",
+    "ev_55f0ef78-cd8a-4dde-89a4-bd9448fae264",
+    "ev_dad0c26b-85e8-4615-80f5-d54f3644c210",
+    "ev_afa97cde-4f0c-4208-ab62-112001514b40"
+  ],
+  "reviewIds": [],
+  "parentTaskId": "tsk_9fb0c4d3-c3a4-421c-8044-8918bb213c22",
+  "correlationId": "cor_0e364c20-e341-4e52-8b1d-d619b4e44f7c",
+  "idempotencyKey": "idem_043408f8e9b8866d2960a1e3365df7b564da31e8a3a21610d9159464da8862e1",
+  "opencode": {
+    "attempt": 2,
+    "sessionId": "ses_f1a26c400ffekcjl1tAncXEn8K",
+    "projectId": "97c743cd73393b6648837204171935e967f4ae90",
+    "providerId": "opencode",
+    "modelId": "space-bunny-free",
+    "worktree": "D:\\isbulkktc",
+    "agent": "build",
+    "readOnly": false,
+    "createdAt": "2026-09-28T02:30:14.274Z",
+    "promptMessageId": "msg_17551251-7c50-483c-88d2-60c85fa4a644",
+    "messageId": "msg_0e5db82c7001n0abuXQ3UzDwMM"
+  },
+  "cline": null,
+  "reviewIteration": 0
+}

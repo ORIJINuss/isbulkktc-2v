@@ -1,0 +1,16 @@
+{
+  "id": "ev_0feffce3-2297-467f-9a33-10f391a8b606",
+  "taskId": "tsk_d3c5f2d8-7b84-4c3f-9d16-eee6cfaab782",
+  "correlationId": "cor_6430b027-1b70-486d-ace4-6ab21fb1075d",
+  "type": "COMMAND",
+  "command": "OpenCode dispatch failure",
+  "exitCode": 0,
+  "startedAt": "2026-09-27T19:07:49.856Z",
+  "finishedAt": "2026-09-27T19:07:49.856Z",
+  "stdout": "Updated tsk_d3c5f2d8-7b84-4c3f-9d16-eee6cfaab782: IMPLEMENTING -> FIX_REQUIRED",
+  "stderr": "",
+  "filesChanged": [],
+  "gitStatus": " M .ajan-sahiplik.json\n?? .agents/\n?? tools/opencode-adapter.mjs\n?? tools/opencode-adapter.test.mjs\n?? tools/orchestrator.mjs\n",
+  "hash": "8e5f651853c86eb7661ec6867c5b55226a53ac05df620b25d77974d94354ae76",
+  "source": "ORCHESTRATOR"
+}

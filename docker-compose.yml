@@ -1,0 +1,55 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: isbukktc:latest
+    container_name: isbukktc-dev
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+      NEXT_PUBLIC_UYGULAMA_ADI: İşBulKKTC
+      NEXT_PUBLIC_ANA_DOMAIN: http://localhost:3000
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    env_file:
+      - .env.local
+    develop:
+      watch:
+        - path: ./app
+          action: sync
+          target: /app/app
+        - path: ./bilesenler
+          action: sync
+          target: /app/bilesenler
+        - path: ./lib
+          action: sync
+          target: /app/lib
+        - path: ./i18n
+          action: sync
+          target: /app/i18n
+        - path: ./middleware.ts
+          action: rebuild
+        - path: ./next.config.mjs
+          action: rebuild
+        - path: ./package.json
+          action: rebuild
+    command: npm run dev
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 15s
+    networks:
+      - isbukktc-network
+
+networks:
+  isbukktc-network:
+    driver: bridge

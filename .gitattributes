@@ -1,0 +1,55 @@
+# ===============================================================
+#  Satır sonu ve dosya tipi normalizasyonu
+#  Amaç: Windows/Linux ajanları arasında "hayalet diff" oluşmasını
+#  engellemek. .gitignore ile birlikte çakışma önleme katmanıdır.
+#  Sahip: 🅒 Entegrasyon & Doğrulama
+# ===============================================================
+
+# Varsayılan: Git metin dosyalarını otomatik algılasın, repoda LF saklansın
+* text=auto eol=lf
+
+# ---- Kaynak kod (LF zorunlu, diff karmaşası olmasın) ----
+*.ts    text eol=lf
+*.tsx   text eol=lf
+*.js    text eol=lf
+*.jsx   text eol=lf
+*.mjs   text eol=lf
+*.cjs   text eol=lf
+*.json  text eol=lf
+*.css   text eol=lf
+*.sql   text eol=lf
+*.md    text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+
+# ---- Windows'a özgü betikler (CRLF kalmalı, yoksa çalışmaz) ----
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+*.ps1   text eol=crlf
+
+# ---- İkililer: Git dönüştürmesin, diff'te gürültü çıkarmasın ----
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.webp  binary
+*.avif  binary
+*.ico   binary
+*.svg   text eol=lf
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.otf   binary
+*.pdf   binary
+*.zip   binary
+*.xlsx  binary
+
+# ---- Dil istatistiklerinde gürültüyü azalt ----
+package-lock.json  -diff linguist-generated
+pnpm-lock.yaml     -diff linguist-generated
+*.min.js           -diff linguist-generated
+*.min.css          -diff linguist-generated
+
+# ---- Arşiv/export'larda çalışma ağacı dışı bırakma ----
+*.exe export-ignore
+*.log export-ignore

@@ -1,0 +1,69 @@
+{
+  "id": "tsk_5a97a27d-a681-4416-955e-dcc133bc04db",
+  "title": "Çalışma düzeni kartından izin kategorisini ayırma",
+  "description": "Chief review of the committed demo schedule cleanup found ekMeta.izinTipiAciklama (e.g. citizen, normal work permit) is appended to the work schedule card. This is a permit category, not a work arrangement or employer benefit. In only app/[yerel]/ilan/[slug]/page.tsx, remove that entry from calismaDuzeniSatirlari. Keep the existing per-listing calismaSekli, calismaModeli, and calismaSekliAciklama values and all other content unchanged. No locale/schema/API changes and no commit.",
+  "acceptanceCriteria": "The demo work schedule card does not render ekMeta.izinTipiAciklama; listing-backed work type, mode, and work-arrangement description continue to render; universal fabricated hour/device/leave claims remain absent; dynamic ilan.yanHaklar remains unchanged; only the assigned page file changes; npm run kalite, npm run build and git diff --check pass; OpenCode does not commit.",
+  "createdAt": "2026-09-28T10:20:11.827Z",
+  "updatedAt": "2026-09-28T10:34:50.435Z",
+  "state": "REVIEWING",
+  "attempt": 1,
+  "maxAttempts": 3,
+  "retryableFailure": false,
+  "owner": "OPENCODE",
+  "risk": "HIGH",
+  "riskReasons": [
+    "High-impact signal: \\bapi\\b"
+  ],
+  "requiresHumanApproval": false,
+  "files": [
+    "app/[yerel]/ilan/[slug]/page.tsx"
+  ],
+  "dependencies": [],
+  "currentAgent": "OPENCODE",
+  "lastError": null,
+  "evidenceIds": [
+    "ev_97433f59-e8cc-4e7f-b814-e7432afbd80f",
+    "ev_44300600-9141-4f0e-ae0b-ee08da061db0",
+    "ev_5c625dbb-04d4-4e57-babb-d01853fc62d3",
+    "ev_91c46075-62e3-4c5b-80de-87b17e2a6f96",
+    "ev_ddebc975-f1fc-4e52-8312-2a2352247c7d",
+    "ev_ac8565dd-e669-488e-9bb9-7cde8de741be",
+    "ev_2c0f073d-d068-463a-949b-7b43a3c237d0",
+    "ev_632845aa-30b9-43b6-9619-13f24d6e298c",
+    "ev_bec53664-fa57-4a20-ab65-2a140b7b9430",
+    "ev_bc71e514-7d1b-4f70-ad64-0954b787353b",
+    "ev_7eace17f-eebc-4c7b-bb5c-3dcd791d87bc",
+    "ev_01d72e9a-d5f5-4d45-acb4-f8ffa956c968",
+    "ev_9f966592-d62d-4eb8-989c-c7804dfb20e0",
+    "ev_c2994172-87ad-4606-abc0-fbde988fa480",
+    "ev_f0ccea00-6b94-4278-90ad-71e265b537d9"
+  ],
+  "reviewIds": [],
+  "parentTaskId": "tsk_df2ecde9-ac89-4d3e-a73c-8e08557fb8a2",
+  "correlationId": "cor_7bc0cb0d-ac04-4046-9231-b4e3e0e5bd56",
+  "idempotencyKey": "idem_cbb5e304485a55ab0e7af01ce1b15710d1af1e20c9b9658077875796a6219fd9",
+  "opencode": {
+    "attempt": 2,
+    "sessionId": "ses_f1877d66dffeWon2r15XyAjw05",
+    "projectId": "97c743cd73393b6648837204171935e967f4ae90",
+    "providerId": "opencode",
+    "modelId": "space-bunny-free",
+    "worktree": "D:\\isbulkktc",
+    "agent": "build",
+    "readOnly": false,
+    "createdAt": "2026-09-28T10:20:55.583Z",
+    "promptMessageId": "msg_d7f7fce0-a02b-457b-a6f8-b8e48bdcb9ed",
+    "messageId": "msg_0e7887780001FiG0hu9GhwtzCQ"
+  },
+  "cline": {
+    "sessionId": null,
+    "reviewId": "rev_be520e145736dcaaf3c44d3e45fedf84",
+    "correlationId": "cor_7bc0cb0d-ac04-4046-9231-b4e3e0e5bd56",
+    "reviewIteration": 1,
+    "startedAt": "2026-09-28T10:24:48.193Z",
+    "status": "CLINE_TIMEOUT",
+    "readOnly": true,
+    "promptHash": "bbeba33ee2dab2aae8b5469f6a830a390131852a1a779994d0fc3e45e5311d8c"
+  },
+  "reviewIteration": 1
+}

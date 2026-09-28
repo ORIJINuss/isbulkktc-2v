@@ -1,0 +1,61 @@
+{
+  "id": "tsk_b160f747-e870-463c-b35f-db423c61f42c",
+  "title": "Gerçek ilan akışı type-safety ve veri doğrulama düzeltmeleri",
+  "description": "Child repair for parent tsk_1e87af96-e866-425e-b42f-5c658a3b61e0. Fix the exact Chief-observed failures and contract defects in the assigned files only: (1) make the public IlanAramaSatiri company relation type canonical object-or-null at the parsing boundary, handling PostgREST object/array forms without TypeScript errors in the layout and cards; (2) eliminate every explicit any in lib/depolar/ilan-arama-deposu.ts without weakening Supabase query typing or changing filter semantics; (3) do not convert null/malformed Supabase data to a successful empty result with data ?? []; require an array and keep valid [] as success. Preserve all existing behavior, anon/RLS, CV flow, and the parent task requirements. OpenCode remains the sole writer and must not commit. The Cline reviewer is read-only + Deep Plan; do not modify orchestration/governance files.",
+  "acceptanceCriteria": "npm run type-check passes with zero errors; npm run lint passes; no explicit any remains in the assigned data layer; null/non-array query data returns explicit server error while [] remains a valid empty result; job rows and company relation types are normalized; no schema/dependency/secret changes; implementation remains uncommitted. Chief runs and records the repository quality gate/build after handoff.",
+  "createdAt": "2026-09-27T23:29:19.221Z",
+  "updatedAt": "2026-09-27T23:40:02.551Z",
+  "state": "FIX_REQUIRED",
+  "attempt": 1,
+  "maxAttempts": 3,
+  "retryableFailure": true,
+  "owner": "OPENCODE",
+  "risk": "HIGH",
+  "riskReasons": [
+    "High-impact signal: \\bapi\\b"
+  ],
+  "requiresHumanApproval": false,
+  "files": [
+    "lib/depolar/ilan-arama-deposu.ts",
+    "app/[yerel]/ilan/[slug]/layout.tsx",
+    "bilesenler/ilan/VeritabaniIlanKart.tsx",
+    "bilesenler/ilan/VeritabaniIlanDetayi.tsx",
+    "app/api/ilanlar/route.ts"
+  ],
+  "dependencies": [],
+  "currentAgent": "OPENCODE",
+  "lastError": "OPENCODE_TIMEOUT; OPENCODE_TIMEOUT: no completed assistant message was retrieved for session ses_f1acba72affexJ3xvX2LkbTxC7.; endpoint=GET /session/{sessionID}/message; evidenceId=ev_4b046a7a-303b-48a9-954d-8015c9625e43; timestamp=2026-09-27T23:40:02.491Z",
+  "evidenceIds": [
+    "ev_1289109a-0c66-4308-ae0a-e505e5f5760c",
+    "ev_a20e7592-a321-4d17-a892-ddbfba2033fe",
+    "ev_bd0eb6a2-f16e-4e65-bb42-387e1a8754ca",
+    "ev_391fcec3-f9f5-4020-a4d4-a4b2379fa4f3",
+    "ev_e00d9880-14fa-46cf-88ef-b78cdd1fb6b9",
+    "ev_e5f90c45-70e0-45f2-a95a-6b8fec8db137",
+    "ev_65d47bcd-4179-4cbf-881a-effd6fdbcde5",
+    "ev_a8790e8f-6206-484f-8762-64d2d8e9a288",
+    "ev_48450c17-46bb-4198-a4fa-a61c04292180",
+    "ev_dadfbf93-40df-4869-a61d-1c904e651f7f",
+    "ev_4b046a7a-303b-48a9-954d-8015c9625e43",
+    "ev_7f002b1b-efab-4157-8ac1-8d9a3c9b83a3"
+  ],
+  "reviewIds": [],
+  "parentTaskId": "tsk_1e87af96-e866-425e-b42f-5c658a3b61e0",
+  "correlationId": "cor_d2bffe38-5863-415a-9891-d5c9c023e816",
+  "idempotencyKey": "idem_aaa8f64b3bdc842c985c9d68be8493c4e8ad5637292a48d71958c05f32eea1e9",
+  "opencode": {
+    "attempt": 2,
+    "sessionId": "ses_f1acba72affexJ3xvX2LkbTxC7",
+    "projectId": "97c743cd73393b6648837204171935e967f4ae90",
+    "providerId": "opencode",
+    "modelId": "space-bunny-free",
+    "worktree": "D:\\isbulkktc",
+    "agent": "build",
+    "readOnly": false,
+    "createdAt": "2026-09-27T23:30:08.218Z",
+    "promptMessageId": "msg_23d8f8dc-99b6-4919-b4d9-088dc3868562",
+    "messageId": null
+  },
+  "cline": null,
+  "reviewIteration": 0
+}
