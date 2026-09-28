@@ -133,15 +133,6 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
             }}
           >
             <span className="msimge pointer-events-none absolute start-3 text-[20px] text-yüzey-uzerinde/50" aria-hidden="true">search</span>
-            <input
-              type="search"
-              aria-label={t("ilanAra")}
-              value={arama}
-              maxLength={120}
-              onChange={(event) => setArama(event.target.value)}
-              placeholder={t("ilanAra")}
-              className="w-full ps-10 pe-3 py-1.5 rounded-xl bg-yüzey-kapsayici-alt text-govde-sm border border-cizgi-degisken focus:border-ana focus:ring-1 focus:ring-ana/50 outline-none transition-colors"
-            />
           </form>
         </div>
 
@@ -149,7 +140,7 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
           aria-label={t("anaSayfa")}
           className="hidden md:flex items-center gap-3 xl:gap-5 text-govde-md font-medium text-yüzey-uzerinde/70 shrink-0"
         >
-          {baglantilar.map((b) => (
+          {baglantilar.slice(1).map((b) => (
             <Link
               key={b.yol}
               href={b.yol}
