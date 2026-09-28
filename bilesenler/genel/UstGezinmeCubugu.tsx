@@ -6,7 +6,6 @@ import { Link, useRouter } from "@/i18n/yonlendirme";
 import DilSecici from "@/bilesenler/genel/DilSecici";
 import Buton from "@/bilesenler/genel/Buton";
 import Rozet from "@/bilesenler/genel/Rozet";
-import Logo from "@/bilesenler/genel/Logo";
 import type { Yerel } from "@/i18n/yonlendirme";
 import { siniflariBirlestir as sb } from "@/lib/yardimcilar/sinif-yardimcisi";
 import { tarayiciIcinSupabaseOlustur } from "@/lib/supabase/tarayici-istemci";
@@ -116,7 +115,9 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
             className="flex items-center gap-2 shrink-0 group focus:outline-none"
             aria-label={m("markaAdi")}
           >
-            <Logo boyut="md" metinSinif="text-baslik-md group-hover:opacity-90 transition-opacity" markaMetni={m("markaAdiKisa")} />
+            <span className="font-baslik text-[1.18rem] font-extrabold tracking-[-0.045em] text-ana transition-opacity group-hover:opacity-80 sm:text-[1.3rem]">
+              {m("markaAdi")}
+            </span>
           </Link>
 
         </div>

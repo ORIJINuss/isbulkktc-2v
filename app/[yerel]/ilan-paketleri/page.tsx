@@ -94,7 +94,7 @@ export default function IlanPaketleriSayfasi() {
               Kullanmadığınız ilan kredileri için <span className="text-ana">%100 geri ödeme</span> garantisi.
             </h3>
             <p className="text-ikincil/80 leading-relaxed max-w-2xl">
-              PES Lisansı 2024/9182 uyarınca, paketinizi satın aldıktan sonra 14
+              Platform kullanım koşulları kapsamında, paketinizi satın aldıktan sonra 14
               gün içinde kullanmadığınız tüm ilan ve vitrin kredileri için koşulsuz
               iade hakkına sahipsiniz. Tüm ödeme kanallarında geçerlidir.
             </p>

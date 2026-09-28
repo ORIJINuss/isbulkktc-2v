@@ -308,7 +308,7 @@ export default function AnaSayfa() {
       <section className="border-b border-[#dcdcd1] bg-[#faf9f3] py-6 md:py-7">
         <div className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8">
           {[
-            { icon: "verified", value: "B3", label: t("statEmployerVerification") },
+            { icon: "verified", value: "Güvenli", label: t("statEmployerVerification") },
             { icon: "location_on", value: "6", label: t("statDistrictSearch") },
             { icon: "link", value: "URL", label: t("statShareableJob") },
             { icon: "language", value: t("statLanguageValue"), label: t("statLanguageSupport") },

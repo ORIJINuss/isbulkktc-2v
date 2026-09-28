@@ -438,7 +438,7 @@ export default function HibritOdemeBileseni({
           </Buton>
           <div className="bg-basari-900/10 border border-basari-900/20 rounded-xl p-3 text-[11px] leading-snug text-basari-900 font-semibold flex items-start gap-2">
             <span className="msimge text-base shrink-0">policy</span>
-            14 gün cayma hakkı · PES Lisans 2024/9182 uyarınca ilan kredileri
+            14 gün cayma hakkı · platform kullanım koşulları uyarınca ilan kredileri
             kullanılmamışsa %100 iade.
           </div>
         </div>

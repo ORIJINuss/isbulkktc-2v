@@ -2,7 +2,7 @@
   "meta": {
     "markaAdi": "JobBulKKTC",
     "slogan": "Finding a job is as natural as gravity.",
-    "tanitim": "Verified corporate job openings across 6 TRNC districts, 4 work permit types and B3/Pension Fund checks.",
+    "tanitim": "Professional job opportunities across 6 TRNC districts and 4 work permit types.",
     "markaAdiKisa": "Job Bul"
   },
   "genel": {
@@ -210,7 +210,7 @@
     "kvk2Baslik": "Explicit Consent (Profile Visible to Employers)",
     "kvk3Baslik": "15 Years of Age & Labor Law Art. 15",
     "yasak": "No Fee Shall Be Requested From Candidates — PES License Art. 12",
-    "alo": "ALO 1002 24/7 Whistleblower Hotline",
+    "alo": "Transparent and secure hiring experience",
     "yarar1": "Local data stored on Nicosia-based servers",
     "yarar2": "ATS CV scoring up to 94% match precision",
     "yarar3": "Anonymous profile mode with no photo",
@@ -228,7 +228,7 @@
     "kurumsal1Aciklama": "Listings are reviewed for legal compliance.",
     "kurumsal2Baslik": "KVK 89/2007",
     "kurumsal2Aciklama": "Candidate data is processed lawfully.",
-    "kurumsal3Baslik": "ALO 1002",
+    "kurumsal3Baslik": "Transparent communication",
     "kurumsal3Aciklama": "Reporting and information line.",
     "kurumsal4Baslik": "Anonymous Mode",
     "kurumsal4Aciklama": "You can hide your photo and name.",
@@ -503,21 +503,21 @@
     "kritikUyumluluk": "Critical Compliance"
   },
   "altbilgi": {
-    "hakMetni": "© 2026 JobBulKKTC Employment Portal. Compliant with TRNC Ministry of Labor Law Art. 59 & PES License.",
-    "link1": "Labor Law Art. 59",
-    "link2": "PES License Declaration",
-    "link3": "KVK & Privacy Policy",
-    "link4": "Pension Fund / B3 Verification",
+    "hakMetni": "© 2026 JobBulKKTC Employment Portal. Built around clearer career decisions.",
+    "link1": "Workplace guidance",
+    "link2": "Trust & transparency",
+    "link3": "Privacy policy",
+    "link4": "Employer information",
     "link5": "Contact",
     "kurumsalBaslik": "Corporate",
     "hakkimizda": "About us",
     "kariyer": "Careers (join the IB team)",
     "medya": "Press & Media",
     "birlikteCalisalim": "Work with us",
-    "yasalBaslik": "Legal & Verification",
-    "pesLisans": "PES Licence 2024/9182",
-    "b3Tescilli": "B3 Registered",
-    "alo1002": "Alo 1002",
+    "yasalBaslik": "Trust & transparency",
+    "pesLisans": "Clear processes",
+    "b3Tescilli": "Employer-ready",
+    "alo1002": "Career-focused platform",
     "tumHaklariSaklidir": "— All rights reserved."
   },
   "workspace": {

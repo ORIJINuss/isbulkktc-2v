@@ -292,7 +292,7 @@ export default function GirisKayitSekmeleri({
           ))}
         </div>
         <Rozet tur="basari" ikon="workspace_premium" kucuk>
-          PES Lisans 2024/9182
+          Resmî kayıt bilgileri
         </Rozet>
       </div>
 

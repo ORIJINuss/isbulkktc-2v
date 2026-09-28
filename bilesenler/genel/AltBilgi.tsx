@@ -84,11 +84,7 @@ export default async function AltBilgi() {
               </li>
             ))}
           </ul>
-          <div className="pt-4 flex flex-wrap gap-2 text-etiket-xs">
-            <span className="rozet-ana">{t("pesLisans")}</span>
-            <span className="rozet-basari">{t("b3Tescilli")}</span>
-            <span className="rozet-altin">{t("alo1002")}</span>
-          </div>
+
         </div>
       </div>
       <div className="border-t border-cizgi-degisken/60">

@@ -32,7 +32,7 @@ export default function YeniIlanSayfasi() {
           <p className="text-ikincil/80 leading-relaxed">
             Formu doldurduktan sonra ATS eşik ayarlarınız ile 120+ aday profili
             otomatik taranır. En yüksek uyumluya sahip 20 aday size sıralı olarak
-            sunulur. İzin tipleri PES Lisansı ile eşleştirilir.
+            sunulur. İzin tipleri ilan kapsamınıza göre belirlenir.
           </p>
         </div>
         <div className="flex flex-col gap-2 sm:items-end">

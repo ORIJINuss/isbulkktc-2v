@@ -278,7 +278,7 @@ export default function IlanVerFormu4Adim({ sinif }: { sinif?: string }) {
           <div className="space-y-5">
             <p className="text-xs text-ikincil/70 bg-ana-kapsayici/50 p-3 rounded-xl border border-ana-outline/30">
               Çalışma ve Sosyal Güvenlik Bakanlığı Md. 59 uyarınca ilanınızda
-              sunacağınız izin kapsamını seçin. Her biri PES Lisansı ile
+              sunacağınız izin kapsamını seçin. Her biri ilan standartlarıyla
               eşleştirilir.
             </p>
             <div className="grid sm:grid-cols-2 gap-3">
