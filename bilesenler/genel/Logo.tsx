@@ -81,7 +81,7 @@ export default function Logo({
             alt=""
             width={ozelPiksel || 32}
             height={ozelPiksel || 32}
-            className="w-full h-full object-contain"
+            className="w-full h-full object-contain bg-[var(--buzlu-derin)] shadow-[0_2px_8px_rgba(0,0,0,0.12)]"
             priority
           />
         </span>
