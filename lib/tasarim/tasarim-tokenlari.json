@@ -92,7 +92,9 @@
     "dolgun": "9999px"
   },
   "fontlar": {
-    "latin-family": "Source Sans 3, Inter, system-ui, sans-serif",
+    "latin-family": "Geist, system-ui, sans-serif",
+    "heading-family": "Manrope, Satoshi, system-ui, sans-serif",
+    "technical-family": "Inter, ui-monospace, monospace",
     "hebrew-family": "Assistant, Hebrew, sans-serif",
     "ikon-family": "Material Symbols Outlined"
   },

@@ -141,12 +141,13 @@ const yapi: Config = {
         "dis": "2rem"
       },
       fontFamily: {
-        "sans": ["var(--font-source-sans)", "Source Sans 3", "Inter", "system-ui", "sans-serif"],
-        "hebrew": ["Assistant", "Hebrew", "sans-serif"],
-        // `--font-source-sans` / `--font-assistant` CSS değişkenleri globals.css
-        // `:root` bloğunda tanımlıdır (bkz. app/globals.css).
+        "sans": ["var(--font-geist)", "Geist", "system-ui", "sans-serif"],
+        "baslik": ["var(--font-manrope)", "Manrope", "Satoshi", "system-ui", "sans-serif"],
+        "teknik": ["var(--font-inter)", "Inter", "ui-monospace", "monospace"],
+        "hebrew": ["var(--font-assistant)", "Assistant", "Hebrew", "sans-serif"],
         "haber": ["var(--yazi-govde)"],
-        "sans-govde": ["var(--yazi-ibranice)"]
+        "sans-govde": ["var(--yazi-ibranice)"],
+        "govde": ["var(--yazi-govde)"]
       },
       fontSize: {
         // Display & Hero
