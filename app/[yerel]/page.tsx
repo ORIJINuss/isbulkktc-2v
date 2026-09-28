@@ -163,7 +163,10 @@ export default function AnaSayfa() {
       {/* ─── NAVBAR ─── */}
       {/* ─── HERO ─── */}
       <section className="relative overflow-hidden border-b border-[#dcdcd1] bg-[#f6f5ef]">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-16">
+        <div className="pointer-events-none absolute -end-24 -top-32 h-80 w-80 rounded-full bg-[#d3e7e8]/60 blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute -start-24 bottom-0 h-56 w-56 rounded-full bg-[#e8f4ee]/70 blur-3xl" aria-hidden="true" />
+        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-12 md:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.55fr)] md:items-center md:px-8 md:py-20">
+          <div>
           {/* Badge */}
           <div className="inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-md bg-[#e8f4ee] border border-[#b3dbc5]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#1e4b39]" />
@@ -302,6 +305,26 @@ export default function AnaSayfa() {
               );
             })}
           </div>
+          </div>
+
+          <aside className="hidden rounded-2xl border border-[#cfe2df] bg-[#183a33] p-6 text-white shadow-[0_20px_50px_-24px_rgba(24,58,51,0.55)] md:block">
+            <div className="mb-10 flex items-center justify-between">
+              <span className="msimge flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 text-2xl" aria-hidden="true">public</span>
+              <span className="rounded-full border border-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-[#d3e7e8]">{t("statLanguageValue")}</span>
+            </div>
+            <p className="mb-2 text-sm font-semibold text-[#a8d4dd]">{t("heroBadge")}</p>
+            <h2 className="max-w-xs text-2xl font-semibold leading-tight tracking-tight">{t("heroTitle")}</h2>
+            <div className="mt-8 grid grid-cols-2 gap-3 border-t border-white/15 pt-5">
+              <div>
+                <p className="text-2xl font-semibold">6</p>
+                <p className="mt-1 text-xs leading-5 text-white/65">{t("statDistrictSearch")}</p>
+              </div>
+              <div>
+                <p className="text-2xl font-semibold">B3</p>
+                <p className="mt-1 text-xs leading-5 text-white/65">{t("statEmployerVerification")}</p>
+              </div>
+            </div>
+          </aside>
         </div>
       </section>
 
