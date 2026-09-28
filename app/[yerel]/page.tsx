@@ -165,7 +165,7 @@ export default function AnaSayfa() {
       <section className="relative overflow-hidden border-b border-[#dcdcd1] bg-[#f6f5ef]">
         <div className="pointer-events-none absolute -end-24 -top-32 h-80 w-80 rounded-full bg-[#d3e7e8]/60 blur-3xl" aria-hidden="true" />
         <div className="pointer-events-none absolute -start-24 bottom-0 h-56 w-56 rounded-full bg-[#e8f4ee]/70 blur-3xl" aria-hidden="true" />
-        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-12 md:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.55fr)] md:items-center md:px-8 md:py-20">
+        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.58fr)] md:items-center md:px-8 md:py-24">
           <div>
           {/* Badge */}
           <div className="inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-md bg-[#e8f4ee] border border-[#b3dbc5]">
@@ -187,7 +187,7 @@ export default function AnaSayfa() {
 
           {/* Search box */}
           <form
-            className="w-full max-w-6xl mb-4 rounded-xl border border-[#dcdcd1] bg-white p-3 md:p-4 shadow-[0_4px_20px_-4px_rgba(26,50,44,0.06)]"
+            className="w-full max-w-6xl mb-4 rounded-2xl border border-[#dcdcd1] bg-white/95 p-3 md:p-4 shadow-[0_18px_45px_-18px_rgba(26,50,44,0.24)] ring-1 ring-white/70 backdrop-blur-sm"
             onSubmit={(event) => {
               event.preventDefault();
               const params = new URLSearchParams();
@@ -307,7 +307,7 @@ export default function AnaSayfa() {
           </div>
           </div>
 
-          <aside className="hidden rounded-2xl border border-[#cfe2df] bg-[#183a33] p-6 text-white shadow-[0_20px_50px_-24px_rgba(24,58,51,0.55)] md:block">
+          <aside className="hidden min-h-[330px] overflow-hidden rounded-[1.5rem] border border-[#42766b] bg-[radial-gradient(circle_at_100%_0%,rgba(168,212,221,0.22),transparent_38%),linear-gradient(145deg,#183a33_0%,#102a26_100%)] p-7 text-white shadow-[0_24px_60px_-24px_rgba(24,58,51,0.62)] md:block">
             <div className="mb-10 flex items-center justify-between">
               <span className="msimge flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 text-2xl" aria-hidden="true">public</span>
               <span className="rounded-full border border-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-[#d3e7e8]">{t("statLanguageValue")}</span>
@@ -695,7 +695,7 @@ export default function AnaSayfa() {
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-            <article className="flex flex-col justify-between rounded-xl border border-[#dcdcd1] bg-white p-6 md:p-8">
+            <article className="group flex flex-col justify-between rounded-2xl border border-[#dcdcd1] bg-white p-6 shadow-[0_8px_30px_-24px_rgba(24,58,51,0.5)] transition-all duration-300 hover:-translate-y-1 hover:border-[#9abdb7] hover:shadow-[0_18px_42px_-24px_rgba(24,58,51,0.55)] md:p-8">
               <div>
                 <span className="msimge mb-5 flex h-12 w-12 items-center justify-center rounded-lg border border-[#b3dbc5] bg-[#e8f4ee] text-[#1e4b39] text-2xl" aria-hidden="true">
                   person_pin
