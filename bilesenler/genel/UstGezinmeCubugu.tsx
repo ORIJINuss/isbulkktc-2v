@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/yonlendirme";
 import DilSecici from "@/bilesenler/genel/DilSecici";
+import Logo from "@/bilesenler/genel/Logo";
 import Buton from "@/bilesenler/genel/Buton";
 import Rozet from "@/bilesenler/genel/Rozet";
 import type { Yerel } from "@/i18n/yonlendirme";
@@ -12,6 +13,7 @@ import { tarayiciIcinSupabaseOlustur } from "@/lib/supabase/tarayici-istemci";
 
 export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
   const t = useTranslations("gezinme");
+  const m = useTranslations("meta");
   const router = useRouter();
   const [mobilMenuAcik, setMobilMenuAcik] = useState(false);
   const [oturumAcik, setOturumAcik] = useState(false);
@@ -108,6 +110,14 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
       )}
     >
       <div className="max-w-7xl mx-auto h-16 px-4 sm:px-6 flex items-center justify-between gap-3 min-w-0">
+        <Link href="/" aria-label={m("markaAdiKisa")} className="shrink-0 rounded-2xl transition-transform hover:scale-[1.015]">
+          <Logo
+            boyut="md"
+            tema="saydam"
+            metinSinif="hidden sm:inline-flex text-baslik-md font-bold"
+            markaMetni={m("markaAdiKisa")}
+          />
+        </Link>
         <nav
           aria-label={t("anaSayfa")}
           className="hidden md:flex items-center gap-3 xl:gap-5 text-govde-md font-medium text-yüzey-uzerinde/70 shrink-0"

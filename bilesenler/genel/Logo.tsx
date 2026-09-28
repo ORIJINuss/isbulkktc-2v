@@ -70,7 +70,14 @@ export default function Logo({
       : "#2c4134";
 
   return (
-    <span className={sb("inline-flex items-center gap-2.5 shrink-0 select-none", sinif)}>
+    <span
+      className={sb(
+        "inline-flex items-center gap-2.5 shrink-0 select-none",
+        "focus-within:outline-none focus-within:ring-2 focus-within:ring-ana/40 focus-within:ring-offset-2 focus-within:ring-offset-yüzey",
+        sinif
+      )}
+      aria-label={markaMetni}
+    >
       {sembolGosterilsin && (
         <span
           style={ozelPiksel ? { width: ozelPiksel, height: ozelPiksel } : undefined}

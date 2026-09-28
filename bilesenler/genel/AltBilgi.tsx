@@ -30,7 +30,12 @@ export default async function AltBilgi() {
       <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-12 gap-10">
         <div className="md:col-span-6 space-y-3">
           <div className="flex items-center gap-2">
-            <Logo boyut="md" sembolGosterilsin={false} metinSinif="text-baslik-md font-bold" markaMetni={m("markaAdiKisa")} />
+            <Logo
+              boyut="md"
+              tema="acik"
+              metinSinif="text-baslik-md font-bold"
+              markaMetni={m("markaAdiKisa")}
+            />
           </div>
           <div className="flex items-center gap-3 pt-1">
             {["policy", "verified_user", "gavel", "health_and_safety", "local_police"].map(
