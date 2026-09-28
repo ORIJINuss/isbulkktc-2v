@@ -1,7 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/yonlendirme";
 import { siniflariBirlestir as sb } from "@/lib/yardimcilar/sinif-yardimcisi";
-import Logo from "@/bilesenler/genel/Logo";
 
 export default async function AltBilgi() {
   const t = await getTranslations("altbilgi");
@@ -29,9 +28,9 @@ export default async function AltBilgi() {
     >
       <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-12 gap-10">
         <div className="md:col-span-6 space-y-3">
-          <div className="flex items-center gap-2">
-            <Logo boyut="md" metinSinif="text-baslik-md font-bold" markaMetni={m("markaAdiKisa")} />
-            <span className="msimge text-ana/70 text-[18px]">policy</span>
+          <div className="flex items-center gap-2 text-etiket-md font-bold uppercase tracking-wider text-ana">
+            <span className="msimge text-ana/70 text-[18px]" aria-hidden="true">policy</span>
+            <span>{t("kurumsalBaslik")}</span>
           </div>
           <p className="text-govde-sm  text-hüküm-sonuk max-w-xl leading-relaxed">
             {t("hakMetni")}

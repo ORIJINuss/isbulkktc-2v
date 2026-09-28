@@ -6,14 +6,12 @@ import { Link, useRouter } from "@/i18n/yonlendirme";
 import DilSecici from "@/bilesenler/genel/DilSecici";
 import Buton from "@/bilesenler/genel/Buton";
 import Rozet from "@/bilesenler/genel/Rozet";
-import Logo from "@/bilesenler/genel/Logo";
 import type { Yerel } from "@/i18n/yonlendirme";
 import { siniflariBirlestir as sb } from "@/lib/yardimcilar/sinif-yardimcisi";
 import { tarayiciIcinSupabaseOlustur } from "@/lib/supabase/tarayici-istemci";
 
 export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
   const t = useTranslations("gezinme");
-  const m = useTranslations("meta");
   const router = useRouter();
   const [mobilMenuAcik, setMobilMenuAcik] = useState(false);
   const [oturumAcik, setOturumAcik] = useState(false);
@@ -113,15 +111,10 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
         <div className="flex items-center gap-4 lg:gap-6 min-w-0 shrink">
           <Link
             href="/"
-            className="flex items-center gap-2 shrink-0 group focus:outline-none"
-            aria-label={m("markaAdi")}
+            className="shrink-0 text-baslik-md font-bold tracking-tight text-ana focus:outline-none focus-visible:ring-2 focus-visible:ring-ana focus-visible:ring-offset-2"
+            aria-label={t("anaSayfa")}
           >
-            <Logo
-              boyut="md"
-              markaMetni={m("markaAdiKisa")}
-              metinSinif="text-baslik-md font-bold"
-              sinif="transition-opacity group-hover:opacity-80"
-            />
+            {t("anaSayfa")}
           </Link>
 
         </div>
