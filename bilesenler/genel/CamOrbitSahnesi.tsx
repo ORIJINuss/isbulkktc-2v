@@ -4,6 +4,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import type { ThreeEvent } from "@react-three/fiber";
 import { ContactShadows, CubeCamera, Environment, Sparkles, useTexture } from "@react-three/drei";
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { MutableRefObject } from "react";
 import * as THREE from "three";
 
 const CAM_RENKLERI = ["#4d9887", "#d9aa67", "#e7a2a7", "#b7d8d0", "#244f4a", "#d8eee6"];
@@ -278,7 +279,18 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
   );
 }
 
-function Sahne({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: boolean; onKureSec: CamEtkilesimProps["onKureSec"] }) {
+function Sahne({ cekim, mobil, onKureSec, kaydirma }: { cekim: boolean; mobil: boolean; onKureSec: CamEtkilesimProps["onKureSec"]; kaydirma: MutableRefObject<number> }) {
+  const grup = useRef<THREE.Group>(null);
+
+  useFrame((_, delta) => {
+    if (!grup.current) return;
+    const ilerleme = kaydirma.current;
+    grup.current.rotation.x = THREE.MathUtils.damp(grup.current.rotation.x, ilerleme * 0.16, 4, delta);
+    grup.current.rotation.y = THREE.MathUtils.damp(grup.current.rotation.y, ilerleme * 0.34, 4, delta);
+    grup.current.position.y = THREE.MathUtils.damp(grup.current.position.y, ilerleme * (mobil ? -0.12 : -0.22), 4, delta);
+    grup.current.position.x = THREE.MathUtils.damp(grup.current.position.x, ilerleme * (mobil ? 0.04 : 0.16), 4, delta);
+  });
+
   return (
     <>
       <color attach="background" args={["#f6f5ef"]} />
@@ -286,7 +298,7 @@ function Sahne({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: boolean; on
       <directionalLight position={[-3, 4, 5]} intensity={3.2} color="#fff8e9" castShadow />
       <pointLight position={[3, 1, 2]} intensity={2.4} color="#82c9b2" />
       <pointLight position={[-2, -1, 1]} intensity={1.5} color="#e6b77b" />
-      <group position={[0.4, 0, 0]}>
+      <group ref={grup} position={[0.4, 0, 0]}>
         <CamOrbitKure cekim={cekim} mobil={mobil} onKureSec={() => onKureSec()} />
         <CamParcaciklar cekim={cekim} mobil={mobil} onKureSec={(ilce) => onKureSec(ilce)} />
         <Sparkles count={mobil ? 12 : 34} scale={3.4} size={mobil ? 1.2 : 1.6} speed={0.22} color="#fff8e9" opacity={0.72} />
@@ -300,6 +312,21 @@ function Sahne({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: boolean; on
 export default function CamOrbitSahnesi({ onKureSec }: CamEtkilesimProps) {
   const [cekim, setCekim] = useState(false);
   const [mobil, setMobil] = useState(false);
+  const kaydirma = useRef(0);
+
+  useEffect(() => {
+    const guncelle = () => {
+      const toplam = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+      kaydirma.current = THREE.MathUtils.clamp(window.scrollY / toplam, 0, 1);
+    };
+    guncelle();
+    window.addEventListener("scroll", guncelle, { passive: true });
+    window.addEventListener("resize", guncelle, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", guncelle);
+      window.removeEventListener("resize", guncelle);
+    };
+  }, []);
 
   useEffect(() => {
     const medya = window.matchMedia("(max-width: 767px)");
@@ -317,7 +344,7 @@ export default function CamOrbitSahnesi({ onKureSec }: CamEtkilesimProps) {
       aria-label="Etkileşimli cam orbit görseli"
     >
       <Canvas dpr={mobil ? [1, 1.35] : [1, 2]} camera={{ position: [0, 0, mobil ? 5.8 : 5.35], fov: mobil ? 32 : 29 }} frameloop="always" gl={{ alpha: true, antialias: !mobil, powerPreference: "high-performance" }} onPointerMissed={() => setCekim((deger) => !deger)}>
-        <Sahne cekim={cekim} mobil={mobil} onKureSec={onKureSec} />
+        <Sahne cekim={cekim} mobil={mobil} onKureSec={onKureSec} kaydirma={kaydirma} />
       </Canvas>
       <span className="sr-only">Cam orbiti hareket ettirmek için tıklayın.</span>
     </div>
