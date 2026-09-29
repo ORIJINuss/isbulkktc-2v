@@ -76,30 +76,32 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
       {(yansima) => (
         <group>
           <mesh castShadow receiveShadow>
-            <icosahedronGeometry args={[1, 8]} />
+            <sphereGeometry args={[1, 64, 64]} />
             <meshPhysicalMaterial
               color="#ffffff"
               metalness={0}
-              transmission={0.58}
-              thickness={0.3}
-              roughness={0.045}
+              transmission={0.9}
+              thickness={0.72}
+              roughness={0.075}
               ior={1.46}
-              clearcoat={1}
-              clearcoatRoughness={0.018}
+              clearcoat={0.72}
+              clearcoatRoughness={0.055}
+              iridescence={0.08}
+              iridescenceIOR={1.33}
               map={ilceHaritasi.sinir}
               envMap={yansima}
-              envMapIntensity={2.7}
+              envMapIntensity={1.65}
               attenuationColor={parca.renk}
-              attenuationDistance={0.42}
+              attenuationDistance={1.8}
               transparent
-              opacity={0.98}
+              opacity={0.82}
               depthWrite={true}
               side={THREE.DoubleSide}
             />
           </mesh>
           <mesh scale={1.006}>
             <icosahedronGeometry args={[1, 8]} />
-            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.24} depthWrite={true} blending={THREE.MultiplyBlending} />
+            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.12} depthWrite={false} blending={THREE.AdditiveBlending} />
           </mesh>
           {isimDokusu && (
             <mesh scale={1.012}>
@@ -354,7 +356,7 @@ function Sahne({ cekim, mobil, onKureSec, kaydirma, imlec, kaydirmaIvmesi }: { c
         <Sparkles count={mobil ? 12 : 34} scale={3.4} size={mobil ? 1.2 : 1.6} speed={0.22} color="#fff8e9" opacity={0.72} />
       </group>
       <ContactShadows position={[0, -1.22, 0]} opacity={0.28} scale={5} blur={2.6} far={3.5} resolution={mobil ? 512 : 1024} color="#1d5148" />
-      <Environment preset="studio" environmentIntensity={1.15} />
+      <Environment preset="studio" environmentIntensity={0.72} />
     </>
   );
 }
