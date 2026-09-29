@@ -114,7 +114,7 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
           <Logo
             boyut="md"
             tema="saydam"
-            metinSinif="hidden sm:inline-flex text-baslik-md font-bold"
+            metinSinif="inline-flex text-baslik-md font-bold"
             markaMetni={m("markaAdiKisa")}
           />
         </Link>
