@@ -27,14 +27,12 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
     if (!ctx) return null;
     ctx.translate(1024, 512);
     ctx.rotate(Math.PI);
-    ctx.font = "900 72px Arial";
+    ctx.font = "700 68px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = "rgba(8, 40, 36, 0.98)";
-    ctx.strokeStyle = "rgba(242, 248, 243, 0.96)";
-    ctx.lineWidth = 8;
-    ctx.shadowColor = "rgba(255,255,255,0.55)";
-    ctx.shadowBlur = 5;
+    ctx.fillStyle = "rgba(255,255,255,0.92)";
+    ctx.strokeStyle = "rgba(23,63,57,0.9)";
+    ctx.lineWidth = 7;
     ctx.strokeText(ilceAdi, 512, 256);
     ctx.fillText(ilceAdi, 512, 256);
     const texture = new THREE.CanvasTexture(tuval);
@@ -104,16 +102,7 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
           {isimDokusu && (
             <mesh scale={1.012} renderOrder={3}>
               <sphereGeometry args={[1, 96, 96]} />
-              <meshPhysicalMaterial
-                map={isimDokusu}
-                transparent
-                opacity={0.92}
-                transmission={0.18}
-                roughness={0.04}
-                clearcoat={1}
-                clearcoatRoughness={0.02}
-                depthWrite={false}
-              />
+              <meshBasicMaterial map={isimDokusu} transparent opacity={0.82} depthWrite={false} />
             </mesh>
           )}
         </group>
@@ -194,6 +183,16 @@ function CamParcaciklar({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bo
             onPointerOver={() => { document.body.style.cursor = "pointer"; }}
             onPointerOut={() => { document.body.style.cursor = ""; }}
           >
+            <mesh
+              onPointerDown={(event: ThreeEvent<PointerEvent>) => {
+                event.stopPropagation();
+                onKureSec(ilceAdlari[index]);
+              }}
+              renderOrder={20}
+            >
+              <sphereGeometry args={[1.08, 32, 32]} />
+              <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+            </mesh>
             <CamParca parca={parca} harita={kktcHaritasi} uydu={uyduHaritasi} index={index} ilceAdi={ilceAdlari[index]} />
           </group>
 
@@ -224,6 +223,14 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
     <CubeCamera frames={1} resolution={512} near={0.1} far={100}>
       {(texture) => (
         <group>
+          <mesh
+            scale={1.08}
+            onPointerDown={(event) => { event.stopPropagation(); onKureSec(); }}
+            renderOrder={20}
+          >
+            <sphereGeometry args={[1, 64, 64]} />
+            <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+          </mesh>
           <mesh
             ref={kure}
             castShadow
