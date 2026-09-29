@@ -89,7 +89,7 @@ export default function Logo({
       {!yalnizcaSembol && (
         <span
           className={sb(
-            "inline-flex min-w-0 flex-col items-start whitespace-nowrap font-extrabold tracking-tight leading-tight font-[Inter] text-[30px] italic text-[var(--bedford-mineral)] shadow-[0_4px_6px_-1px_rgb(0_0_0_/_0.1),0_2px_4px_-2px_rgb(0_0_0_/_0.1)]",
+            "inline-flex min-w-0 flex-col items-start whitespace-nowrap font-bold tracking-[-0.03em] leading-[0.9] font-[Inter] text-[24px] sm:text-[26px] italic text-[var(--bedford-mineral)]",
             metinSinif
           )}
         >
