@@ -18,7 +18,7 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
   const router = useRouter();
   const kayitEkraninaGit = (event: MouseEvent<HTMLElement>, tur: "aday" | "isveren") => {
     event.preventDefault();
-    router.push(`/giris?mod=kayit&tur=${tur}` as Parameters<typeof router.push>[0]);
+    router.push(`/giris?mod=giris&tur=${tur}` as Parameters<typeof router.push>[0]);
   };
   const [mobilMenuAcik, setMobilMenuAcik] = useState(false);
   const [oturumAcik, setOturumAcik] = useState(false);

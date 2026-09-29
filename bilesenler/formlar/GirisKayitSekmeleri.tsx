@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { sb } from "@/lib/yardimcilar/sinif-yardimcisi";
 import Buton from "@/bilesenler/genel/Buton";
-import Rozet from "@/bilesenler/genel/Rozet";
 import TurnstileBileseni from "@/bilesenler/genel/TurnstileBileseni";
 import { tarayiciIcinSupabaseOlustur } from "@/lib/supabase/tarayici-istemci";
 import { useRouter } from "@/i18n/yonlendirme";
@@ -37,10 +36,12 @@ export default function GirisKayitSekmeleri({
   sinif,
   initialUserType = "aday",
   initialMode = "giris",
+  kilitliKullaniciTuru = false,
 }: {
   sinif?: string;
   initialUserType?: KullaniciTuru;
   initialMode?: ModTuru;
+  kilitliKullaniciTuru?: boolean;
 }) {
   const t = useTranslations("giris");
   const g = useTranslations("genel");
@@ -239,7 +240,10 @@ export default function GirisKayitSekmeleri({
   const isGonderiliyor = isSubmitting || gonderiliyor;
 
   return (
-    <div className={sb("mineral-kart p-6 sm:p-8 shadow-editoriyel-kart", sinif)}>
+    <div className={sb("auth-panel mineral-kart relative overflow-hidden p-6 sm:p-8 shadow-editoriyel-kart", sinif)}>
+      <div className="auth-panel__glow" aria-hidden="true" />
+      <div className="relative z-10">
+      {!kilitliKullaniciTuru && (
       <div className="inline-flex p-1 bg-ikincil-kapsayici rounded-2xl mb-6 w-full">
         <button
           type="button"
@@ -272,6 +276,7 @@ export default function GirisKayitSekmeleri({
           {t("sekmeIsveren")}
         </button>
       </div>
+      )}
 
       <div className="flex items-center justify-between mb-6">
         <div className="flex gap-2">
@@ -291,9 +296,6 @@ export default function GirisKayitSekmeleri({
             </button>
           ))}
         </div>
-        <Rozet tur="basari" ikon="workspace_premium" kucuk>
-          PES Lisans 2024/9182
-        </Rozet>
       </div>
 
       <form
@@ -788,15 +790,8 @@ export default function GirisKayitSekmeleri({
           </p>
         )}
 
-        <div className="bg-hata-900/10 border border-hata-900/20 rounded-xl p-3 flex items-start gap-2.5">
-          <span className="msimge text-hata-900 text-lg shrink-0 mt-0.5" aria-hidden="true">
-            warning
-          </span>
-          <p className="text-[11px] leading-snug text-hata-900 font-medium">
-            {t("yasak")} · {t("alo")}
-          </p>
-        </div>
       </form>
+      </div>
     </div>
   );
 }
