@@ -301,20 +301,23 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
           >
             <sphereGeometry args={[1.02, 128, 128]} />
           <meshPhysicalMaterial
+            map={kktcHaritasi}
             color="#ffffff"
             metalness={0.01}
-            roughness={0.035}
+            roughness={mobil ? 0.12 : 0.06}
             ior={1.46}
-            transmission={0.92}
-            thickness={1.55}
+            transmission={mobil ? 0.18 : 0.62}
+            thickness={mobil ? 0.28 : 0.85}
             clearcoat={1}
-            clearcoatRoughness={0.025}
+            clearcoatRoughness={mobil ? 0.08 : 0.04}
             envMap={texture}
             envMapIntensity={mobil ? 2.25 : 2.25}
             attenuationColor="#8fcbb8"
             attenuationDistance={1.8}
             transparent
-            opacity={0.99}
+            opacity={mobil ? 0.32 : 0.72}
+            depthWrite={false}
+            side={THREE.FrontSide}
             />
           </mesh>
           <mesh scale={1.028} renderOrder={1} raycast={() => null}>
@@ -333,7 +336,7 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
               side={THREE.DoubleSide}
             />
           </mesh>
-            <mesh ref={haritaKuresi} scale={1.012} renderOrder={2} raycast={() => null}>
+            <mesh ref={haritaKuresi} scale={1.012} renderOrder={4} raycast={() => null}>
             <sphereGeometry args={[1.02, 128, 128]} />
             <meshPhysicalMaterial
               map={kktcHaritasi}
@@ -342,9 +345,10 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
               roughness={mobil ? 0.16 : 0.08}
               clearcoat={1}
               clearcoatRoughness={0.025}
-              transparent={false}
-              opacity={1}
-              depthWrite={true}
+              transparent
+              opacity={0.82}
+              depthWrite={false}
+              depthTest={false}
               side={THREE.DoubleSide}
             />
           </mesh>
