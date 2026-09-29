@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { ContactShadows, CubeCamera, Environment, Sparkles, useTexture } from "@react-three/drei";
+import { ContactShadows, CubeCamera, Environment, Sparkles, Text, useTexture } from "@react-three/drei";
 import { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
@@ -17,7 +17,7 @@ type Parca = {
   renk: string;
 };
 
-function CamParca({ parca, harita, uydu, index }: { parca: Parca; harita: THREE.Texture; uydu: THREE.Texture; index: number }) {
+function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harita: THREE.Texture; uydu: THREE.Texture; index: number; ilceAdi: string }) {
   const ilceHaritasi = useMemo(() => {
     const kopya = harita.clone();
     const uyduKopya = uydu.clone();
@@ -79,6 +79,19 @@ function CamParca({ parca, harita, uydu, index }: { parca: Parca; harita: THREE.
             <icosahedronGeometry args={[1, 6]} />
             <meshBasicMaterial color="#ffffff" transparent opacity={0.16} depthWrite={false} blending={THREE.AdditiveBlending} />
           </mesh>
+          <Text
+            position={[0, 0, 1.04]}
+            scale={1 / parca.boyut}
+            fontSize={0.075}
+            color="#173f39"
+            anchorX="center"
+            anchorY="middle"
+            outlineWidth={0.012}
+            outlineColor="#ffffff"
+            renderOrder={4}
+          >
+            {ilceAdi}
+          </Text>
         </group>
       )}
     </CubeCamera>
@@ -91,6 +104,7 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
     "/images/kktc-ilce-sinirlari.jpg",
     "/images/kktc-uydu-haritasi.jpg",
   ]);
+  const ilceAdlari = ["Girne", "Güzelyurt", "Lefke", "Lefkoşa", "Gazimağusa", "İskele"];
   const parcalar = useMemo<Parca[]>(() => [
     { aci: 0.2, yariCap: 1.72, yukseklik: 0.12, hiz: 0.34, boyut: 0.22, renk: CAM_RENKLERI[0] },
     { aci: 1.55, yariCap: 1.58, yukseklik: -0.25, hiz: -0.28, boyut: 0.15, renk: CAM_RENKLERI[1] },
@@ -142,7 +156,7 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
         const z = Math.sin(parca.aci) * parca.yariCap;
         return (
           <group key={index} position={[x, parca.yukseklik, z]} scale={parca.boyut}>
-            <CamParca parca={parca} harita={kktcHaritasi} uydu={uyduHaritasi} index={index} />
+            <CamParca parca={parca} harita={kktcHaritasi} uydu={uyduHaritasi} index={index} ilceAdi={ilceAdlari[index]} />
           </group>
 
         );
