@@ -26,12 +26,14 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
     if (!ctx) return null;
     ctx.translate(1024, 512);
     ctx.rotate(Math.PI);
-    ctx.font = "700 64px Arial";
+    ctx.font = "900 72px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = "rgba(255,255,255,0.96)";
-    ctx.strokeStyle = "rgba(11,42,38,0.96)";
-    ctx.lineWidth = 9;
+    ctx.fillStyle = "rgba(8, 40, 36, 0.98)";
+    ctx.strokeStyle = "rgba(242, 248, 243, 0.96)";
+    ctx.lineWidth = 8;
+    ctx.shadowColor = "rgba(255,255,255,0.55)";
+    ctx.shadowBlur = 5;
     ctx.strokeText(ilceAdi, 512, 256);
     ctx.fillText(ilceAdi, 512, 256);
     const texture = new THREE.CanvasTexture(tuval);
@@ -77,18 +79,20 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
             <icosahedronGeometry args={[1, 6]} />
             <meshPhysicalMaterial
               color={parca.renk}
-              metalness={0.02}
-              transmission={0.96}
-              thickness={0.82}
-              roughness={0.008}
+              metalness={0.035}
+              transmission={0.88}
+              thickness={0.72}
+              roughness={0.012}
               ior={1.46}
               clearcoat={1}
               clearcoatRoughness={0.008}
               map={ilceHaritasi.sinir}
               envMap={yansima}
-              envMapIntensity={3.2}
+              envMapIntensity={4.2}
               attenuationColor={parca.renk}
-              attenuationDistance={0.72}
+              attenuationDistance={0.52}
+              emissive={parca.renk}
+              emissiveIntensity={0.12}
               transparent
               opacity={1}
               side={THREE.DoubleSide}
@@ -96,17 +100,17 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
           </mesh>
           <mesh scale={1.006} renderOrder={2}>
             <icosahedronGeometry args={[1, 6]} />
-            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.2} depthWrite={false} blending={THREE.MultiplyBlending} />
+            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.34} depthWrite={false} blending={THREE.MultiplyBlending} />
           </mesh>
           {isimDokusu && (
             <mesh scale={1.012} renderOrder={3}>
               <sphereGeometry args={[1, 96, 96]} />
-              <meshBasicMaterial map={isimDokusu} transparent opacity={0.7} depthWrite={false} />
+              <meshBasicMaterial map={isimDokusu} transparent opacity={0.94} depthWrite={false} />
             </mesh>
           )}
           <mesh scale={1.009} renderOrder={3}>
             <icosahedronGeometry args={[1, 6]} />
-            <meshBasicMaterial color="#ffffff" transparent opacity={0.16} depthWrite={false} blending={THREE.AdditiveBlending} />
+            <meshBasicMaterial color="#ffffff" transparent opacity={0.24} depthWrite={false} blending={THREE.AdditiveBlending} />
           </mesh>
         </group>
       )}
