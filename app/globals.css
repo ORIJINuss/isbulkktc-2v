@@ -131,6 +131,87 @@
   .yazi-govde { font-family: var(--yazi-geist); }
   .yazi-teknik { font-family: var(--yazi-geist-mono); letter-spacing: 0; }
 
+  /* Hero orbit field: layered, low-contrast depth that stays behind content. */
+  .orbit-sahnesi {
+    position: absolute;
+    z-index: 0;
+    inset-inline-end: clamp(-10rem, -8vw, -3rem);
+    top: 50%;
+    width: min(58vw, 48rem);
+    aspect-ratio: 1.35;
+    transform: translateY(-50%);
+    opacity: 0.8;
+    filter: saturate(0.86);
+  }
+
+  .orbit-hale {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: 76%;
+    height: 34%;
+    border: 1px solid color-mix(in srgb, var(--buzlu-derin) 34%, transparent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) rotate(-18deg);
+    box-shadow: 0 0 1.5rem color-mix(in srgb, var(--buzlu-hava) 24%, transparent);
+  }
+
+  .orbit-hale-iki {
+    width: 86%;
+    height: 48%;
+    border-color: color-mix(in srgb, var(--bedford-hafif) 28%, transparent);
+    transform: translate(-50%, -50%) rotate(22deg);
+  }
+
+  .orbit-hale-uc {
+    width: 56%;
+    height: 78%;
+    border-color: color-mix(in srgb, var(--bedford-mineral) 24%, transparent);
+    transform: translate(-50%, -50%) rotate(66deg);
+  }
+
+  .orbit-parcacik,
+  .orbit-cekirdek {
+    position: absolute;
+    display: block;
+    border-radius: 9999px;
+  }
+
+  .orbit-parcacik {
+    width: clamp(1rem, 2vw, 2.15rem);
+    aspect-ratio: 1;
+    background: var(--buzlu-hava);
+    border: 1px solid color-mix(in srgb, var(--buzlu-derin) 38%, white);
+    box-shadow: inset 0.35rem 0.3rem 0.65rem color-mix(in srgb, white 72%, transparent), 0 0.5rem 1.25rem color-mix(in srgb, var(--buzlu-derin) 18%, transparent);
+  }
+
+  .orbit-parcacik-bir { inset: 24% auto auto 22%; }
+  .orbit-parcacik-iki { inset: auto 18% 24% auto; background: var(--bedford-hafif); }
+  .orbit-parcacik-uc { inset: 12% 27% auto auto; width: clamp(0.7rem, 1.4vw, 1.35rem); background: var(--bedford-mineral); }
+
+  .orbit-cekirdek {
+    inset: 50% auto auto 50%;
+    width: clamp(2.4rem, 5vw, 5.25rem);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle at 35% 30%, var(--buzlu-beyaz), var(--buzlu-hava) 42%, var(--buzlu-derin));
+    border: 1px solid color-mix(in srgb, var(--buzlu-derin) 42%, white);
+    box-shadow: inset 0.7rem 0.65rem 1.2rem color-mix(in srgb, white 60%, transparent), 0 1rem 2.5rem color-mix(in srgb, var(--buzlu-derin) 22%, transparent);
+  }
+
+  @media (max-width: 767px) {
+    .orbit-sahnesi {
+      inset-inline: auto -11rem;
+      top: 13rem;
+      width: 31rem;
+      opacity: 0.46;
+      transform: rotate(-7deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orbit-sahnesi { opacity: 0.36; }
+  }
+
   /* Text Selection: Use Mineral background (neutral) */
   ::selection {
     background-color: var(--mineral-200);
