@@ -344,6 +344,35 @@
 }
 
 @layer components {
+  .turnstile-hata {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.35rem;
+    padding: 0.7rem 0.8rem;
+    border: 1px solid rgba(166, 73, 65, 0.2);
+    border-radius: 0.85rem;
+    background: rgba(166, 73, 65, 0.07);
+    color: #8f3c36;
+    font-size: 0.72rem;
+    line-height: 1.35;
+  }
+  .turnstile-hata__ikon { flex: 0 0 auto; font-size: 1.1rem; }
+  .turnstile-hata__metin { flex: 1; }
+  .turnstile-hata__tekrar {
+    flex: 0 0 auto;
+    border: 0;
+    border-radius: 0.55rem;
+    padding: 0.4rem 0.65rem;
+    background: #173b34;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 800;
+    transition: transform 160ms ease, background 160ms ease;
+  }
+  .turnstile-hata__tekrar:hover { transform: translateY(-1px); background: #245b50; }
+  .turnstile-hata__tekrar:focus-visible { outline: 3px solid rgba(70, 165, 145, 0.4); outline-offset: 2px; }
+
   .auth-provider-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
