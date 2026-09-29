@@ -217,7 +217,65 @@
   }
 
   /* Reduce Motion: Honor user preference */
+  .cam-orbit-sahnesi {
+    position: absolute;
+    z-index: 1;
+    inset: 0 0 0 auto;
+    width: min(52vw, 43rem);
+    height: 100%;
+    cursor: pointer;
+    pointer-events: auto;
+    filter: drop-shadow(0 2rem 3rem rgba(25, 69, 62, .18));
+  }
+
+  .cam-orbit-sahnesi::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    right: 8%;
+    width: min(31vw, 27rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    background: radial-gradient(circle at 30% 23%, rgba(255,255,255,.94) 0 2%, rgba(224,246,235,.82) 8%, rgba(117,191,169,.8) 25%, rgba(44,115,101,.88) 58%, rgba(20,67,62,.94) 78%);
+    box-shadow: inset 1.2rem 1.1rem 2.2rem rgba(255,255,255,.38), inset -1.8rem -2.2rem 3.2rem rgba(12,47,47,.5), 0 2rem 4rem rgba(26,80,69,.22);
+  }
+
+  .cam-orbit-sahnesi::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    right: -5%;
+    width: min(42vw, 37rem);
+    height: min(18vw, 11rem);
+    border: 1px solid rgba(75,145,132,.52);
+    border-radius: 50%;
+    transform: translateY(-50%) rotate(-16deg);
+    box-shadow: 0 0 2rem rgba(91,165,151,.16);
+  }
+
+  .cam-orbit-sahnesi canvas {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  @media (max-width: 767px) {
+    .cam-orbit-sahnesi {
+      inset: 12rem -7rem auto auto;
+      width: 28rem;
+      height: 30rem;
+      opacity: .72;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
+    .cam-orbit-sahnesi { display: none; }
+
     *,
     *::before,
     *::after {
