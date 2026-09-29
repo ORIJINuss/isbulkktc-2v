@@ -93,18 +93,18 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
               attenuationDistance={0.42}
               transparent
               opacity={0.98}
-              depthWrite={false}
+              depthWrite={true}
               side={THREE.DoubleSide}
             />
           </mesh>
           <mesh scale={1.006}>
             <icosahedronGeometry args={[1, 8]} />
-            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.24} depthWrite={false} blending={THREE.MultiplyBlending} />
+            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.24} depthWrite={true} blending={THREE.MultiplyBlending} />
           </mesh>
           {isimDokusu && (
             <mesh scale={1.012}>
               <sphereGeometry args={[1, 96, 96]} />
-              <meshBasicMaterial map={isimDokusu} transparent opacity={0.82} depthWrite={false} />
+              <meshBasicMaterial map={isimDokusu} transparent opacity={0.82} depthTest={true} depthWrite={false} />
             </mesh>
           )}
         </group>
@@ -213,7 +213,6 @@ function CamParcaciklar({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bo
                 event.stopPropagation();
                 onKureSec(ilceAdlari[index]);
               }}
-              renderOrder={20}
             >
               <sphereGeometry args={[1.08, 32, 32]} />
               <meshBasicMaterial transparent opacity={0} depthWrite={false} />
@@ -280,13 +279,11 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
               event.nativeEvent.preventDefault();
               onKureSec();
             }}
-            onPointerDown={(event: ThreeEvent<PointerEvent>) => {
-              event.stopPropagation();
-              if (event.nativeEvent.button === 2) {
+              onPointerDown={(event: ThreeEvent<PointerEvent>) => {
+                event.stopPropagation();
                 event.nativeEvent.preventDefault();
                 onKureSec();
-              }
-            }}
+              }}
             onPointerOver={(event) => {
               event.stopPropagation();
               event.object.userData.hovered = true;
@@ -315,11 +312,11 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
             attenuationDistance={1.8}
             transparent
             opacity={mobil ? 0.32 : 0.72}
-            depthWrite={false}
+            depthWrite={true}
             side={THREE.FrontSide}
             />
           </mesh>
-            <mesh ref={haritaKuresi} scale={1.012} renderOrder={4} raycast={() => null}>
+            <mesh ref={haritaKuresi} scale={1.012} raycast={() => null}>
             <sphereGeometry args={[1.02, 128, 128]} />
             <meshPhysicalMaterial
               map={kktcHaritasi}
@@ -331,7 +328,7 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
               transparent
               opacity={0.82}
               depthWrite={false}
-              depthTest={false}
+              depthTest={true}
               side={THREE.DoubleSide}
             />
           </mesh>
