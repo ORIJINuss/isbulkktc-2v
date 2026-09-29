@@ -20,9 +20,9 @@ type Parca = {
 function CamParca({ parca, harita, index }: { parca: Parca; harita: THREE.Texture; index: number }) {
   const ilceHaritasi = useMemo(() => {
     const kopya = harita.clone();
-    const ilcePerspektifleri: [number, number][] = [[0.08, 0.22], [0.24, 0.3], [0.4, 0.18], [0.56, 0.34], [0.68, 0.2], [0.78, 0.38]];
+    const ilcePerspektifleri: [number, number][] = [[0.16, 0.38], [0.27, 0.38], [0.39, 0.4], [0.5, 0.39], [0.63, 0.38], [0.77, 0.4]];
     const [x, y] = ilcePerspektifleri[index] ?? ilcePerspektifleri[0];
-    kopya.repeat.set(0.42, 0.42);
+    kopya.repeat.set(0.2, 0.42);
     kopya.offset.set(x, y);
     kopya.wrapS = THREE.ClampToEdgeWrapping;
     kopya.wrapT = THREE.ClampToEdgeWrapping;
@@ -30,10 +30,10 @@ function CamParca({ parca, harita, index }: { parca: Parca; harita: THREE.Textur
     kopya.anisotropy = 16;
     kopya.needsUpdate = true;
     return kopya;
-  }, [harita]);
+  }, [harita, index]);
 
   return (
-    <CubeCamera frames={Infinity} resolution={512} near={0.1} far={30}>
+    <CubeCamera frames={1} resolution={256} near={0.1} far={30}>
       {(texture) => (
         <group>
           <mesh castShadow receiveShadow>
@@ -68,7 +68,7 @@ function CamParca({ parca, harita, index }: { parca: Parca; harita: THREE.Textur
 
 function CamParcaciklar({ cekim }: { cekim: boolean }) {
   const grup = useRef<THREE.Group>(null);
-  const kktcHaritasi = useTexture("/images/kktc-uydu-haritasi.jpg");
+  const kktcHaritasi = useTexture("/images/kktc-ilce-sinirlari.jpg");
   const parcalar = useMemo<Parca[]>(() => [
     { aci: 0.2, yariCap: 1.72, yukseklik: 0.12, hiz: 0.34, boyut: 0.22, renk: CAM_RENKLERI[0] },
     { aci: 1.55, yariCap: 1.58, yukseklik: -0.25, hiz: -0.28, boyut: 0.15, renk: CAM_RENKLERI[1] },
@@ -119,25 +119,9 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
         const x = Math.cos(parca.aci) * parca.yariCap;
         const z = Math.sin(parca.aci) * parca.yariCap;
         return (
-          <mesh key={index} position={[x, parca.yukseklik, z]} scale={parca.boyut} castShadow receiveShadow>
-            <icosahedronGeometry args={[1, 6]} />
-            <meshPhysicalMaterial
-              color={parca.renk}
-              map={kktcHaritasi}
-              metalness={0.02}
-              transmission={0.97}
-              thickness={0.58}
-              roughness={0.014}
-              ior={1.46}
-              clearcoat={1}
-              clearcoatRoughness={0.012}
-              envMapIntensity={2.4}
-              attenuationColor={parca.renk}
-              attenuationDistance={0.72}
-              transparent
-              opacity={0.995}
-            />
-          </mesh>
+          <group key={index} position={[x, parca.yukseklik, z]} scale={parca.boyut}>
+            <CamParca parca={parca} harita={kktcHaritasi} index={index} />
+          </group>
 
         );
       })}
