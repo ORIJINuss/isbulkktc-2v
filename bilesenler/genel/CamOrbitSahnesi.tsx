@@ -278,33 +278,23 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
           >
             <sphereGeometry args={[1.02, 128, 128]} />
           <meshPhysicalMaterial
-            color="#d9eee8"
-            metalness={0}
-            roughness={mobil ? 0.11 : 0.08}
+            map={kktcHaritasi}
+            color="#ffffff"
+            metalness={0.01}
+            roughness={mobil ? 0.16 : 0.14}
             ior={1.46}
-            transmission={mobil ? 0.86 : 0.92}
-            thickness={mobil ? 0.18 : 0.28}
-            clearcoat={0.32}
-            clearcoatRoughness={0.12}
+            transmission={mobil ? 0.22 : 0.34}
+            thickness={mobil ? 0.32 : 0.42}
+            clearcoat={0.78}
+            clearcoatRoughness={mobil ? 0.1 : 0.08}
             envMap={texture}
-            envMapIntensity={mobil ? 1.15 : 1.05}
+            envMapIntensity={mobil ? 1.8 : 1.55}
             attenuationColor="#8fcbb8"
-            attenuationDistance={3.6}
+            attenuationDistance={2.4}
             transparent
-            opacity={mobil ? 0.28 : 0.32}
+            opacity={mobil ? 0.42 : 0.58}
             depthWrite={true}
             side={THREE.FrontSide}
-            />
-          </mesh>
-          <mesh scale={0.992} raycast={() => null}>
-            <sphereGeometry args={[1.02, 96, 96]} />
-            <meshBasicMaterial
-              map={kktcHaritasi}
-              transparent
-              opacity={0.46}
-              depthWrite={false}
-              color="#d8eee6"
-              blending={THREE.NormalBlending}
             />
           </mesh>
         </group>
@@ -336,10 +326,10 @@ function Sahne({ cekim, mobil, onKureSec, kaydirma, imlec, kaydirmaIvmesi }: { c
   return (
     <>
       <color attach="background" args={["#f6f5ef"]} />
-      <ambientLight intensity={1.05} color="#eaf4ef" />
-      <directionalLight position={[-3, 4, 5]} intensity={1.9} color="#fff8e9" castShadow />
-      <pointLight position={[3, 1, 2]} intensity={1.25} color="#82c9b2" />
-      <pointLight position={[-2, -1, 1]} intensity={0.8} color="#e6b77b" />
+      <ambientLight intensity={1.4} color="#eaf4ef" />
+      <directionalLight position={[-3, 4, 5]} intensity={3.2} color="#fff8e9" castShadow />
+      <pointLight position={[3, 1, 2]} intensity={2.4} color="#82c9b2" />
+      <pointLight position={[-2, -1, 1]} intensity={1.5} color="#e6b77b" />
       <group ref={grup} position={[0.4, 0, 0]}>
         <CamOrbitKure cekim={cekim} mobil={mobil} onKureSec={() => onKureSec()} />
         <CamParcaciklar cekim={cekim} mobil={mobil} onKureSec={(ilce) => onKureSec(ilce)} />
