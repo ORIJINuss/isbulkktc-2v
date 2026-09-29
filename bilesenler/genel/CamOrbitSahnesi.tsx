@@ -209,12 +209,13 @@ function CamParcaciklar({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bo
           >
             <mesh
               userData={{ kureHit: true }}
+              raycast={THREE.Mesh.prototype.raycast}
               onPointerDown={(event: ThreeEvent<PointerEvent>) => {
                 event.stopPropagation();
                 onKureSec(ilceAdlari[index]);
               }}
             >
-              <sphereGeometry args={[1.08, 32, 32]} />
+              <sphereGeometry args={[1.015, 32, 32]} />
               <meshBasicMaterial transparent opacity={0} depthWrite={false} />
             </mesh>
             <CamParca parca={parca} harita={kktcHaritasi} uydu={uyduHaritasi} index={index} ilceAdi={ilceAdlari[index]} />
@@ -252,24 +253,6 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
     <CubeCamera frames={1} resolution={mobil ? 256 : 512} near={0.1} far={100}>
       {(texture) => (
         <group>
-          <mesh
-            scale={1.08}
-            userData={{ kureHit: true }}
-            onContextMenu={(event: ThreeEvent<MouseEvent>) => {
-              event.stopPropagation();
-              event.nativeEvent.preventDefault();
-              onKureSec();
-            }}
-              onPointerDown={(event: ThreeEvent<PointerEvent>) => {
-                event.stopPropagation();
-                if (event.nativeEvent.button === 2) event.nativeEvent.preventDefault();
-                onKureSec();
-              }}
-              renderOrder={20}
-          >
-            <sphereGeometry args={[1, 64, 64]} />
-            <meshBasicMaterial transparent opacity={0} depthWrite={false} />
-          </mesh>
           <mesh
             ref={kure}
             castShadow
