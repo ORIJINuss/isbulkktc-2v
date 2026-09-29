@@ -78,32 +78,41 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
           <mesh castShadow receiveShadow>
             <icosahedronGeometry args={[1, 8]} />
             <meshPhysicalMaterial
-              color={parca.renk}
-              metalness={0.02}
-              transmission={0.38}
-              thickness={0.42}
-              roughness={0.028}
+              color="#ffffff"
+              metalness={0}
+              transmission={0.58}
+              thickness={0.3}
+              roughness={0.045}
               ior={1.46}
               clearcoat={1}
-              clearcoatRoughness={0.012}
+              clearcoatRoughness={0.018}
               map={ilceHaritasi.sinir}
               envMap={yansima}
-              envMapIntensity={1.9}
+              envMapIntensity={2.7}
               attenuationColor={parca.renk}
-              attenuationDistance={0.22}
+              attenuationDistance={0.42}
               transparent
-              opacity={1}
+              opacity={0.98}
               side={THREE.DoubleSide}
             />
           </mesh>
           <mesh scale={1.006} renderOrder={2}>
             <icosahedronGeometry args={[1, 8]} />
-            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.16} depthWrite={false} blending={THREE.MultiplyBlending} />
+            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.24} depthWrite={false} blending={THREE.MultiplyBlending} />
           </mesh>
           {isimDokusu && (
             <mesh scale={1.012} renderOrder={3}>
               <sphereGeometry args={[1, 96, 96]} />
-              <meshBasicMaterial map={isimDokusu} transparent opacity={0.94} depthWrite={false} />
+              <meshPhysicalMaterial
+                map={isimDokusu}
+                transparent
+                opacity={0.92}
+                transmission={0.18}
+                roughness={0.04}
+                clearcoat={1}
+                clearcoatRoughness={0.02}
+                depthWrite={false}
+              />
             </mesh>
           )}
         </group>
