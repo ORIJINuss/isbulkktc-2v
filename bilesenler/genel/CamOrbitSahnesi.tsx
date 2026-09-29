@@ -70,20 +70,23 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
   }, [harita, uydu, index]);
 
   return (
-    <group>
+    <CubeCamera frames={1} resolution={512} near={0.1} far={30}>
+      {(yansima) => (
+        <group>
           <mesh castShadow receiveShadow>
             <icosahedronGeometry args={[1, 6]} />
             <meshPhysicalMaterial
               color={parca.renk}
               metalness={0.02}
-              transmission={0.78}
-              thickness={0.68}
-              roughness={0.014}
+              transmission={0.96}
+              thickness={0.82}
+              roughness={0.008}
               ior={1.46}
               clearcoat={1}
-              clearcoatRoughness={0.012}
+              clearcoatRoughness={0.008}
               map={ilceHaritasi.sinir}
-              envMapIntensity={2.4}
+              envMap={yansima}
+              envMapIntensity={3.2}
               attenuationColor={parca.renk}
               attenuationDistance={0.72}
               transparent
@@ -93,7 +96,7 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
           </mesh>
           <mesh scale={1.006} renderOrder={2}>
             <icosahedronGeometry args={[1, 6]} />
-            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.26} depthWrite={false} blending={THREE.MultiplyBlending} />
+            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.2} depthWrite={false} blending={THREE.MultiplyBlending} />
           </mesh>
           {isimDokusu && (
             <mesh scale={1.012} renderOrder={3}>
@@ -106,6 +109,8 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
             <meshBasicMaterial color="#ffffff" transparent opacity={0.16} depthWrite={false} blending={THREE.AdditiveBlending} />
           </mesh>
         </group>
+      )}
+    </CubeCamera>
   );
 }
 
