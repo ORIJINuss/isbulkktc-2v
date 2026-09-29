@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, Sparkles } from "@react-three/drei";
+import { ContactShadows, CubeCamera, Environment, Sparkles } from "@react-three/drei";
 import { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
@@ -34,8 +34,15 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
     grup.current.children.forEach((cocuk, index) => {
       const parca = parcalar[index];
       const hedef = cekim ? 0.62 : 1;
-      cocuk.position.multiplyScalar(THREE.MathUtils.damp(1, hedef, 2, delta));
+      const uzaklik = Math.hypot(cocuk.position.x, cocuk.position.z) || 1;
+      const hedefUzaklik = parca.yariCap * hedef;
+      const yeniUzaklik = THREE.MathUtils.damp(uzaklik, hedefUzaklik, 3.2, delta);
+      const oran = yeniUzaklik / uzaklik;
+      cocuk.position.x *= oran;
+      cocuk.position.z *= oran;
+      cocuk.position.y = THREE.MathUtils.damp(cocuk.position.y, parca.yukseklik * (cekim ? 0.82 : 1), 2.4, delta);
       cocuk.rotation.x += delta * parca.hiz;
+      cocuk.rotation.z += delta * parca.hiz * 0.35;
       cocuk.rotation.y -= delta * parca.hiz * 0.7;
     });
   });
@@ -46,9 +53,9 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
         const x = Math.cos(parca.aci) * parca.yariCap;
         const z = Math.sin(parca.aci) * parca.yariCap;
         return (
-          <mesh key={index} position={[x, parca.yukseklik, z]} scale={parca.boyut} castShadow>
-            <icosahedronGeometry args={[1, 4]} />
-            <meshPhysicalMaterial color={parca.renk} transmission={0.62} thickness={0.28} roughness={0.08} ior={1.46} clearcoat={1} clearcoatRoughness={0.04} transparent opacity={0.94} />
+          <mesh key={index} position={[x, parca.yukseklik, z]} scale={parca.boyut} castShadow receiveShadow>
+            <icosahedronGeometry args={[1, 6]} />
+            <meshPhysicalMaterial color={parca.renk} metalness={0.01} transmission={0.88} thickness={0.38} roughness={0.035} ior={1.46} clearcoat={1} clearcoatRoughness={0.025} envMapIntensity={1.5} transparent opacity={0.97} />
           </mesh>
         );
       })}
@@ -67,10 +74,27 @@ function CamOrbitKure({ cekim }: { cekim: boolean }) {
   });
 
   return (
-    <mesh ref={kure} castShadow receiveShadow>
-      <sphereGeometry args={[1.02, 96, 96]} />
-      <meshPhysicalMaterial color="#4d9887" transmission={0.54} thickness={1.45} roughness={0.07} ior={1.46} clearcoat={1} clearcoatRoughness={0.03} transparent opacity={0.96} />
-    </mesh>
+    <CubeCamera frames={1} resolution={512} near={0.1} far={100}>
+      {(texture) => (
+        <mesh ref={kure} castShadow receiveShadow>
+          <sphereGeometry args={[1.02, 128, 128]} />
+          <meshPhysicalMaterial
+            color="#4d9887"
+            metalness={0.02}
+            roughness={0.035}
+            ior={1.46}
+            transmission={0.92}
+            thickness={1.55}
+            clearcoat={1}
+            clearcoatRoughness={0.025}
+            envMap={texture}
+            envMapIntensity={1.8}
+            transparent
+            opacity={0.98}
+          />
+        </mesh>
+      )}
+    </CubeCamera>
   );
 }
 
@@ -87,7 +111,8 @@ function Sahne({ cekim }: { cekim: boolean }) {
         <CamParcaciklar cekim={cekim} />
         <Sparkles count={34} scale={3.4} size={1.6} speed={0.22} color="#fff8e9" opacity={0.72} />
       </group>
-      <Environment preset="city" environmentIntensity={0.72} />
+      <ContactShadows position={[0, -1.22, 0]} opacity={0.28} scale={5} blur={2.6} far={3.5} resolution={1024} color="#1d5148" />
+      <Environment preset="studio" environmentIntensity={1.15} />
     </>
   );
 }
