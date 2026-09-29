@@ -35,8 +35,12 @@ function webhookGizli(): string {
 export function odemeSaglayicisi(): OdemeSaglayicisi {
   return {
     async checkoutOlustur(intent) {
-      if (!Number.isSafeInteger(Math.round(intent.amount * 100)) || intent.amount < 0) {
+      const amountInMinorUnits = Math.round(intent.amount * 100);
+      if (!Number.isSafeInteger(amountInMinorUnits) || amountInMinorUnits <= 0) {
         throw new Error("Geçersiz ödeme tutarı.");
+      }
+      if (!/^[A-Z]{3}$/i.test(intent.currency)) {
+        throw new Error("Geçersiz para birimi.");
       }
       const stripe = stripeOlustur();
       const session = await stripe.checkout.sessions.create(
@@ -46,7 +50,7 @@ export function odemeSaglayicisi(): OdemeSaglayicisi {
             price_data: {
               currency: intent.currency.toLowerCase(),
               product_data: { name: "İşBulKKTC işveren paketi" },
-              unit_amount: Math.round(intent.amount * 100),
+              unit_amount: amountInMinorUnits,
             },
             quantity: 1,
           }],
@@ -61,6 +65,14 @@ export function odemeSaglayicisi(): OdemeSaglayicisi {
     },
     async webhookDogrula(rawBody, signature) {
       const event = stripeOlustur().webhooks.constructEvent(rawBody, signature, webhookGizli());
+      const supportedEvents = new Set([
+        "checkout.session.completed",
+        "checkout.session.async_payment_succeeded",
+        "checkout.session.expired",
+      ]);
+      if (!supportedEvents.has(event.type)) {
+        throw new Error("Desteklenmeyen Stripe webhook olayı.");
+      }
       const session = event.data.object as Stripe.Checkout.Session;
       const orderId = session.metadata?.orderId;
       if (!orderId) throw new Error("Stripe webhook orderId içermiyor.");

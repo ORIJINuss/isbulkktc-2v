@@ -9,7 +9,10 @@ export async function POST(istek: Request) {
   let olay: Awaited<ReturnType<ReturnType<typeof odemeSaglayicisi>["webhookDogrula"]>>;
   try {
     olay = await odemeSaglayicisi().webhookDogrula(await istek.text(), signature);
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message === "Desteklenmeyen Stripe webhook olayı.") {
+      return NextResponse.json({ basarili: true, atlandi: true });
+    }
     return NextResponse.json({ basarili: false, hata: "Geçersiz webhook." }, { status: 401 });
   }
 
