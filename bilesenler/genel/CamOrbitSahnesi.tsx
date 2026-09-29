@@ -154,6 +154,9 @@ function CamParcaciklar({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bo
       cocuk.position.x *= oran;
       cocuk.position.z *= oran;
       cocuk.position.y = THREE.MathUtils.damp(cocuk.position.y, parca.yukseklik * (cekim ? 0.82 : 1), 2.4, delta);
+      const hedefBoyut = parca.boyut * (cocuk.userData.hovered ? 1.18 : 1);
+      const boyut = THREE.MathUtils.damp(cocuk.scale.x, hedefBoyut, cocuk.userData.hovered ? 9 : 5, delta);
+      cocuk.scale.setScalar(boyut);
       cocuk.rotation.x += delta * parca.hiz;
       cocuk.rotation.z += delta * parca.hiz * 0.35;
       cocuk.rotation.y -= delta * parca.hiz * 0.7;
@@ -192,8 +195,16 @@ function CamParcaciklar({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bo
             onPointerDown={(event: ThreeEvent<PointerEvent>) => {
               if (event.nativeEvent.button === 2) sagTikSec(event, () => onKureSec(ilceAdlari[index]));
             }}
-            onPointerOver={() => { document.body.style.cursor = "pointer"; }}
-            onPointerOut={() => { document.body.style.cursor = ""; }}
+            onPointerOver={(event) => {
+              event.stopPropagation();
+              event.object.parent?.userData && (event.object.parent.userData.hovered = true);
+              document.body.style.cursor = "pointer";
+            }}
+            onPointerOut={(event) => {
+              event.stopPropagation();
+              event.object.parent?.userData && (event.object.parent.userData.hovered = false);
+              document.body.style.cursor = "";
+            }}
           >
             <mesh
               userData={{ kureHit: true }}
@@ -228,8 +239,8 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
     if (!kure.current) return;
     kure.current.rotation.y += delta * (cekim ? 0.28 : 0.08);
     kure.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.32) * 0.045;
-    const hedef = cekim ? 1.07 : 1;
-    kure.current.scale.lerp(new THREE.Vector3(hedef, hedef, hedef), 1 - Math.exp(-delta * 4));
+    const hedef = (cekim ? 1.07 : 1) * (kure.current.userData.hovered ? 1.08 : 1);
+    kure.current.scale.lerp(new THREE.Vector3(hedef, hedef, hedef), 1 - Math.exp(-delta * 7));
   });
 
   return (
@@ -272,8 +283,16 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
                 onKureSec();
               }
             }}
-            onPointerOver={() => { document.body.style.cursor = "pointer"; }}
-            onPointerOut={() => { document.body.style.cursor = ""; }}
+            onPointerOver={(event) => {
+              event.stopPropagation();
+              event.object.userData.hovered = true;
+              document.body.style.cursor = "pointer";
+            }}
+            onPointerOut={(event) => {
+              event.stopPropagation();
+              event.object.userData.hovered = false;
+              document.body.style.cursor = "";
+            }}
           >
             <sphereGeometry args={[1.02, 128, 128]} />
           <meshPhysicalMaterial

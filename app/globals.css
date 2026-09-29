@@ -190,6 +190,31 @@
       "opsz" 24;
   }
 
+  a .msimge,
+  button .msimge,
+  [role="button"] .msimge {
+    transition: transform 220ms cubic-bezier(.22, 1, .36, 1), color 220ms ease, font-variation-settings 220ms ease;
+    transform-origin: center;
+  }
+
+  a:hover .msimge,
+  a:focus-visible .msimge,
+  button:hover .msimge,
+  button:focus-visible .msimge,
+  [role="button"]:hover .msimge,
+  [role="button"]:focus-visible .msimge {
+    transform: translate3d(0, -2px, 0) scale(1.08) rotate(-3deg);
+    font-variation-settings: "FILL" 1, "wght" 600, "GRAD" 0, "opsz" 24;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    a .msimge,
+    button .msimge,
+    [role="button"] .msimge {
+      transition: none;
+    }
+  }
+
   button,
   a,
   input,
