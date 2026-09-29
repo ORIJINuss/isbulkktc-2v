@@ -103,7 +103,7 @@ function FizikOrbit({ scrollRef }: { scrollRef: React.MutableRefObject<ScrollDur
   });
 
   return (
-    <group ref={grup} position={[0.92, 0.05, 0]} scale={1.18}>
+    <group ref={grup} position={[0.72, 0.02, 0]} scale={1.42}>
       <mesh rotation={[Math.PI / 2.3, 0.1, 0]}>
         <torusGeometry args={[2.1, 0.012, 12, 160]} />
         <meshBasicMaterial color="#4a7c8e" transparent opacity={0.62} />
@@ -146,14 +146,7 @@ export default function OrbitSahnesi() {
 
   return (
     <div className="orbit-3d-sahnesi" aria-hidden="true">
-      <div className="orbit-visual-layer">
-        <span className="orbit-visual-orb orbit-visual-orb-one" />
-        <span className="orbit-visual-orb orbit-visual-orb-two" />
-        <span className="orbit-visual-orb orbit-visual-orb-three" />
-        <span className="orbit-visual-orb orbit-visual-orb-four" />
-        <span className="orbit-visual-ring orbit-visual-ring-one" />
-        <span className="orbit-visual-ring orbit-visual-ring-two" />
-      </div>
+      <div className="orbit-focal" />
       <Canvas camera={{ position: [0, 0.1, 6.2], fov: 39 }} dpr={[1, 2]} gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}>
         <ambientLight intensity={0.9} color="#e6f0ed" />
         <directionalLight position={[-4, 5, 6]} intensity={3.5} color="#fff7e8" />
