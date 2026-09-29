@@ -143,7 +143,44 @@
     contain: layout paint;
   }
 
+  .orbit-visual-layer {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .orbit-visual-orb,
+  .orbit-visual-ring {
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    transform-origin: center;
+    will-change: transform;
+  }
+
+  .orbit-visual-orb {
+    background: radial-gradient(circle at 32% 27%, rgba(255, 248, 229, .95) 0 3%, rgba(232, 190, 139, .78) 16%, rgba(82, 67, 65, .72) 74%, rgba(38, 43, 42, .56));
+    border: 1px solid rgba(255,255,255,.22);
+    box-shadow: inset 18px 12px 28px rgba(255,255,255,.24), inset -16px -20px 30px rgba(29,42,43,.28), 0 22px 40px rgba(28,48,45,.16);
+    animation: orbit-visual-drift 12s ease-in-out infinite;
+  }
+
+  .orbit-visual-orb-one { width: clamp(9rem, 17vw, 15rem); height: clamp(9rem, 17vw, 15rem); right: 9%; top: -7%; }
+  .orbit-visual-orb-two { width: clamp(5rem, 8vw, 8rem); height: clamp(5rem, 8vw, 8rem); right: 2%; top: 3%; animation-delay: -3s; }
+  .orbit-visual-orb-three { width: clamp(4rem, 7vw, 7rem); height: clamp(4rem, 7vw, 7rem); right: 14%; top: 6%; animation-delay: -6s; }
+  .orbit-visual-orb-four { width: clamp(8rem, 14vw, 12rem); height: clamp(8rem, 14vw, 12rem); left: -5%; top: 23%; animation-delay: -8s; }
+
+  .orbit-visual-ring { left: 72%; top: 25%; width: clamp(16rem, 27vw, 25rem); height: clamp(7rem, 12vw, 11rem); border: 1px solid rgba(60, 121, 111, .24); transform: rotate(-17deg); box-shadow: 0 0 36px rgba(95,162,157,.11); animation: orbit-visual-spin 18s linear infinite; }
+  .orbit-visual-ring-two { left: 67%; top: 21%; width: clamp(19rem, 33vw, 30rem); height: clamp(9rem, 15vw, 13rem); border-color: rgba(227,123,136,.17); transform: rotate(25deg); animation-duration: 25s; animation-direction: reverse; }
+
+  @keyframes orbit-visual-drift { 0%, 100% { margin-top: 0; transform: scale(1) rotate(0deg); } 50% { margin-top: 16px; transform: scale(1.035) rotate(4deg); } }
+  @keyframes orbit-visual-spin { to { transform: rotate(343deg); } }
+
   .orbit-3d-sahnesi canvas {
+    position: relative;
+    z-index: 2;
     display: block;
     width: 100% !important;
     height: 100% !important;
