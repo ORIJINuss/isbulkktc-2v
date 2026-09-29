@@ -243,7 +243,11 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
               onKureSec();
             }}
             onPointerDown={(event: ThreeEvent<PointerEvent>) => {
-              if (event.nativeEvent.button === 2) sagTikSec(event, onKureSec);
+              event.stopPropagation();
+              if (event.nativeEvent.button === 2) {
+                event.nativeEvent.preventDefault();
+                onKureSec();
+              }
             }}
             renderOrder={20}
           >
@@ -260,7 +264,11 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
               onKureSec();
             }}
             onPointerDown={(event: ThreeEvent<PointerEvent>) => {
-              if (event.nativeEvent.button === 2) sagTikSec(event, onKureSec);
+              event.stopPropagation();
+              if (event.nativeEvent.button === 2) {
+                event.nativeEvent.preventDefault();
+                onKureSec();
+              }
             }}
             onPointerOver={() => { document.body.style.cursor = "pointer"; }}
             onPointerOut={() => { document.body.style.cursor = ""; }}
@@ -306,12 +314,15 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
 
 function Sahne({ cekim, mobil, onKureSec, kaydirma }: { cekim: boolean; mobil: boolean; onKureSec: CamEtkilesimProps["onKureSec"]; kaydirma: MutableRefObject<number> }) {
   const grup = useRef<THREE.Group>(null);
+  const ivme = useRef(0);
 
   useFrame((_, delta) => {
     if (!grup.current) return;
     const ilerleme = kaydirma.current;
-    grup.current.rotation.x = THREE.MathUtils.damp(grup.current.rotation.x, ilerleme * 0.16, 4, delta);
-    grup.current.rotation.y = THREE.MathUtils.damp(grup.current.rotation.y, ilerleme * 0.34, 4, delta);
+    ivme.current = THREE.MathUtils.damp(ivme.current, 0, 3.2, delta);
+    grup.current.rotation.x = THREE.MathUtils.damp(grup.current.rotation.x, ilerleme * 0.16 + ivme.current * 0.12, 5, delta);
+    grup.current.rotation.y += delta * (0.06 + Math.abs(ivme.current) * 0.65);
+    grup.current.rotation.y = THREE.MathUtils.damp(grup.current.rotation.y, ilerleme * 0.34 + ivme.current * 0.42, 5, delta);
     grup.current.position.y = THREE.MathUtils.damp(grup.current.position.y, ilerleme * (mobil ? -0.12 : -0.22), 4, delta);
     grup.current.position.x = THREE.MathUtils.damp(grup.current.position.x, ilerleme * (mobil ? 0.04 : 0.16), 4, delta);
   });
@@ -362,7 +373,8 @@ export default function CamOrbitSahnesi({ onKureSec }: CamEtkilesimProps) {
   }, []);
 
   const kureSec = (ilce?: string) => {
-    setCekim(true);
+    setCekim(false);
+    window.requestAnimationFrame(() => setCekim(true));
     onKureSec(ilce);
   };
 
@@ -373,7 +385,7 @@ export default function CamOrbitSahnesi({ onKureSec }: CamEtkilesimProps) {
       role="img"
       aria-label="Etkileşimli cam orbit görseli"
     >
-      <Canvas dpr={mobil ? [1, 1.35] : [1, 2]} camera={{ position: [0, 0, mobil ? 5.8 : 5.35], fov: mobil ? 32 : 29 }} frameloop="always" gl={{ alpha: true, antialias: !mobil, powerPreference: "high-performance" }} onPointerMissed={() => setCekim((deger) => !deger)}>
+      <Canvas dpr={mobil ? [1, 1.35] : [1, 2]} camera={{ position: [0, 0, mobil ? 5.8 : 5.35], fov: mobil ? 32 : 29 }} frameloop="always" gl={{ alpha: true, antialias: !mobil, powerPreference: "high-performance" }} onPointerMissed={() => setCekim((deger) => !deger)} onContextMenu={(event) => event.preventDefault()}>
         <Sahne cekim={cekim} mobil={mobil} onKureSec={kureSec} kaydirma={kaydirma} />
       </Canvas>
       <span className="sr-only">Cam orbiti hareket ettirmek için tıklayın.</span>
