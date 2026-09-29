@@ -231,7 +231,6 @@ function CamParcaciklar({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bo
 
 function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: boolean; onKureSec: () => void }) {
   const kure = useRef<THREE.Mesh>(null);
-  const haritaKuresi = useRef<THREE.Mesh>(null);
   const kktcHaritasi = useTexture("/images/kktc-uydu-haritasi.jpg");
   kktcHaritasi.colorSpace = THREE.SRGBColorSpace;
   kktcHaritasi.anisotropy = 16;
@@ -246,9 +245,6 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
     const hedef = (cekim ? 1.07 : 1) * (kure.current.userData.hovered ? 1.08 : 1);
     const hoverDamp = 1 - Math.exp(-delta * 12);
     kure.current.scale.lerp(new THREE.Vector3(hedef, hedef, hedef), hoverDamp);
-    if (haritaKuresi.current) {
-      haritaKuresi.current.scale.lerp(new THREE.Vector3(hedef, hedef, hedef), hoverDamp);
-    }
   });
 
   return (
@@ -285,36 +281,20 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
             map={kktcHaritasi}
             color="#ffffff"
             metalness={0.01}
-            roughness={mobil ? 0.12 : 0.06}
+            roughness={mobil ? 0.16 : 0.14}
             ior={1.46}
-            transmission={mobil ? 0.18 : 0.62}
-            thickness={mobil ? 0.28 : 0.85}
-            clearcoat={1}
-            clearcoatRoughness={mobil ? 0.08 : 0.04}
+            transmission={mobil ? 0.22 : 0.34}
+            thickness={mobil ? 0.32 : 0.42}
+            clearcoat={0.78}
+            clearcoatRoughness={mobil ? 0.1 : 0.08}
             envMap={texture}
-            envMapIntensity={mobil ? 2.25 : 2.25}
+            envMapIntensity={mobil ? 1.8 : 1.55}
             attenuationColor="#8fcbb8"
-            attenuationDistance={1.8}
+            attenuationDistance={2.4}
             transparent
-            opacity={mobil ? 0.32 : 0.72}
+            opacity={mobil ? 0.42 : 0.58}
             depthWrite={true}
             side={THREE.FrontSide}
-            />
-          </mesh>
-            <mesh ref={haritaKuresi} scale={1.012} raycast={() => null}>
-            <sphereGeometry args={[1.02, 128, 128]} />
-            <meshPhysicalMaterial
-              map={kktcHaritasi}
-              color="#ffffff"
-              transmission={0}
-              roughness={mobil ? 0.16 : 0.08}
-              clearcoat={1}
-              clearcoatRoughness={0.025}
-              transparent
-              opacity={0.82}
-              depthWrite={false}
-              depthTest={true}
-              side={THREE.DoubleSide}
             />
           </mesh>
         </group>
