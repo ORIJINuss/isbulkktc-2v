@@ -1,8 +1,6 @@
 -- Additive production domain foundation.
 -- Existing tables remain compatible with the current UI and services.
 
-ALTER TYPE public.user_role ADD VALUE IF NOT EXISTS 'super_admin';
-
 DO $$
 BEGIN
   CREATE TYPE public.company_member_role AS ENUM ('owner', 'recruiter', 'viewer');
