@@ -79,18 +79,18 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
             <icosahedronGeometry args={[1, 8]} />
             <meshPhysicalMaterial
               color={parca.renk}
-              metalness={0.06}
-              transmission={0.74}
-              thickness={0.9}
-              roughness={0.018}
+              metalness={0.02}
+              transmission={0.38}
+              thickness={0.42}
+              roughness={0.028}
               ior={1.46}
               clearcoat={1}
               clearcoatRoughness={0.012}
               map={ilceHaritasi.sinir}
               envMap={yansima}
-              envMapIntensity={2.8}
+              envMapIntensity={1.9}
               attenuationColor={parca.renk}
-              attenuationDistance={0.34}
+              attenuationDistance={0.22}
               transparent
               opacity={1}
               side={THREE.DoubleSide}
@@ -98,7 +98,7 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
           </mesh>
           <mesh scale={1.006} renderOrder={2}>
             <icosahedronGeometry args={[1, 8]} />
-            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.48} depthWrite={false} blending={THREE.MultiplyBlending} />
+            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.16} depthWrite={false} blending={THREE.MultiplyBlending} />
           </mesh>
           {isimDokusu && (
             <mesh scale={1.012} renderOrder={3}>
@@ -106,10 +106,6 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
               <meshBasicMaterial map={isimDokusu} transparent opacity={0.94} depthWrite={false} />
             </mesh>
           )}
-          <mesh scale={1.009} renderOrder={3}>
-            <icosahedronGeometry args={[1, 8]} />
-            <meshBasicMaterial color="#ffffff" transparent opacity={0.14} depthWrite={false} blending={THREE.AdditiveBlending} />
-          </mesh>
         </group>
       )}
     </CubeCamera>
