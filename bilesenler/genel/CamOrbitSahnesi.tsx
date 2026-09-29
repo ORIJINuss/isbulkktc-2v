@@ -5,7 +5,7 @@ import { ContactShadows, CubeCamera, Environment, Sparkles, useTexture } from "@
 import { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
-const CAM_RENKLERI = ["#8fcbb8", "#d9aa67", "#e7a2a7", "#b7d8d0"];
+const CAM_RENKLERI = ["#4d9887", "#d9aa67", "#e7a2a7", "#b7d8d0", "#244f4a", "#d8eee6"];
 const CAM_ORBIT_SURUM = "physical-material-v2";
 
 type Parca = {
@@ -19,7 +19,7 @@ type Parca = {
 
 function CamParca({ parca }: { parca: Parca }) {
   return (
-    <CubeCamera frames={1} resolution={256} near={0.1} far={30}>
+    <CubeCamera frames={Infinity} resolution={512} near={0.1} far={30}>
       {(texture) => (
         <group>
           <mesh castShadow receiveShadow>
@@ -54,11 +54,12 @@ function CamParca({ parca }: { parca: Parca }) {
 function CamParcaciklar({ cekim }: { cekim: boolean }) {
   const grup = useRef<THREE.Group>(null);
   const parcalar = useMemo<Parca[]>(() => [
-    { aci: 0.2, yariCap: 1.48, yukseklik: 0.12, hiz: 0.34, boyut: 0.22, renk: CAM_RENKLERI[0] },
-    { aci: 1.55, yariCap: 1.34, yukseklik: -0.25, hiz: -0.28, boyut: 0.15, renk: CAM_RENKLERI[1] },
-    { aci: 2.7, yariCap: 1.5, yukseklik: 0.32, hiz: 0.22, boyut: 0.2, renk: CAM_RENKLERI[2] },
-    { aci: 4.05, yariCap: 1.38, yukseklik: -0.18, hiz: -0.31, boyut: 0.17, renk: CAM_RENKLERI[3] },
-    { aci: 5.2, yariCap: 1.46, yukseklik: 0.28, hiz: 0.26, boyut: 0.13, renk: CAM_RENKLERI[0] },
+    { aci: 0.2, yariCap: 1.72, yukseklik: 0.12, hiz: 0.34, boyut: 0.22, renk: CAM_RENKLERI[0] },
+    { aci: 1.55, yariCap: 1.58, yukseklik: -0.25, hiz: -0.28, boyut: 0.15, renk: CAM_RENKLERI[1] },
+    { aci: 2.7, yariCap: 1.76, yukseklik: 0.32, hiz: 0.22, boyut: 0.2, renk: CAM_RENKLERI[2] },
+    { aci: 4.05, yariCap: 1.62, yukseklik: -0.18, hiz: -0.31, boyut: 0.17, renk: CAM_RENKLERI[3] },
+    { aci: 5.2, yariCap: 1.7, yukseklik: 0.28, hiz: 0.26, boyut: 0.13, renk: CAM_RENKLERI[4] },
+    { aci: 0.92, yariCap: 1.84, yukseklik: -0.34, hiz: -0.2, boyut: 0.12, renk: CAM_RENKLERI[5] },
   ], []);
 
   useFrame((_, delta) => {
@@ -104,7 +105,21 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
         return (
           <mesh key={index} position={[x, parca.yukseklik, z]} scale={parca.boyut} castShadow receiveShadow>
             <icosahedronGeometry args={[1, 6]} />
-            <meshPhysicalMaterial color={parca.renk} metalness={0.02} transmission={0.97} thickness={0.58} roughness={0.014} ior={1.46} clearcoat={1} clearcoatRoughness={0.012} envMapIntensity={2.4} attenuationColor={parca.renk} attenuationDistance={0.72} transparent opacity={0.995} />
+            <meshPhysicalMaterial
+              color={parca.renk}
+              metalness={0.02}
+              transmission={0.97}
+              thickness={0.58}
+              roughness={0.014}
+              ior={1.46}
+              clearcoat={1}
+              clearcoatRoughness={0.012}
+              envMapIntensity={2.4}
+              attenuationColor={parca.renk}
+              attenuationDistance={0.72}
+              transparent
+              opacity={0.995}
+            />
           </mesh>
         );
       })}
