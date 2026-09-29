@@ -20,10 +20,17 @@ type Parca = {
 function CamParca({ parca, harita, index }: { parca: Parca; harita: THREE.Texture; index: number }) {
   const ilceHaritasi = useMemo(() => {
     const kopya = harita.clone();
-    const ilcePerspektifleri: [number, number][] = [[0.16, 0.38], [0.27, 0.38], [0.39, 0.4], [0.5, 0.39], [0.63, 0.38], [0.77, 0.4]];
-    const [x, y] = ilcePerspektifleri[index] ?? ilcePerspektifleri[0];
-    kopya.repeat.set(0.2, 0.42);
-    kopya.offset.set(x, y);
+    const ilceKadrajlari: Array<{ tekrar: [number, number]; konum: [number, number] }> = [
+      { tekrar: [0.22, 0.36], konum: [0.16, 0.42] },
+      { tekrar: [0.18, 0.36], konum: [0.29, 0.42] },
+      { tekrar: [0.13, 0.36], konum: [0.42, 0.42] },
+      { tekrar: [0.18, 0.36], konum: [0.51, 0.42] },
+      { tekrar: [0.2, 0.36], konum: [0.63, 0.42] },
+      { tekrar: [0.2, 0.36], konum: [0.77, 0.42] },
+    ];
+    const kadraj = ilceKadrajlari[index] ?? ilceKadrajlari[0];
+    kopya.repeat.set(...kadraj.tekrar);
+    kopya.offset.set(...kadraj.konum);
     kopya.wrapS = THREE.ClampToEdgeWrapping;
     kopya.wrapT = THREE.ClampToEdgeWrapping;
     kopya.colorSpace = THREE.SRGBColorSpace;
@@ -39,9 +46,9 @@ function CamParca({ parca, harita, index }: { parca: Parca; harita: THREE.Textur
           <mesh castShadow receiveShadow>
             <icosahedronGeometry args={[1, 6]} />
             <meshPhysicalMaterial
-              color={parca.renk}
+              color="#ffffff"
               metalness={0.02}
-              transmission={0.97}
+              transmission={0.72}
               thickness={0.58}
               roughness={0.014}
               ior={1.46}
