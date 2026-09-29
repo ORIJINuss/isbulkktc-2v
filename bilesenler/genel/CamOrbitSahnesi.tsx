@@ -6,6 +6,7 @@ import { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
 const CAM_RENKLERI = ["#8fcbb8", "#d9aa67", "#e7a2a7", "#b7d8d0"];
+const CAM_ORBIT_SURUM = "physical-material-v2";
 
 type Parca = {
   aci: number;
@@ -97,6 +98,7 @@ export default function CamOrbitSahnesi() {
   return (
     <div
       className="cam-orbit-sahnesi"
+      data-cam-orbit-version={CAM_ORBIT_SURUM}
       role="img"
       aria-label="Etkileşimli cam orbit görseli"
       onClick={() => setCekim((deger) => !deger)}
