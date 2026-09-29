@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { MouseEvent } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/yonlendirme";
 import DilSecici from "@/bilesenler/genel/DilSecici";
@@ -15,6 +16,10 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
   const t = useTranslations("gezinme");
   const m = useTranslations("meta");
   const router = useRouter();
+  const kayitEkraninaGit = (event: MouseEvent<HTMLElement>, tur: "aday" | "isveren") => {
+    event.preventDefault();
+    router.push(`/giris?mod=kayit&tur=${tur}` as Parameters<typeof router.push>[0]);
+  };
   const [mobilMenuAcik, setMobilMenuAcik] = useState(false);
   const [oturumAcik, setOturumAcik] = useState(false);
   const [kimlikHatasi, setKimlikHatasi] = useState<
@@ -149,12 +154,13 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
 
           <div className="hidden xl:flex items-center gap-2">
             <Link
-              href="/aday-profilim"
+              href="/giris"
+              onClick={(event) => kayitEkraninaGit(event, "aday")}
               className="text-etiket-md font-semibold px-3 py-1.5 rounded-xl text-yüzey-uzerinde/70 hover:text-yüzey-uzerinde hover:bg-yüzey-kapsayici transition-colors"
             >
               {t("adayim")}
             </Link>
-            <Buton tur="baglanti" href="/isveren/yeni-ilan" varyant="ana" boyut="sm" ikon="business_center">
+            <Buton tur="baglanti" href="/giris" onClick={(event) => kayitEkraninaGit(event, "isveren")} varyant="ana" boyut="sm" ikon="business_center">
               {t("isverenim")}
             </Buton>
             {oturumAcik && (
@@ -221,15 +227,21 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
             ))}
             <div className="mt-2 grid grid-cols-2 gap-2 border-t border-cizgi-degisken/70 pt-3">
               <Link
-                href="/aday-profilim"
-                onClick={() => setMobilMenuAcik(false)}
+href="/giris"
+                onClick={(event) => {
+                  setMobilMenuAcik(false);
+                  kayitEkraninaGit(event, "aday");
+                }}
                 className="rounded-xl border border-cizgi-degisken px-3 py-2.5 text-center hover:bg-yüzey-kapsayici hover:text-ana"
               >
                 {t("adayim")}
               </Link>
               <Link
-                href="/isveren/yeni-ilan"
-                onClick={() => setMobilMenuAcik(false)}
+                href="/giris"
+                onClick={(event) => {
+                  setMobilMenuAcik(false);
+                  kayitEkraninaGit(event, "isveren");
+                }}
                 className="rounded-xl bg-ana px-3 py-2.5 text-center text-ana-uzerinde hover:opacity-90"
               >
                 {t("isverenim")}

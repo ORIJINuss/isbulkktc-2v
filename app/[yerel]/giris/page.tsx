@@ -1,10 +1,14 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Rozet from "@/bilesenler/genel/Rozet";
 import GirisKayitSekmeleri from "@/bilesenler/formlar/GirisKayitSekmeleri";
 
 export default function GirisSayfasi() {
+  const searchParams = useSearchParams();
+  const baslangicTuru = searchParams.get("tur") === "isveren" ? "isveren" : "aday";
+  const baslangicModu = searchParams.get("mod") === "kayit" ? "kayit" : "giris";
   const t = useTranslations("giris");
   const m = useTranslations("meta");
 
@@ -113,7 +117,7 @@ export default function GirisSayfasi() {
         </div>
 
         <div className="lg:sticky lg:top-24 space-y-4 order-1 lg:order-2">
-          <GirisKayitSekmeleri />
+          <GirisKayitSekmeleri initialUserType={baslangicTuru} initialMode={baslangicModu} />
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {kurumsal.map((k) => (
               <li
