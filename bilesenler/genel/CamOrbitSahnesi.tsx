@@ -76,31 +76,29 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
       {(yansima) => (
         <group>
           <mesh castShadow receiveShadow>
-            <icosahedronGeometry args={[1, 6]} />
+            <icosahedronGeometry args={[1, 8]} />
             <meshPhysicalMaterial
               color={parca.renk}
-              metalness={0.035}
-              transmission={0.88}
-              thickness={0.72}
-              roughness={0.012}
+              metalness={0.06}
+              transmission={0.74}
+              thickness={0.9}
+              roughness={0.018}
               ior={1.46}
               clearcoat={1}
-              clearcoatRoughness={0.008}
+              clearcoatRoughness={0.012}
               map={ilceHaritasi.sinir}
               envMap={yansima}
-              envMapIntensity={4.2}
+              envMapIntensity={2.8}
               attenuationColor={parca.renk}
-              attenuationDistance={0.52}
-              emissive={parca.renk}
-              emissiveIntensity={0.12}
+              attenuationDistance={0.34}
               transparent
               opacity={1}
               side={THREE.DoubleSide}
             />
           </mesh>
           <mesh scale={1.006} renderOrder={2}>
-            <icosahedronGeometry args={[1, 6]} />
-            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.34} depthWrite={false} blending={THREE.MultiplyBlending} />
+            <icosahedronGeometry args={[1, 8]} />
+            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.48} depthWrite={false} blending={THREE.MultiplyBlending} />
           </mesh>
           {isimDokusu && (
             <mesh scale={1.012} renderOrder={3}>
@@ -109,8 +107,8 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
             </mesh>
           )}
           <mesh scale={1.009} renderOrder={3}>
-            <icosahedronGeometry args={[1, 6]} />
-            <meshBasicMaterial color="#ffffff" transparent opacity={0.24} depthWrite={false} blending={THREE.AdditiveBlending} />
+            <icosahedronGeometry args={[1, 8]} />
+            <meshBasicMaterial color="#ffffff" transparent opacity={0.14} depthWrite={false} blending={THREE.AdditiveBlending} />
           </mesh>
         </group>
       )}
