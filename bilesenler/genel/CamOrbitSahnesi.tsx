@@ -213,8 +213,8 @@ function CamOrbitKure({ cekim }: { cekim: boolean }) {
           <mesh ref={kure} castShadow receiveShadow>
             <sphereGeometry args={[1.02, 128, 128]} />
           <meshPhysicalMaterial
-            color="#4d9887"
-            metalness={0.02}
+            color="#ffffff"
+            metalness={0.01}
             roughness={0.035}
             ior={1.46}
             transmission={0.92}
@@ -229,17 +229,17 @@ function CamOrbitKure({ cekim }: { cekim: boolean }) {
             opacity={0.99}
             />
           </mesh>
-          <mesh scale={1.012} renderOrder={2}>
+            <mesh scale={1.012} renderOrder={2}>
             <sphereGeometry args={[1.02, 128, 128]} />
             <meshPhysicalMaterial
               map={kktcHaritasi}
-              color="#d8eee6"
-              transmission={0.18}
-              roughness={0.12}
+              color="#ffffff"
+              transmission={0.08}
+              roughness={0.08}
               clearcoat={1}
-              clearcoatRoughness={0.035}
+              clearcoatRoughness={0.025}
               transparent
-              opacity={0.68}
+              opacity={0.86}
               depthWrite={false}
               side={THREE.DoubleSide}
             />
