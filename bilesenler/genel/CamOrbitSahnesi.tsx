@@ -244,7 +244,7 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
   });
 
   return (
-    <CubeCamera frames={mobil ? 2 : 1} resolution={mobil ? 256 : 512} near={0.1} far={100}>
+    <CubeCamera frames={1} resolution={mobil ? 256 : 512} near={0.1} far={100}>
       {(texture) => (
         <group>
           <mesh
@@ -305,7 +305,7 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
             clearcoat={1}
             clearcoatRoughness={0.025}
             envMap={texture}
-            envMapIntensity={mobil ? 3.4 : 2.25}
+            envMapIntensity={mobil ? 2.25 : 2.25}
             attenuationColor="#8fcbb8"
             attenuationDistance={1.8}
             transparent
@@ -321,9 +321,9 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
               clearcoat={1}
               clearcoatRoughness={0.015}
               envMap={texture}
-              envMapIntensity={mobil ? 2.2 : 1.3}
+              envMapIntensity={mobil ? 1.6 : 1.3}
               transparent
-              opacity={mobil ? 0.22 : 0.12}
+              opacity={mobil ? 0.12 : 0.12}
               depthWrite={false}
               side={THREE.DoubleSide}
             />
@@ -333,13 +333,13 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
             <meshPhysicalMaterial
               map={kktcHaritasi}
               color="#ffffff"
-              transmission={0.08}
-              roughness={0.08}
+              transmission={0}
+              roughness={mobil ? 0.16 : 0.08}
               clearcoat={1}
               clearcoatRoughness={0.025}
-              transparent
-              opacity={0.86}
-              depthWrite={false}
+              transparent={false}
+              opacity={1}
+              depthWrite={true}
               side={THREE.DoubleSide}
             />
           </mesh>
