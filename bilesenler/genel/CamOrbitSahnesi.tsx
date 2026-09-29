@@ -101,7 +101,7 @@ export default function CamOrbitSahnesi() {
       aria-label="Etkileşimli cam orbit görseli"
       onClick={() => setCekim((deger) => !deger)}
     >
-      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 4.7], fov: 34 }} gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}>
+      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 4.7], fov: 34 }} frameloop="always" gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}>
         <Sahne cekim={cekim} />
       </Canvas>
       <span className="sr-only">Cam orbiti hareket ettirmek için tıklayın.</span>
