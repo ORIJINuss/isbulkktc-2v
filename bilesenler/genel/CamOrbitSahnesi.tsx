@@ -56,7 +56,7 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
   );
 }
 
-function AnaCamKure({ cekim }: { cekim: boolean }) {
+function CamOrbitKure({ cekim }: { cekim: boolean }) {
   const kure = useRef<THREE.Mesh>(null);
   useFrame((state, delta) => {
     if (!kure.current) return;
@@ -83,7 +83,7 @@ function Sahne({ cekim }: { cekim: boolean }) {
       <pointLight position={[3, 1, 2]} intensity={2.4} color="#82c9b2" />
       <pointLight position={[-2, -1, 1]} intensity={1.5} color="#e6b77b" />
       <group position={[0.4, 0, 0]}>
-        <AnaCamKure cekim={cekim} />
+        <CamOrbitKure cekim={cekim} />
         <CamParcaciklar cekim={cekim} />
         <Sparkles count={34} scale={3.4} size={1.6} speed={0.22} color="#fff8e9" opacity={0.72} />
       </group>
