@@ -17,17 +17,38 @@ type Parca = {
   renk: string;
 };
 
-function CamParca({ parca, harita, uydu, index }: { parca: Parca; harita: THREE.Texture; uydu: THREE.Texture; index: number }) {
+function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harita: THREE.Texture; uydu: THREE.Texture; index: number; ilceAdi: string }) {
+  const isimDokusu = useMemo(() => {
+    const tuval = document.createElement("canvas");
+    tuval.width = 1024;
+    tuval.height = 512;
+    const ctx = tuval.getContext("2d");
+    if (!ctx) return null;
+    ctx.translate(1024, 512);
+    ctx.rotate(Math.PI);
+    ctx.font = "700 92px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "rgba(255,255,255,0.92)";
+    ctx.strokeStyle = "rgba(23,63,57,0.9)";
+    ctx.lineWidth = 10;
+    ctx.strokeText(ilceAdi, 512, 256);
+    ctx.fillText(ilceAdi, 512, 256);
+    const texture = new THREE.CanvasTexture(tuval);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.anisotropy = 16;
+    return texture;
+  }, [ilceAdi]);
   const ilceHaritasi = useMemo(() => {
     const kopya = harita.clone();
     const uyduKopya = uydu.clone();
     const ilceKadrajlari: Array<{ tekrar: [number, number]; konum: [number, number] }> = [
-      { tekrar: [1 / 3, 1 / 2], konum: [0, 1 / 2] },
-      { tekrar: [1 / 3, 1 / 2], konum: [0, 0] },
-      { tekrar: [1 / 3, 1 / 2], konum: [2 / 3, 0] },
-      { tekrar: [1 / 3, 1 / 2], konum: [1 / 3, 1 / 2] },
-      { tekrar: [1 / 3, 1 / 2], konum: [2 / 3, 1 / 2] },
-      { tekrar: [1 / 3, 1 / 2], konum: [1 / 3, 0] },
+      { tekrar: [0.28, 0.42], konum: [0.02, 0.54] },
+      { tekrar: [0.28, 0.42], konum: [0.02, 0.04] },
+      { tekrar: [0.28, 0.42], konum: [0.69, 0.04] },
+      { tekrar: [0.28, 0.42], konum: [0.35, 0.54] },
+      { tekrar: [0.28, 0.42], konum: [0.69, 0.54] },
+      { tekrar: [0.28, 0.42], konum: [0.35, 0.04] },
     ];
     const kadraj = ilceKadrajlari[index] ?? ilceKadrajlari[0];
     kopya.repeat.set(...kadraj.tekrar);
@@ -52,9 +73,9 @@ function CamParca({ parca, harita, uydu, index }: { parca: Parca; harita: THREE.
           <mesh castShadow receiveShadow>
             <icosahedronGeometry args={[1, 6]} />
             <meshPhysicalMaterial
-              color="#ffffff"
+              color={parca.renk}
               metalness={0.02}
-              transmission={0.92}
+              transmission={0.78}
               thickness={0.68}
               roughness={0.014}
               ior={1.46}
@@ -65,13 +86,20 @@ function CamParca({ parca, harita, uydu, index }: { parca: Parca; harita: THREE.
               attenuationColor={parca.renk}
               attenuationDistance={0.72}
               transparent
-              opacity={0.995}
+              opacity={1}
+              side={THREE.DoubleSide}
             />
           </mesh>
           <mesh scale={1.006} renderOrder={2}>
             <icosahedronGeometry args={[1, 6]} />
-            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.62} depthWrite={false} blending={THREE.MultiplyBlending} />
+            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.34} depthWrite={false} blending={THREE.MultiplyBlending} />
           </mesh>
+          {isimDokusu && (
+            <mesh scale={1.012} renderOrder={3}>
+              <sphereGeometry args={[1, 96, 96]} />
+              <meshBasicMaterial map={isimDokusu} transparent opacity={0.68} depthWrite={false} />
+            </mesh>
+          )}
           <mesh scale={1.009} renderOrder={3}>
             <icosahedronGeometry args={[1, 6]} />
             <meshBasicMaterial color="#ffffff" transparent opacity={0.16} depthWrite={false} blending={THREE.AdditiveBlending} />
@@ -86,6 +114,7 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
     "/images/kktc-ilce-atlasi.png",
     "/images/kktc-ilce-atlasi.png",
   ]);
+  const ilceAdlari = ["Girne", "Lefkoşa", "Gazimağusa", "Güzelyurt", "İskele", "Lefke"];
   const parcalar = useMemo<Parca[]>(() => [
     { aci: 0.2, yariCap: 1.72, yukseklik: 0.12, hiz: 0.34, boyut: 0.22, renk: CAM_RENKLERI[0] },
     { aci: 1.55, yariCap: 1.58, yukseklik: -0.25, hiz: -0.28, boyut: 0.15, renk: CAM_RENKLERI[1] },
@@ -137,7 +166,7 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
         const z = Math.sin(parca.aci) * parca.yariCap;
         return (
           <group key={index} position={[x, parca.yukseklik, z]} scale={parca.boyut}>
-            <CamParca parca={parca} harita={kktcHaritasi} uydu={uyduHaritasi} index={index} />
+            <CamParca parca={parca} harita={kktcHaritasi} uydu={uyduHaritasi} index={index} ilceAdi={ilceAdlari[index]} />
           </group>
 
         );
