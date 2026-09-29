@@ -17,6 +17,40 @@ type Parca = {
   renk: string;
 };
 
+function CamParca({ parca }: { parca: Parca }) {
+  return (
+    <CubeCamera frames={1} resolution={256} near={0.1} far={30}>
+      {(texture) => (
+        <group>
+          <mesh castShadow receiveShadow>
+            <icosahedronGeometry args={[1, 6]} />
+            <meshPhysicalMaterial
+              color={parca.renk}
+              metalness={0.02}
+              transmission={0.97}
+              thickness={0.58}
+              roughness={0.014}
+              ior={1.46}
+              clearcoat={1}
+              clearcoatRoughness={0.012}
+              envMap={texture}
+              envMapIntensity={2.4}
+              attenuationColor={parca.renk}
+              attenuationDistance={0.72}
+              transparent
+              opacity={0.995}
+            />
+          </mesh>
+          <mesh scale={1.008} renderOrder={2}>
+            <icosahedronGeometry args={[1, 6]} />
+            <meshBasicMaterial color="#ffffff" transparent opacity={0.12} depthWrite={false} blending={THREE.AdditiveBlending} />
+          </mesh>
+        </group>
+      )}
+    </CubeCamera>
+  );
+}
+
 function CamParcaciklar({ cekim }: { cekim: boolean }) {
   const grup = useRef<THREE.Group>(null);
   const parcalar = useMemo<Parca[]>(() => [
@@ -70,7 +104,7 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
         return (
           <mesh key={index} position={[x, parca.yukseklik, z]} scale={parca.boyut} castShadow receiveShadow>
             <icosahedronGeometry args={[1, 6]} />
-            <meshPhysicalMaterial color={parca.renk} metalness={0.015} transmission={0.96} thickness={0.52} roughness={0.018} ior={1.46} clearcoat={1} clearcoatRoughness={0.018} attenuationColor={parca.renk} attenuationDistance={0.8} envMapIntensity={2.1} transparent opacity={0.99} />
+            <meshPhysicalMaterial color={parca.renk} metalness={0.02} transmission={0.97} thickness={0.58} roughness={0.014} ior={1.46} clearcoat={1} clearcoatRoughness={0.012} envMapIntensity={2.4} attenuationColor={parca.renk} attenuationDistance={0.72} transparent opacity={0.995} />
           </mesh>
         );
       })}
