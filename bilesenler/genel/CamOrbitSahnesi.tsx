@@ -75,10 +75,14 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
     <CubeCamera frames={1} resolution={512} near={0.1} far={30}>
       {(yansima) => (
         <group>
+          <mesh scale={0.994} raycast={() => null}>
+            <sphereGeometry args={[1, 64, 64]} />
+            <meshBasicMaterial map={ilceHaritasi.sinir} color="#d7eee7" transparent opacity={0.58} depthWrite={false} />
+          </mesh>
           <mesh castShadow receiveShadow>
             <sphereGeometry args={[1, 64, 64]} />
             <meshPhysicalMaterial
-              color="#ffffff"
+              color="#d7eee7"
               metalness={0}
               transmission={0.9}
               thickness={0.72}
@@ -88,13 +92,12 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
               clearcoatRoughness={0.055}
               iridescence={0.08}
               iridescenceIOR={1.33}
-              map={ilceHaritasi.sinir}
               envMap={yansima}
-              envMapIntensity={1.65}
+              envMapIntensity={0.9}
               attenuationColor={parca.renk}
-              attenuationDistance={1.8}
+              attenuationDistance={3.2}
               transparent
-              opacity={0.82}
+              opacity={0.42}
               depthWrite={true}
               side={THREE.DoubleSide}
             />
@@ -326,10 +329,10 @@ function Sahne({ cekim, mobil, onKureSec, kaydirma, imlec, kaydirmaIvmesi }: { c
   return (
     <>
       <color attach="background" args={["#f6f5ef"]} />
-      <ambientLight intensity={1.4} color="#eaf4ef" />
-      <directionalLight position={[-3, 4, 5]} intensity={3.2} color="#fff8e9" castShadow />
-      <pointLight position={[3, 1, 2]} intensity={2.4} color="#82c9b2" />
-      <pointLight position={[-2, -1, 1]} intensity={1.5} color="#e6b77b" />
+      <ambientLight intensity={1.08} color="#eaf4ef" />
+      <directionalLight position={[-3, 4, 5]} intensity={2.1} color="#fff8e9" castShadow />
+      <pointLight position={[3, 1, 2]} intensity={1.35} color="#82c9b2" />
+      <pointLight position={[-2, -1, 1]} intensity={0.75} color="#e6b77b" />
       <group ref={grup} position={[0.4, 0, 0]}>
         <CamOrbitKure cekim={cekim} mobil={mobil} onKureSec={() => onKureSec()} />
         <CamParcaciklar cekim={cekim} mobil={mobil} onKureSec={(ilce) => onKureSec(ilce)} />
