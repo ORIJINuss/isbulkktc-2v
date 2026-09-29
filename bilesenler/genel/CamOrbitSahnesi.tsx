@@ -394,7 +394,7 @@ export default function CamOrbitSahnesi({ onKureSec }: CamEtkilesimProps) {
       }}
       onPointerLeave={() => imlec.current.set(0, 0)}
     >
-      <Canvas dpr={mobil ? [1, 1.35] : [1, 2]} camera={{ position: [0, 0, mobil ? 5.8 : 5.35], fov: mobil ? 32 : 29 }} frameloop="always" gl={{ alpha: true, antialias: !mobil, powerPreference: "high-performance" }} onCreated={({ gl }) => gl.setClearColor(0x000000, 0)} onPointerMissed={() => setCekim((deger) => !deger)} onContextMenu={(event) => event.preventDefault()}>
+      <Canvas dpr={mobil ? [1, 1.35] : [1, 2]} camera={{ position: [0, 0, mobil ? 5.8 : 5.35], fov: mobil ? 32 : 29 }} frameloop="always" gl={{ alpha: true, antialias: !mobil, powerPreference: "high-performance", premultipliedAlpha: true }} onCreated={({ gl }) => { gl.setClearColor(0x000000, 0); gl.domElement.style.background = "transparent"; }} onPointerMissed={() => setCekim((deger) => !deger)} onContextMenu={(event) => event.preventDefault()}>
         <Sahne cekim={cekim} mobil={mobil} onKureSec={kureSec} kaydirma={kaydirma} imlec={imlec} kaydirmaIvmesi={kaydirmaIvmesi} />
       </Canvas>
       <span className="sr-only">Cam orbiti hareket ettirmek için tıklayın.</span>

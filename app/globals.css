@@ -254,9 +254,10 @@
     height: 100%;
     cursor: pointer;
     pointer-events: auto;
-    filter: drop-shadow(0 2rem 3rem var(--cam-golge));
+    filter: none;
+    background: transparent;
     will-change: transform;
-    contain: layout paint;
+    contain: layout;
   }
 
   .cam-orbit-sahnesi::before {
