@@ -20,11 +20,11 @@ type Parca = {
 function CamParcaciklar({ cekim }: { cekim: boolean }) {
   const grup = useRef<THREE.Group>(null);
   const parcalar = useMemo<Parca[]>(() => [
-    { aci: 0.2, yariCap: 1.3, yukseklik: 0.12, hiz: 0.34, boyut: 0.22, renk: CAM_RENKLERI[0] },
-    { aci: 1.55, yariCap: 1.05, yukseklik: -0.25, hiz: -0.28, boyut: 0.15, renk: CAM_RENKLERI[1] },
-    { aci: 2.7, yariCap: 1.38, yukseklik: 0.32, hiz: 0.22, boyut: 0.2, renk: CAM_RENKLERI[2] },
-    { aci: 4.05, yariCap: 1.12, yukseklik: -0.18, hiz: -0.31, boyut: 0.17, renk: CAM_RENKLERI[3] },
-    { aci: 5.2, yariCap: 1.3, yukseklik: 0.28, hiz: 0.26, boyut: 0.13, renk: CAM_RENKLERI[0] },
+    { aci: 0.2, yariCap: 1.48, yukseklik: 0.12, hiz: 0.34, boyut: 0.22, renk: CAM_RENKLERI[0] },
+    { aci: 1.55, yariCap: 1.34, yukseklik: -0.25, hiz: -0.28, boyut: 0.15, renk: CAM_RENKLERI[1] },
+    { aci: 2.7, yariCap: 1.5, yukseklik: 0.32, hiz: 0.22, boyut: 0.2, renk: CAM_RENKLERI[2] },
+    { aci: 4.05, yariCap: 1.38, yukseklik: -0.18, hiz: -0.31, boyut: 0.17, renk: CAM_RENKLERI[3] },
+    { aci: 5.2, yariCap: 1.46, yukseklik: 0.28, hiz: 0.26, boyut: 0.13, renk: CAM_RENKLERI[0] },
   ], []);
 
   useFrame((_, delta) => {
@@ -35,7 +35,8 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
       const parca = parcalar[index];
       const hedef = cekim ? 0.62 : 1;
       const uzaklik = Math.hypot(cocuk.position.x, cocuk.position.z) || 1;
-      const hedefUzaklik = parca.yariCap * hedef;
+      const minimumAnaKureUzakligi = 1.02 + parca.boyut + 0.12;
+      const hedefUzaklik = Math.max(parca.yariCap * hedef, minimumAnaKureUzakligi);
       const yeniUzaklik = THREE.MathUtils.damp(uzaklik, hedefUzaklik, 3.2, delta);
       const oran = yeniUzaklik / uzaklik;
       cocuk.position.x *= oran;
@@ -82,6 +83,10 @@ function CamOrbitKure({ cekim }: { cekim: boolean }) {
   const kktcHaritasi = useTexture("/images/kktc-uydu-haritasi.jpg");
   kktcHaritasi.colorSpace = THREE.SRGBColorSpace;
   kktcHaritasi.anisotropy = 16;
+  kktcHaritasi.wrapS = THREE.ClampToEdgeWrapping;
+  kktcHaritasi.wrapT = THREE.ClampToEdgeWrapping;
+  kktcHaritasi.repeat.set(0.7, 0.7);
+  kktcHaritasi.offset.set(0.15, 0.15);
   useFrame((state, delta) => {
     if (!kure.current) return;
     kure.current.rotation.y += delta * (cekim ? 0.28 : 0.08);
