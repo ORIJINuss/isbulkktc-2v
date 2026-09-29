@@ -47,7 +47,7 @@ function OrbitParcalari({ scrollRef }: { scrollRef: React.MutableRefObject<numbe
     grup.current.rotation.y = time * 0.06 + scrollInfluence;
     grup.current.rotation.z = Math.sin(time * 0.16) * 0.06;
     grup.current.position.y = Math.sin(time * 0.28) * 0.035 - scrollInfluence * 0.3;
-    grup.current.children.forEach((child, index) => {
+    grup.current.children.slice(4).forEach((child, index) => {
       const parca = parcaciklar[index];
       const angle = parca.phase + time * parca.speed + scrollInfluence * (index % 2 ? 1 : -1);
       child.position.set(
@@ -61,27 +61,27 @@ function OrbitParcalari({ scrollRef }: { scrollRef: React.MutableRefObject<numbe
   });
 
   return (
-    <group ref={grup} position={[0.72, 0, 0]} rotation={[0.24, 0, -0.2]}>
+    <group ref={grup} position={[0.95, 0.12, 0]} scale={1.65} rotation={[0.24, 0, -0.2]}>
       <mesh rotation={[Math.PI / 2.2, 0.12, 0]}>
         <torusGeometry args={[1.28, 0.012, 12, 96]} />
-        <meshBasicMaterial color="#4a7c8e" transparent opacity={0.42} />
+        <meshBasicMaterial color="#4a7c8e" transparent opacity={0.85} />
       </mesh>
       <mesh rotation={[0.68, 0.2, 0.34]} scale={[1, 0.62, 1]}>
         <torusGeometry args={[1.36, 0.01, 12, 96]} />
-        <meshBasicMaterial color="#5fa29d" transparent opacity={0.34} />
+        <meshBasicMaterial color="#5fa29d" transparent opacity={0.72} />
       </mesh>
       <mesh rotation={[0.2, 0.78, 0.18]} scale={[1, 0.72, 1]}>
         <torusGeometry args={[1.18, 0.008, 12, 96]} />
-        <meshBasicMaterial color="#a8d4dd" transparent opacity={0.38} />
+        <meshBasicMaterial color="#a8d4dd" transparent opacity={0.78} />
       </mesh>
       <mesh scale={1.35}>
         <sphereGeometry args={[0.32, 32, 32]} />
-        <meshPhysicalMaterial color="#a8d4dd" transmission={0.62} roughness={0.12} metalness={0.04} clearcoat={1} clearcoatRoughness={0.08} transparent opacity={0.88} />
+        <meshBasicMaterial color="#a8d4dd" transparent opacity={0.98} />
       </mesh>
       {parcaciklar.map((parca, index) => (
         <mesh key={index} scale={parca.scale}>
           <sphereGeometry args={[parca.radius, 24, 24]} />
-          <meshPhysicalMaterial color={parca.color} transmission={0.56} roughness={0.16} metalness={0.03} clearcoat={1} clearcoatRoughness={0.1} transparent opacity={0.8} />
+          <meshStandardMaterial color={parca.color} emissive={parca.color} emissiveIntensity={0.18} roughness={0.22} metalness={0.12} transparent opacity={0.96} />
         </mesh>
       ))}
     </group>
@@ -100,6 +100,11 @@ function OrbitSahnesi() {
 
   return (
     <div className="orbit-3d-sahnesi" aria-hidden="true">
+      <div className="orbit-3d-fallback">
+        <span className="orbit-fallback-ring orbit-fallback-ring-one" />
+        <span className="orbit-fallback-ring orbit-fallback-ring-two" />
+        <span className="orbit-fallback-core" />
+      </div>
       <Canvas camera={{ position: [0, 0, 3.8], fov: 42 }} dpr={[1, 1.5]} gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}>
         <ambientLight intensity={1.4} color="#d0e6ec" />
         <directionalLight position={[2, 3, 4]} intensity={3.2} color="#f7fbfd" />
