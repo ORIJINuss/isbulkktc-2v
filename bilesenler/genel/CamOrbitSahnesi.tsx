@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { ContactShadows, CubeCamera, Environment, Sparkles } from "@react-three/drei";
+import { ContactShadows, CubeCamera, Environment, Sparkles, useTexture } from "@react-three/drei";
 import { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
@@ -45,6 +45,20 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
       cocuk.rotation.z += delta * parca.hiz * 0.35;
       cocuk.rotation.y -= delta * parca.hiz * 0.7;
     });
+
+    for (let i = 0; i < grup.current.children.length; i += 1) {
+      for (let j = i + 1; j < grup.current.children.length; j += 1) {
+        const ilk = grup.current.children[i];
+        const ikinci = grup.current.children[j];
+        const fark = ilk.position.clone().sub(ikinci.position);
+        const mesafe = fark.length() || 0.001;
+        const minimum = parcalar[i].boyut + parcalar[j].boyut + 0.08;
+        if (mesafe >= minimum) continue;
+        const itme = fark.normalize().multiplyScalar((minimum - mesafe) * 0.5);
+        ilk.position.add(itme);
+        ikinci.position.sub(itme);
+      }
+    }
   });
 
   return (
@@ -65,6 +79,7 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
 
 function CamOrbitKure({ cekim }: { cekim: boolean }) {
   const kure = useRef<THREE.Mesh>(null);
+  const kktcHaritasi = useTexture("/images/kktc-uydu-haritasi.jpg");
   useFrame((state, delta) => {
     if (!kure.current) return;
     kure.current.rotation.y += delta * (cekim ? 0.28 : 0.08);
@@ -76,8 +91,9 @@ function CamOrbitKure({ cekim }: { cekim: boolean }) {
   return (
     <CubeCamera frames={1} resolution={512} near={0.1} far={100}>
       {(texture) => (
-        <mesh ref={kure} castShadow receiveShadow>
-          <sphereGeometry args={[1.02, 128, 128]} />
+        <group>
+          <mesh ref={kure} castShadow receiveShadow>
+            <sphereGeometry args={[1.02, 128, 128]} />
           <meshPhysicalMaterial
             color="#4d9887"
             metalness={0.02}
@@ -89,10 +105,16 @@ function CamOrbitKure({ cekim }: { cekim: boolean }) {
             clearcoatRoughness={0.025}
             envMap={texture}
             envMapIntensity={1.8}
+            map={kktcHaritasi}
             transparent
             opacity={0.98}
-          />
-        </mesh>
+            />
+          </mesh>
+          <mesh scale={1.025} renderOrder={2}>
+            <sphereGeometry args={[1.02, 128, 128]} />
+            <meshBasicMaterial map={kktcHaritasi} transparent opacity={0.18} depthWrite={false} blending={THREE.AdditiveBlending} />
+          </mesh>
+        </group>
       )}
     </CubeCamera>
   );
