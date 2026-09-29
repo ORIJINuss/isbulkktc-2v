@@ -266,17 +266,29 @@
 
   @media (max-width: 767px) {
     .cam-orbit-sahnesi {
-      inset: 7rem -1rem auto auto;
-      width: min(28rem, 100vw);
-      height: min(30rem, 100vw);
+      position: relative;
+      inset: auto;
+      z-index: 0;
+      width: 100%;
+      height: min(23rem, 92vw);
+      margin: -1rem 0 0;
       opacity: 1;
       contain: layout paint;
+      pointer-events: none;
+    }
+
+    .cam-orbit-sahnesi::before {
+      top: 50%;
+      right: 50%;
+      width: min(76vw, 19rem);
+      transform: translate(50%, -50%);
     }
 
     .cam-orbit-sahnesi::after {
-      right: -12%;
-      width: 28rem;
-      opacity: .72;
+      right: 50%;
+      width: min(100vw, 25rem);
+      opacity: .58;
+      transform: translate(50%, -50%) rotate(-16deg);
     }
   }
 
