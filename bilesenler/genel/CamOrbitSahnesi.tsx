@@ -323,13 +323,15 @@ function Sahne({ cekim, mobil, onKureSec, kaydirma, imlec, kaydirmaIvmesi }: { c
     const ilerleme = kaydirma.current;
     const imlecX = imlec.current.x;
     const imlecY = imlec.current.y;
+    const takipX = THREE.MathUtils.clamp(imlecX, -1, 1);
+    const takipY = THREE.MathUtils.clamp(imlecY, -1, 1);
     ivme.current = THREE.MathUtils.damp(ivme.current, 0, 3.2, delta);
     kaydirmaIvmesi.current = THREE.MathUtils.damp(kaydirmaIvmesi.current, 0, 2.8, delta);
-    grup.current.rotation.x = THREE.MathUtils.damp(grup.current.rotation.x, imlecY * -0.2 + ilerleme * 0.22 + ivme.current * 0.12, 5, delta);
-    grup.current.rotation.y = THREE.MathUtils.damp(grup.current.rotation.y, imlecX * 0.3 + ilerleme * 0.5 + kaydirmaIvmesi.current * 0.7 + ivme.current * 0.42, 5, delta);
-    grup.current.rotation.z = THREE.MathUtils.damp(grup.current.rotation.z, imlecX * imlecY * 0.08, 4, delta);
-    grup.current.position.y = THREE.MathUtils.damp(grup.current.position.y, imlecY * 0.12 + ilerleme * (mobil ? -0.2 : -0.36), 4, delta);
-    grup.current.position.x = THREE.MathUtils.damp(grup.current.position.x, imlecX * 0.14 + ilerleme * (mobil ? 0.07 : 0.2), 4, delta);
+    grup.current.rotation.x = THREE.MathUtils.damp(grup.current.rotation.x, takipY * -0.34 + ilerleme * 0.22 + ivme.current * 0.12, 5, delta);
+    grup.current.rotation.y = THREE.MathUtils.damp(grup.current.rotation.y, takipX * 0.52 + ilerleme * 0.5 + kaydirmaIvmesi.current * 0.7 + ivme.current * 0.42, 5, delta);
+    grup.current.rotation.z = THREE.MathUtils.damp(grup.current.rotation.z, takipX * takipY * 0.16, 4, delta);
+    grup.current.position.y = THREE.MathUtils.damp(grup.current.position.y, takipY * 0.2 + ilerleme * (mobil ? -0.2 : -0.36), 4, delta);
+    grup.current.position.x = THREE.MathUtils.damp(grup.current.position.x, takipX * 0.24 + ilerleme * (mobil ? 0.07 : 0.2), 4, delta);
   });
 
   return (
@@ -395,13 +397,15 @@ export default function CamOrbitSahnesi({ onKureSec }: CamEtkilesimProps) {
       data-cam-orbit-version={CAM_ORBIT_SURUM}
       role="img"
       aria-label="Etkileşimli cam orbit görseli"
+      onPointerMove={(event) => {
+        const rect = event.currentTarget.getBoundingClientRect();
+        const x = THREE.MathUtils.clamp(((event.clientX - rect.left) / rect.width) * 2 - 1, -1, 1);
+        const y = THREE.MathUtils.clamp(-(((event.clientY - rect.top) / rect.height) * 2 - 1), -1, 1);
+        imlec.current.set(x, y);
+      }}
+      onPointerLeave={() => imlec.current.set(0, 0)}
     >
-      <Canvas dpr={mobil ? [1, 1.35] : [1, 2]} camera={{ position: [0, 0, mobil ? 5.8 : 5.35], fov: mobil ? 32 : 29 }} frameloop="always" gl={{ alpha: true, antialias: !mobil, powerPreference: "high-performance" }} onPointerMove={(event) => {
-          const rect = event.currentTarget.getBoundingClientRect();
-          const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-          const y = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
-          imlec.current.set(x, y);
-        }} onPointerLeave={() => { imlec.current.set(0, 0); }} onPointerMissed={() => setCekim((deger) => !deger)} onContextMenu={(event) => event.preventDefault()}>
+      <Canvas dpr={mobil ? [1, 1.35] : [1, 2]} camera={{ position: [0, 0, mobil ? 5.8 : 5.35], fov: mobil ? 32 : 29 }} frameloop="always" gl={{ alpha: true, antialias: !mobil, powerPreference: "high-performance" }} onPointerMissed={() => setCekim((deger) => !deger)} onContextMenu={(event) => event.preventDefault()}>
         <Sahne cekim={cekim} mobil={mobil} onKureSec={kureSec} kaydirma={kaydirma} imlec={imlec} kaydirmaIvmesi={kaydirmaIvmesi} />
       </Canvas>
       <span className="sr-only">Cam orbiti hareket ettirmek için tıklayın.</span>
