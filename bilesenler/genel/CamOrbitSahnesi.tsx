@@ -26,12 +26,12 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
     if (!ctx) return null;
     ctx.translate(1024, 512);
     ctx.rotate(Math.PI);
-    ctx.font = "700 92px Arial";
+    ctx.font = "700 68px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillStyle = "rgba(255,255,255,0.92)";
     ctx.strokeStyle = "rgba(23,63,57,0.9)";
-    ctx.lineWidth = 10;
+    ctx.lineWidth = 7;
     ctx.strokeText(ilceAdi, 512, 256);
     ctx.fillText(ilceAdi, 512, 256);
     const texture = new THREE.CanvasTexture(tuval);
@@ -43,12 +43,12 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
     const kopya = harita.clone();
     const uyduKopya = uydu.clone();
     const ilceKadrajlari: Array<{ tekrar: [number, number]; konum: [number, number] }> = [
-      { tekrar: [0.28, 0.42], konum: [0.02, 0.54] },
-      { tekrar: [0.28, 0.42], konum: [0.02, 0.04] },
-      { tekrar: [0.28, 0.42], konum: [0.69, 0.04] },
-      { tekrar: [0.28, 0.42], konum: [0.35, 0.54] },
-      { tekrar: [0.28, 0.42], konum: [0.69, 0.54] },
-      { tekrar: [0.28, 0.42], konum: [0.35, 0.04] },
+      { tekrar: [0.34, 0.52], konum: [0, 0.48] },
+      { tekrar: [0.34, 0.52], konum: [0, 0] },
+      { tekrar: [0.34, 0.52], konum: [0.66, 0] },
+      { tekrar: [0.34, 0.52], konum: [0.33, 0.48] },
+      { tekrar: [0.34, 0.52], konum: [0.66, 0.48] },
+      { tekrar: [0.34, 0.52], konum: [0.33, 0] },
     ];
     const kadraj = ilceKadrajlari[index] ?? ilceKadrajlari[0];
     kopya.repeat.set(...kadraj.tekrar);
@@ -97,7 +97,7 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
           {isimDokusu && (
             <mesh scale={1.012} renderOrder={3}>
               <sphereGeometry args={[1, 96, 96]} />
-              <meshBasicMaterial map={isimDokusu} transparent opacity={0.68} depthWrite={false} />
+              <meshBasicMaterial map={isimDokusu} transparent opacity={0.82} depthWrite={false} />
             </mesh>
           )}
           <mesh scale={1.009} renderOrder={3}>
