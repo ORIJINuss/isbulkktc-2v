@@ -159,6 +159,11 @@ export default function AnaSayfa() {
     return () => observer.disconnect();
   }, []);
 
+  const kuredenIlanAra = (ilce?: string) => {
+    const sorgu = ilce ? `?konum=${encodeURIComponent(ilce)}` : "";
+    router.push(`/ilan-ara${sorgu}` as Parameters<typeof router.push>[0]);
+  };
+
   return (
     <div className="min-h-screen bg-[#faf9f3] font-sans-govde antialiased text-[#1b1c19]">
       {/* ─── NAVBAR ─── */}
@@ -167,7 +172,7 @@ export default function AnaSayfa() {
       <section className="relative overflow-hidden border-b border-[#dcdcd1] bg-[#f6f5ef]">
         <div className="pointer-events-none absolute -end-24 -top-32 h-80 w-80 rounded-full bg-[#d3e7e8]/60 blur-3xl" aria-hidden="true" />
         <div className="pointer-events-none absolute -start-24 bottom-0 h-56 w-56 rounded-full bg-[#e8f4ee]/70 blur-3xl" aria-hidden="true" />
-  <CamOrbitSahnesi />
+  <CamOrbitSahnesi onKureSec={kuredenIlanAra} />
         <div className="relative z-10 mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:gap-10 sm:px-6 sm:py-14 md:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.58fr)] md:items-center md:px-8 md:py-24 lg:gap-12">
           <div>
           {/* Badge */}
