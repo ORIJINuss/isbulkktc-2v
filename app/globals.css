@@ -131,39 +131,6 @@
   .yazi-govde { font-family: var(--yazi-geist); }
   .yazi-teknik { font-family: var(--yazi-geist-mono); letter-spacing: 0; }
 
-  /* Hero orbit field: real-time R3F layer, kept behind readable content. */
-  .orbit-3d-sahnesi {
-    position: absolute;
-    z-index: 2;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    opacity: 1;
-    overflow: visible;
-  }
-
-  .orbit-3d-sahnesi canvas {
-    position: relative;
-    z-index: 2;
-    display: block;
-    width: 100% !important;
-    height: 100% !important;
-    pointer-events: auto;
-  }
-
-  @media (max-width: 767px) {
-    .orbit-3d-sahnesi {
-      inset-inline-start: 24%;
-      width: 132%;
-      opacity: 0.52;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .orbit-3d-sahnesi { opacity: 0.34; }
-  }
-
   /* Text Selection: Use Mineral background (neutral) */
   ::selection {
     background-color: var(--mineral-200);
