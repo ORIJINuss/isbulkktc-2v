@@ -45,11 +45,11 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
     const uyduKopya = uydu.clone();
     const ilceKadrajlari: Array<{ tekrar: [number, number]; konum: [number, number] }> = [
       { tekrar: [0.34, 0.52], konum: [0, 0.48] },
-      { tekrar: [0.34, 0.52], konum: [0, 0] },
-      { tekrar: [0.34, 0.52], konum: [0.66, 0] },
       { tekrar: [0.34, 0.52], konum: [0.33, 0.48] },
       { tekrar: [0.34, 0.52], konum: [0.66, 0.48] },
+      { tekrar: [0.34, 0.52], konum: [0, 0] },
       { tekrar: [0.34, 0.52], konum: [0.33, 0] },
+      { tekrar: [0.34, 0.52], konum: [0.66, 0] },
     ];
     const kadraj = ilceKadrajlari[index] ?? ilceKadrajlari[0];
     kopya.repeat.set(...kadraj.tekrar);
@@ -115,7 +115,7 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
     "/images/kktc-ilce-atlasi.png",
     "/images/kktc-ilce-atlasi.png",
   ]);
-  const ilceAdlari = ["Girne", "Lefkoşa", "Gazimağusa", "Güzelyurt", "İskele", "Lefke"];
+  const ilceAdlari = ["Girne", "Lefkoşa", "Gazimağusa", "Güzelyurt", "İskele", "Lefke"] as const;
   const parcalar = useMemo<Parca[]>(() => [
     { aci: 0.2, yariCap: 1.72, yukseklik: 0.12, hiz: 0.34, boyut: 0.22, renk: CAM_RENKLERI[0] },
     { aci: 1.55, yariCap: 1.58, yukseklik: -0.25, hiz: -0.28, boyut: 0.15, renk: CAM_RENKLERI[1] },
