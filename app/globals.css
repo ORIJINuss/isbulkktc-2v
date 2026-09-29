@@ -261,6 +261,7 @@
 
   .cam-orbit-sahnesi::before {
     content: "";
+    display: none;
     position: absolute;
     z-index: 0;
     top: 50%;
@@ -275,6 +276,7 @@
 
   .cam-orbit-sahnesi::after {
     content: "";
+    display: none;
     position: absolute;
     z-index: 0;
     top: 50%;
