@@ -266,9 +266,16 @@
 
   @media (max-width: 767px) {
     .cam-orbit-sahnesi {
-      inset: 12rem -7rem auto auto;
+      inset: 7rem -1rem auto auto;
+      width: min(28rem, 100vw);
+      height: min(30rem, 100vw);
+      opacity: 1;
+      contain: layout paint;
+    }
+
+    .cam-orbit-sahnesi::after {
+      right: -12%;
       width: 28rem;
-      height: 30rem;
       opacity: .72;
     }
   }

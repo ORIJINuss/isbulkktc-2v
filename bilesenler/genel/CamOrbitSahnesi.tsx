@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { ContactShadows, CubeCamera, Environment, Sparkles, useTexture } from "@react-three/drei";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
 const CAM_RENKLERI = ["#4d9887", "#d9aa67", "#e7a2a7", "#b7d8d0", "#244f4a", "#d8eee6"];
@@ -116,7 +116,7 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
   );
 }
 
-function CamParcaciklar({ cekim }: { cekim: boolean }) {
+function CamParcaciklar({ cekim, mobil }: { cekim: boolean; mobil: boolean }) {
   const grup = useRef<THREE.Group>(null);
   const [kktcHaritasi, uyduHaritasi] = useTexture([
     "/images/kktc-ilce-atlasi.png",
@@ -183,7 +183,7 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
   );
 }
 
-function CamOrbitKure({ cekim }: { cekim: boolean }) {
+function CamOrbitKure({ cekim, mobil }: { cekim: boolean; mobil: boolean }) {
   const kure = useRef<THREE.Mesh>(null);
   const kktcHaritasi = useTexture("/images/kktc-uydu-haritasi.jpg");
   kktcHaritasi.colorSpace = THREE.SRGBColorSpace;
@@ -244,7 +244,7 @@ function CamOrbitKure({ cekim }: { cekim: boolean }) {
   );
 }
 
-function Sahne({ cekim }: { cekim: boolean }) {
+function Sahne({ cekim, mobil }: { cekim: boolean; mobil: boolean }) {
   return (
     <>
       <color attach="background" args={["#f6f5ef"]} />
@@ -253,11 +253,11 @@ function Sahne({ cekim }: { cekim: boolean }) {
       <pointLight position={[3, 1, 2]} intensity={2.4} color="#82c9b2" />
       <pointLight position={[-2, -1, 1]} intensity={1.5} color="#e6b77b" />
       <group position={[0.4, 0, 0]}>
-        <CamOrbitKure cekim={cekim} />
-        <CamParcaciklar cekim={cekim} />
-        <Sparkles count={34} scale={3.4} size={1.6} speed={0.22} color="#fff8e9" opacity={0.72} />
+        <CamOrbitKure cekim={cekim} mobil={mobil} />
+        <CamParcaciklar cekim={cekim} mobil={mobil} />
+        <Sparkles count={mobil ? 12 : 34} scale={3.4} size={mobil ? 1.2 : 1.6} speed={0.22} color="#fff8e9" opacity={0.72} />
       </group>
-      <ContactShadows position={[0, -1.22, 0]} opacity={0.28} scale={5} blur={2.6} far={3.5} resolution={1024} color="#1d5148" />
+      <ContactShadows position={[0, -1.22, 0]} opacity={0.28} scale={5} blur={2.6} far={3.5} resolution={mobil ? 512 : 1024} color="#1d5148" />
       <Environment preset="studio" environmentIntensity={1.15} />
     </>
   );
@@ -265,6 +265,15 @@ function Sahne({ cekim }: { cekim: boolean }) {
 
 export default function CamOrbitSahnesi() {
   const [cekim, setCekim] = useState(false);
+  const [mobil, setMobil] = useState(false);
+
+  useEffect(() => {
+    const medya = window.matchMedia("(max-width: 767px)");
+    const guncelle = () => setMobil(medya.matches);
+    guncelle();
+    medya.addEventListener("change", guncelle);
+    return () => medya.removeEventListener("change", guncelle);
+  }, []);
 
   return (
     <div
@@ -274,8 +283,8 @@ export default function CamOrbitSahnesi() {
       aria-label="Etkileşimli cam orbit görseli"
       onClick={() => setCekim((deger) => !deger)}
     >
-      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 5.35], fov: 29 }} frameloop="always" gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}>
-        <Sahne cekim={cekim} />
+      <Canvas dpr={mobil ? [1, 1.35] : [1, 2]} camera={{ position: [0, 0, mobil ? 5.8 : 5.35], fov: mobil ? 32 : 29 }} frameloop="always" gl={{ alpha: true, antialias: !mobil, powerPreference: "high-performance" }}>
+        <Sahne cekim={cekim} mobil={mobil} />
       </Canvas>
       <span className="sr-only">Cam orbiti hareket ettirmek için tıklayın.</span>
     </div>
