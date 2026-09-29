@@ -380,20 +380,13 @@
   }
 
   .auth-provider:disabled { cursor: wait; opacity: 0.62; }
-  .auth-provider__icon {
-    display: grid;
-    place-items: center;
-    width: 1.55rem;
-    height: 1.55rem;
-    border-radius: 0.45rem;
-    background: #fff;
-    color: var(--ana, #173b34);
-    font-size: 0.9rem;
-    font-weight: 800;
+  .auth-provider__mark {
+    width: 1.35rem;
+    height: 1.35rem;
+    flex: 0 0 auto;
   }
-  .auth-provider--google .auth-provider__icon { color: #4285f4; }
-  .auth-provider--apple .auth-provider__icon { background: #111; color: #fff; }
-  .auth-provider--linkedin .auth-provider__icon { background: #0a66c2; color: #fff; }
+  .auth-provider--apple .auth-provider__mark { color: #111; }
+  .auth-provider--linkedin .auth-provider__mark { color: #0a66c2; }
   .auth-divider {
     display: flex;
     align-items: center;

@@ -32,6 +32,25 @@ const EPOSTA_DESENI = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 type AuthHata = { status?: number; message?: string };
 
+type Saglayici = "google" | "apple" | "linkedin_oidc";
+
+function SaglayiciIsareti({ saglayici }: { saglayici: Saglayici }) {
+  if (saglayici === "google") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="auth-provider__mark">
+        <path fill="#4285F4" d="M21.8 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.5a4.7 4.7 0 0 1-2 3.1v2.6h3.2c1.9-1.8 3.1-4.4 3.1-7.5Z" />
+        <path fill="#34A853" d="M12 22c2.7 0 5-.9 6.7-2.4l-3.2-2.6c-.9.6-2 .9-3.5.9-2.7 0-5-1.8-5.8-4.3H2.9v2.7A10.1 10.1 0 0 0 12 22Z" />
+        <path fill="#FBBC05" d="M6.2 13.6a6 6 0 0 1 0-3.2V7.7H2.9a10 10 0 0 0 0 8.6l3.3-2.7Z" />
+        <path fill="#EA4335" d="M12 6.1c1.6 0 3 .6 4.1 1.7l3-3A10.1 10.1 0 0 0 2.9 7.7l3.3 2.7C7 7.9 9.3 6.1 12 6.1Z" />
+      </svg>
+    );
+  }
+  if (saglayici === "apple") {
+    return <svg viewBox="0 0 24 24" aria-hidden="true" className="auth-provider__mark"><path fill="currentColor" d="M17.1 12.7c0-2.3 1.9-3.4 2-3.5a4.3 4.3 0 0 0-3.4-1.8c-1.4-.1-2.7.8-3.4.8-.7 0-1.8-.8-3-.8a4.5 4.5 0 0 0-3.8 2.3c-1.6 2.8-.4 7 1.1 9.2.8 1.1 1.6 2.3 2.8 2.3 1.1-.1 1.6-.7 3-.7s1.8.7 3 .7c1.2 0 2-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.4-.9-2.4-3.5ZM14.9 6c.6-.8 1-1.8.9-2.9-.9 0-2 .6-2.7 1.3-.6.7-1.1 1.7-1 2.8 1 .1 2.1-.4 2.8-1.2Z" /></svg>;
+  }
+  return <svg viewBox="0 0 24 24" aria-hidden="true" className="auth-provider__mark"><path fill="currentColor" d="M20.5 3.5h-17c-.8 0-1.5.7-1.5 1.5v14c0 .8.7 1.5 1.5 1.5h17c.8 0 1.5-.7 1.5-1.5V5c0-.8-.7-1.5-1.5-1.5ZM8 18H5V9h3v9ZM6.5 7.8A1.8 1.8 0 1 1 6.5 4a1.8 1.8 0 0 1 0 3.8ZM19 18h-3v-4.4c0-1-.1-2.4-1.5-2.4s-1.7 1.1-1.7 2.3V18h-3V9h2.9v1.2h.1c.4-.8 1.4-1.6 2.9-1.6 3.1 0 3.3 2 3.3 4.5V18Z" /></svg>;
+}
+
 export default function GirisKayitSekmeleri({
   sinif,
   initialUserType = "aday",
@@ -762,28 +781,26 @@ export default function GirisKayitSekmeleri({
           />
         )}
 
-        <div className="auth-provider-grid" aria-label="Alternatif giriş seçenekleri">
-          {([
-            { saglayici: "google", etiket: "Google ile devam et", ikon: "G", sinif: "auth-provider--google" },
-            { saglayici: "apple", etiket: "Apple ile devam et", ikon: "●", sinif: "auth-provider--apple" },
-            { saglayici: "linkedin_oidc", etiket: "LinkedIn ile devam et", ikon: "in", sinif: "auth-provider--linkedin" },
-          ] as const).map((saglayici) => (
-            <button
-              key={saglayici.saglayici}
-              type="button"
-              className={sb("auth-provider", saglayici.sinif)}
-              onClick={() => void oauthIleDevamEt(saglayici.saglayici)}
-              disabled={Boolean(oauthYukleniyor)}
-            >
-              <span className="auth-provider__icon" aria-hidden="true">{saglayici.ikon}</span>
-              <span>{oauthYukleniyor === saglayici.saglayici ? "Yönlendiriliyor..." : saglayici.etiket}</span>
-            </button>
-          ))}
-        </div>
-        <div className="auth-divider"><span>veya e-posta ile</span></div>
-        <p id="giris-alternatif-notu" className="text-[11px] text-ikincil/70 leading-snug">
-          E-posta seçeneği, sağlayıcı hesabı olmayan kullanıcılar için kullanılabilir.
-        </p>
+        {kullaniciTuru === "aday" && (
+          <>
+            <div className="auth-provider-grid" aria-label="Aday için alternatif giriş seçenekleri">
+              {([
+                { saglayici: "google", etiket: "Google ile devam et", sinif: "auth-provider--google" },
+                { saglayici: "apple", etiket: "Apple ile devam et", sinif: "auth-provider--apple" },
+                { saglayici: "linkedin_oidc", etiket: "LinkedIn ile devam et", sinif: "auth-provider--linkedin" },
+              ] as const).map((saglayici) => (
+                <button key={saglayici.saglayici} type="button" className={sb("auth-provider", saglayici.sinif)} onClick={() => void oauthIleDevamEt(saglayici.saglayici)} disabled={Boolean(oauthYukleniyor)}>
+                  <SaglayiciIsareti saglayici={saglayici.saglayici} />
+                  <span>{oauthYukleniyor === saglayici.saglayici ? "Yönlendiriliyor..." : saglayici.etiket}</span>
+                </button>
+              ))}
+            </div>
+            <div className="auth-divider"><span>veya e-posta ile</span></div>
+            <p id="giris-alternatif-notu" className="text-[11px] text-ikincil/70 leading-snug">
+              Aday hesabınız için hızlı ve güvenli bir giriş yöntemi seçin.
+            </p>
+          </>
+        )}
 
         <Buton
           tur="buton"
