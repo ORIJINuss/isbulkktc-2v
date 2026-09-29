@@ -1,31 +1,15 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import Rozet from "@/bilesenler/genel/Rozet";
 import GirisKayitSekmeleri from "@/bilesenler/formlar/GirisKayitSekmeleri";
 
 export default function GirisSayfasi() {
+  const searchParams = useSearchParams();
+  const baslangicTuru = searchParams.get("tur") === "isveren" ? "isveren" : "aday";
+  const baslangicModu = searchParams.get("mod") === "kayit" ? "kayit" : "giris";
   const t = useTranslations("giris");
   const m = useTranslations("meta");
-
-  const adayYararlar = [
-    { ikon: "cloud_done", baslik: t("yarar1") },
-    { ikon: "radar", baslik: t("yarar2") },
-    { ikon: "no_photography", baslik: t("yarar3") },
-  ];
-
-  const isverenStandartlar = [
-    { ikon: "fact_check", baslik: t("isverenStandart1") },
-    { ikon: "badge", baslik: t("isverenStandart2") },
-    { ikon: "receipt_long", baslik: t("isverenStandart3") },
-  ];
-
-  const kurumsal = [
-    { ikon: "gavel", bas: t("kurumsal1Baslik"), ac: t("kurumsal1Aciklama") },
-    { ikon: "verified_user", bas: t("kurumsal2Baslik"), ac: t("kurumsal2Aciklama") },
-    { ikon: "support_agent", bas: t("kurumsal3Baslik"), ac: t("kurumsal3Aciklama") },
-    { ikon: "privacy_tip", bas: t("kurumsal4Baslik"), ac: t("kurumsal4Aciklama") },
-  ];
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10 sm:py-14">
@@ -47,43 +31,6 @@ export default function GirisSayfasi() {
               {t("sayfaAciklama")}
             </p>
           </div>
-
-          <ul className="grid sm:grid-cols-3 gap-3">
-            {adayYararlar.map((y) => (
-              <li key={y.baslik} className="mineral-kart p-4 rounded-2xl">
-                <div className="w-10 h-10 rounded-xl bg-ana-kapsayici grid place-items-center mb-3">
-                  <span className="msimge text-ana text-xl" aria-hidden="true">
-                    {y.ikon}
-                  </span>
-                </div>
-                <p className="text-sm font-semibold text-ana leading-snug">{y.baslik}</p>
-              </li>
-            ))}
-          </ul>
-
-          <section
-            aria-labelledby="isveren-standartlari"
-            className="camsi-kart rounded-2xl p-5 border-altin-cila/40 space-y-3"
-          >
-            <h2 id="isveren-standartlari">
-              <Rozet tur="altin" ikon="apartment">
-                {t("isverenStandartBaslik")}
-              </Rozet>
-            </h2>
-            <ul className="grid gap-2">
-              {isverenStandartlar.map((s) => (
-                <li
-                  key={s.baslik}
-                  className="flex items-start gap-3 p-2.5 rounded-xl bg-ikincil-kapsayici/60"
-                >
-                  <span className="msimge text-ana shrink-0 mt-0.5 text-[20px]" aria-hidden="true">
-                    {s.ikon}
-                  </span>
-                  <span className="text-sm font-semibold text-ikincil leading-snug">{s.baslik}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
 
           <section
             aria-labelledby="alo-1002"
@@ -113,23 +60,11 @@ export default function GirisSayfasi() {
         </div>
 
         <div className="lg:sticky lg:top-24 space-y-4 order-1 lg:order-2">
-          <GirisKayitSekmeleri />
-          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {kurumsal.map((k) => (
-              <li
-                key={k.bas}
-                className="p-3.5 rounded-2xl flex items-start gap-3 border border-cizgi-degisken bg-pearl-ana"
-              >
-                <span className="msimge mt-0.5 shrink-0 text-ana text-[20px]" aria-hidden="true">
-                  {k.ikon}
-                </span>
-                <div className="min-w-0">
-                  <p className="text-[13px] font-bold text-ikincil leading-tight">{k.bas}</p>
-                  <p className="text-xs text-ikincil/75 leading-snug mt-0.5">{k.ac}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <GirisKayitSekmeleri
+            initialUserType={baslangicTuru}
+            initialMode={baslangicModu}
+            kilitliKullaniciTuru
+          />
         </div>
       </section>
     </div>

@@ -17,7 +17,9 @@ declare global {
           sitekey: string;
           callback?: (token: string) => void;
           "error-callback"?: () => void;
+          "expired-callback"?: () => void;
           theme?: "light" | "dark" | "auto";
+          appearance?: "always" | "execute" | "interaction-only";
         }
       ) => string;
       reset: (widgetId?: string) => void;
@@ -34,6 +36,7 @@ export default function TurnstileBileseni({
   const widgetIdRef = useRef<string | undefined>(undefined);
   const [yukleniyor, setYukleniyor] = useState(true);
   const [hata, setHata] = useState(false);
+  const [yenilemeSayisi, setYenilemeSayisi] = useState(0);
   const anahtar =
     siteAnahtari ?? process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "1x00000000000000000000AA";
 
@@ -67,12 +70,17 @@ export default function TurnstileBileseni({
         if (!aktif || !konteynerRef.current || !window.turnstile) return;
         widgetIdRef.current = window.turnstile.render(konteynerRef.current, {
           sitekey: anahtar,
-          theme: "light",
+          theme: "auto",
+          appearance: "always",
           callback: (token) => {
             setHata(false);
             onDogrulama?.(token);
           },
-          "error-callback": () => setHata(true),
+          "error-callback": () => {
+            setHata(true);
+            onDogrulama?.("");
+          },
+          "expired-callback": () => onDogrulama?.(""),
         });
       } catch {
         setHata(true);
@@ -82,8 +90,12 @@ export default function TurnstileBileseni({
     })();
     return () => {
       aktif = false;
+      if (widgetIdRef.current && window.turnstile) {
+        window.turnstile.reset(widgetIdRef.current);
+      }
+      widgetIdRef.current = undefined;
     };
-  }, [anahtar, onDogrulama]);
+  }, [anahtar, onDogrulama, yenilemeSayisi]);
 
   return (
     <div className={sinif}>
@@ -99,9 +111,20 @@ export default function TurnstileBileseni({
         </div>
       )}
       {hata && (
-        <div className="text-xs text-hata-900 bg-hata-900/10 rounded-lg px-3 py-2">
-          Turnstile doğrulaması şu anda kullanılamıyor. Lütfen sayfayı
-          yenileyin.
+        <div className="turnstile-hata" role="alert">
+          <span className="msimge turnstile-hata__ikon" aria-hidden="true">shield_locked</span>
+          <span className="turnstile-hata__metin">Güvenlik doğrulaması tamamlanamadı. Bağlantınızı kontrol edip yeniden deneyin.</span>
+          <button
+            type="button"
+            className="turnstile-hata__tekrar"
+            onClick={() => {
+              setHata(false);
+              setYukleniyor(true);
+              setYenilemeSayisi((sayi) => sayi + 1);
+            }}
+          >
+            Yenile
+          </button>
         </div>
       )}
     </div>

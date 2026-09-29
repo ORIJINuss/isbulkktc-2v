@@ -254,13 +254,15 @@
     height: 100%;
     cursor: pointer;
     pointer-events: auto;
-    filter: drop-shadow(0 2rem 3rem var(--cam-golge));
+    filter: none;
+    background: transparent;
     will-change: transform;
-    contain: layout paint;
+    contain: layout;
   }
 
   .cam-orbit-sahnesi::before {
     content: "";
+    display: none;
     position: absolute;
     z-index: 0;
     top: 50%;
@@ -275,6 +277,7 @@
 
   .cam-orbit-sahnesi::after {
     content: "";
+    display: none;
     position: absolute;
     z-index: 0;
     top: 50%;
@@ -341,6 +344,133 @@
 }
 
 @layer components {
+  .turnstile-hata {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.35rem;
+    padding: 0.7rem 0.8rem;
+    border: 1px solid rgba(166, 73, 65, 0.2);
+    border-radius: 0.85rem;
+    background: rgba(166, 73, 65, 0.07);
+    color: #8f3c36;
+    font-size: 0.72rem;
+    line-height: 1.35;
+  }
+  .turnstile-hata__ikon { flex: 0 0 auto; font-size: 1.1rem; }
+  .turnstile-hata__metin { flex: 1; }
+  .turnstile-hata__tekrar {
+    flex: 0 0 auto;
+    border: 0;
+    border-radius: 0.55rem;
+    padding: 0.4rem 0.65rem;
+    background: #173b34;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 800;
+    transition: transform 160ms ease, background 160ms ease;
+  }
+  .turnstile-hata__tekrar:hover { transform: translateY(-1px); background: #245b50; }
+  .turnstile-hata__tekrar:focus-visible { outline: 3px solid rgba(70, 165, 145, 0.4); outline-offset: 2px; }
+
+  .auth-provider-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.65rem;
+    margin-top: 1rem;
+  }
+
+  .auth-provider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    min-height: 3rem;
+    padding: 0.75rem 0.65rem;
+    border: 1px solid rgba(26, 58, 52, 0.14);
+    border-radius: 0.9rem;
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--ana, #173b34);
+    font-size: 0.78rem;
+    font-weight: 700;
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+  }
+
+  .auth-provider:hover:not(:disabled) {
+    transform: translateY(-2px);
+    border-color: rgba(26, 58, 52, 0.32);
+    background: #fff;
+    box-shadow: 0 0.75rem 1.5rem rgba(26, 58, 52, 0.1);
+  }
+
+  .auth-provider:focus-visible {
+    outline: 3px solid rgba(70, 165, 145, 0.35);
+    outline-offset: 2px;
+  }
+
+  .auth-provider:disabled { cursor: wait; opacity: 0.62; }
+  .auth-provider__mark {
+    width: 1.35rem;
+    height: 1.35rem;
+    flex: 0 0 auto;
+  }
+  .auth-provider--apple .auth-provider__mark { color: #111; }
+  .auth-provider--linkedin .auth-provider__mark { color: #0a66c2; }
+  .auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 1.1rem 0 0.2rem;
+    color: rgba(26, 58, 52, 0.56);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .auth-divider::before, .auth-divider::after { content: ""; height: 1px; flex: 1; background: rgba(26, 58, 52, 0.14); }
+
+  @media (max-width: 640px) {
+    .auth-provider-grid { grid-template-columns: 1fr; }
+  }
+
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (hover: none) {
+    button:active, a:active { transform: scale(0.985); }
+  }
+
+  .auth-panel {
+    animation: auth-panel-giris 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    background: linear-gradient(145deg, rgba(255,255,255,0.94), rgba(239,248,244,0.9));
+  }
+
+  .auth-panel__glow {
+    position: absolute;
+    inset: -35% auto auto 55%;
+    width: 18rem;
+    height: 18rem;
+    border-radius: 999px;
+    background: rgba(137, 218, 202, 0.22);
+    filter: blur(50px);
+    pointer-events: none;
+    animation: auth-glow-drift 8s ease-in-out infinite alternate;
+  }
+
+  @keyframes auth-panel-giris {
+    from { opacity: 0; transform: translateY(14px) scale(0.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @keyframes auth-glow-drift {
+    from { transform: translate3d(-16px, 8px, 0); }
+    to { transform: translate3d(18px, -12px, 0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .auth-panel, .auth-panel__glow { animation: none; }
+  }
   /* ─── MATERIAL LEVELS (Stitch 5-Level Hierarchy) ─── */
 
   /* Level 1: Mineral (Dense Product UI) - Nearly opaque, subtle tonal separation */
@@ -419,7 +549,7 @@
     transform: translateY(-4px);
   }
 
-  /* ─── BUTTONS (Bedford Scarcity Principle) ─── */
+  /* ��── BUTTONS (Bedford Scarcity Principle) ─── */
   
   /* Base button styles */
   .buton {

@@ -9,7 +9,7 @@ export default async function YerelYukleniyor() {
       aria-busy="true"
       aria-live="polite"
     >
-      <div className="w-full max-w-3xl space-y-4" role="status">
+      <div className="w-full max-w-3xl space-y-4 animate-in fade-in duration-150" role="status">
         <div className="h-10 w-2/3 animate-pulse rounded-2xl bg-yüzey-kapsayici" />
         <div className="h-5 w-full max-w-xl animate-pulse rounded-xl bg-yüzey-kapsayici" />
         <div className="grid gap-4 pt-6 sm:grid-cols-3">
