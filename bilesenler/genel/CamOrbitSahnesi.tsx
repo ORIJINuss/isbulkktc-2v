@@ -196,6 +196,7 @@ function CamParcaciklar({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bo
             onPointerOut={() => { document.body.style.cursor = ""; }}
           >
             <mesh
+              userData={{ kureHit: true }}
               onPointerDown={(event: ThreeEvent<PointerEvent>) => {
                 event.stopPropagation();
                 onKureSec(ilceAdlari[index]);
@@ -237,6 +238,7 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
         <group>
           <mesh
             scale={1.08}
+            userData={{ kureHit: true }}
             onContextMenu={(event: ThreeEvent<MouseEvent>) => {
               event.stopPropagation();
               event.nativeEvent.preventDefault();
@@ -398,7 +400,7 @@ export default function CamOrbitSahnesi({ onKureSec }: CamEtkilesimProps) {
           const rect = event.currentTarget.getBoundingClientRect();
           const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
           const y = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
-          imlec.current.lerp(new THREE.Vector2(x, y), 0.28);
+          imlec.current.set(x, y);
         }} onPointerLeave={() => { imlec.current.set(0, 0); }} onPointerMissed={() => setCekim((deger) => !deger)} onContextMenu={(event) => event.preventDefault()}>
         <Sahne cekim={cekim} mobil={mobil} onKureSec={kureSec} kaydirma={kaydirma} imlec={imlec} kaydirmaIvmesi={kaydirmaIvmesi} />
       </Canvas>
