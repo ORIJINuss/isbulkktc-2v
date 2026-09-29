@@ -5,120 +5,148 @@ import { AdaptiveDpr, Preload } from "@react-three/drei";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 
-const ORBIT_COLORS = ["#4a7c8e", "#5fa29d", "#336b5f", "#a8d4dd"] as const;
+const RENKLER = ["#f3a953", "#e37b88", "#76c5b1", "#ecc875", "#f3d6cf", "#bfe6dc"];
+const PARCA_SAYISI = 42;
 
 type Parca = {
-  radius: number;
-  distance: number;
-  speed: number;
-  phase: number;
-  tilt: number;
-  color: string;
-  scale: number;
+  mesh: THREE.Mesh;
+  konum: THREE.Vector3;
+  hiz: THREE.Vector3;
+  yaricap: number;
+  kutle: number;
+  donus: THREE.Vector3;
+  tohum: number;
 };
 
-function CamKiyasla({ scrollRef }: { scrollRef: React.MutableRefObject<number> }) {
-  useFrame(({ camera }) => {
-    const hedef = scrollRef.current * 0.00018;
-    camera.position.y = THREE.MathUtils.damp(camera.position.y, hedef, 3, 1 / 60);
-    camera.lookAt(0, 0, 0);
+function KaydirmaKuvveti({ scrollRef }: { scrollRef: React.MutableRefObject<{ y: number; hiz: number }> }) {
+  useFrame(({ camera, clock }) => {
+    const zaman = clock.getElapsedTime();
+    const kaydirma = scrollRef.current.y * 0.0008;
+    camera.position.x = THREE.MathUtils.damp(camera.position.x, Math.sin(zaman * 0.08) * 0.38, 2.6, 1 / 60);
+    camera.position.y = THREE.MathUtils.damp(camera.position.y, 0.25 - kaydirma * 0.7, 2.6, 1 / 60);
+    camera.position.z = THREE.MathUtils.damp(camera.position.z, 6.8 - kaydirma * 1.8, 2.6, 1 / 60);
+    camera.lookAt(0, 0.15, 0);
+    scrollRef.current.hiz *= 0.91;
   });
   return null;
 }
 
-function OrbitParcalari({ scrollRef }: { scrollRef: React.MutableRefObject<number> }) {
+function FizikOrbit({ scrollRef }: { scrollRef: React.MutableRefObject<{ y: number; hiz: number }> }) {
   const grup = useRef<THREE.Group>(null);
-  const parcaciklar = useMemo<Parca[]>(() =>
-    Array.from({ length: 13 }, (_, index) => ({
-      radius: 0.13 + (index % 4) * 0.045,
-      distance: 0.92 + (index % 5) * 0.22,
-      speed: 0.18 + (index % 4) * 0.045,
-      phase: (index / 13) * Math.PI * 2,
-      tilt: -0.38 + (index % 3) * 0.38,
-      color: ORBIT_COLORS[index % ORBIT_COLORS.length],
-      scale: 0.82 + (index % 3) * 0.16,
-    })),
-  []);
+  const parcalar = useRef<Parca[]>([]);
+  const geometri = useMemo(() => new THREE.SphereGeometry(1, 24, 18), []);
 
-  useFrame(({ clock }) => {
-    if (!grup.current) return;
-    const time = clock.getElapsedTime();
-    const scrollInfluence = scrollRef.current * 0.00008;
-    grup.current.rotation.y = time * 0.06 + scrollInfluence;
-    grup.current.rotation.z = Math.sin(time * 0.16) * 0.06;
-    grup.current.position.y = Math.sin(time * 0.28) * 0.035 - scrollInfluence * 0.3;
-    parcaciklar.forEach((parca, index) => {
-      const child = grup.current?.children[index + 4];
-      if (!child) return;
+  useEffect(() => () => geometri.dispose(), [geometri]);
 
-      const angle = parca.phase + time * parca.speed + scrollInfluence * (index % 2 ? 1 : -1);
-      child.position.set(
-        Math.cos(angle) * parca.distance,
-        Math.sin(angle) * parca.distance * Math.sin(parca.tilt),
-        Math.sin(angle) * parca.distance * Math.cos(parca.tilt),
-      );
-      child.rotation.x = time * 0.22 + index;
-      child.rotation.y = time * 0.16;
-    });
+  useFrame(({ clock }, delta) => {
+    const grupNesnesi = grup.current;
+    if (!grupNesnesi) return;
+    const dt = Math.min(delta, 1 / 30);
+    const zaman = clock.getElapsedTime();
+    const scroll = scrollRef.current;
+    const enerji = Math.min(Math.abs(scroll.hiz) * 0.03, 1.8);
+
+    grupNesnesi.rotation.y = THREE.MathUtils.damp(grupNesnesi.rotation.y, zaman * 0.055 + scroll.y * 0.00034, 2.2, dt);
+    grupNesnesi.rotation.x = THREE.MathUtils.damp(grupNesnesi.rotation.x, 0.1 + scroll.hiz * 0.00055, 2.2, dt);
+    grupNesnesi.position.y = THREE.MathUtils.damp(grupNesnesi.position.y, Math.sin(zaman * 0.52) * 0.06 - scroll.y * 0.00018, 2.8, dt);
+
+    const parcalarAktif = parcalar.current;
+    for (let i = 0; i < parcalarAktif.length; i += 1) {
+      const parca = parcalarAktif[i];
+      const merkeze = new THREE.Vector3(-parca.konum.x, -parca.konum.y, -parca.konum.z);
+      const mesafe = Math.max(merkeze.length(), 0.001);
+      const cekim = merkeze.normalize().multiplyScalar(1.15 * Math.min(mesafe, 4));
+      const t = zaman * 0.7 + parca.tohum;
+      const salinim = new THREE.Vector3(Math.sin(t * 0.9) * 0.035, Math.cos(t * 0.72) * 0.035, Math.sin(t * 0.58) * 0.035);
+      const radyal = new THREE.Vector3(parca.konum.x, 0, parca.konum.z);
+      const radyalMesafe = Math.max(radyal.length(), 0.001);
+      const teget = new THREE.Vector3(-radyal.z, 0, radyal.x).multiplyScalar((scroll.hiz >= 0 ? 1 : -1) * enerji * 2.2 / radyalMesafe);
+      const firlatma = radyal.normalize().multiplyScalar(enerji * 0.42);
+
+      parca.hiz.addScaledVector(cekim.add(salinim).add(teget).add(firlatma), dt / parca.kutle);
+      parca.hiz.multiplyScalar(Math.pow(0.86, dt * 60));
+      parca.konum.addScaledVector(parca.hiz, dt);
+
+      const sinirX = 3.35 - parca.yaricap * 0.45;
+      const sinirY = 2.25 - parca.yaricap * 0.45;
+      const sinirZ = 1.7 - parca.yaricap * 0.45;
+      if (Math.abs(parca.konum.x) > sinirX) { parca.konum.x = Math.sign(parca.konum.x) * sinirX; parca.hiz.x *= -0.32; }
+      if (Math.abs(parca.konum.y) > sinirY) { parca.konum.y = Math.sign(parca.konum.y) * sinirY; parca.hiz.y *= -0.32; }
+      if (Math.abs(parca.konum.z) > sinirZ) { parca.konum.z = Math.sign(parca.konum.z) * sinirZ; parca.hiz.z *= -0.32; }
+
+      parca.mesh.position.copy(parca.konum);
+      parca.mesh.rotation.x += parca.donus.x * dt;
+      parca.mesh.rotation.y += parca.donus.y * dt;
+      parca.mesh.rotation.z += parca.donus.z * dt;
+    }
+
+    for (let i = 0; i < parcalarAktif.length; i += 1) {
+      for (let j = i + 1; j < parcalarAktif.length; j += 1) {
+        const a = parcalarAktif[i];
+        const b = parcalarAktif[j];
+        const fark = new THREE.Vector3().subVectors(b.konum, a.konum);
+        const mesafe = fark.length();
+        const minimum = (a.yaricap + b.yaricap) * 0.76;
+        if (mesafe > 0.001 && mesafe < minimum) {
+          fark.multiplyScalar((minimum - mesafe) / mesafe * 0.5);
+          b.konum.add(fark);
+          a.konum.sub(fark);
+        }
+      }
+    }
   });
 
   return (
-    <group ref={grup} position={[0.95, 0.12, 0]} scale={1.65} rotation={[0.24, 0, -0.2]}>
+    <group ref={grup} position={[0.9, 0.05, 0]} scale={1.15}>
       <mesh rotation={[Math.PI / 2.2, 0.12, 0]}>
-        <torusGeometry args={[1.28, 0.012, 12, 96]} />
-        <meshBasicMaterial color="#4a7c8e" transparent opacity={0.85} />
+        <torusGeometry args={[2.25, 0.012, 10, 160]} />
+        <meshBasicMaterial color="#4a7c8e" transparent opacity={0.28} />
       </mesh>
-      <mesh rotation={[0.68, 0.2, 0.34]} scale={[1, 0.62, 1]}>
-        <torusGeometry args={[1.36, 0.01, 12, 96]} />
-        <meshBasicMaterial color="#5fa29d" transparent opacity={0.72} />
+      <mesh rotation={[0.6, 0.25, 0.35]} scale={[1, 0.64, 1]}>
+        <torusGeometry args={[2.5, 0.01, 10, 160]} />
+        <meshBasicMaterial color="#5fa29d" transparent opacity={0.24} />
       </mesh>
-      <mesh rotation={[0.2, 0.78, 0.18]} scale={[1, 0.72, 1]}>
-        <torusGeometry args={[1.18, 0.008, 12, 96]} />
-        <meshBasicMaterial color="#a8d4dd" transparent opacity={0.78} />
-      </mesh>
-      <mesh scale={1.35}>
-        <sphereGeometry args={[0.32, 32, 32]} />
-        <meshBasicMaterial color="#a8d4dd" transparent opacity={0.98} />
-      </mesh>
-      {parcaciklar.map((parca, index) => (
-        <mesh key={index} scale={parca.scale}>
-          <sphereGeometry args={[parca.radius, 24, 24]} />
-          <meshStandardMaterial color={parca.color} emissive={parca.color} emissiveIntensity={0.18} roughness={0.22} metalness={0.12} transparent opacity={0.96} />
-        </mesh>
-      ))}
+      {Array.from({ length: PARCA_SAYISI }, (_, index) => {
+        const yaricap = THREE.MathUtils.lerp(0.13, 0.38, Math.pow((index * 17) % 31 / 30, 1.4));
+        const aci = index * 2.39996;
+        const mesafe = 0.4 + ((index * 37) % 100) / 100 * 2.5;
+        const konum = new THREE.Vector3(Math.cos(aci) * mesafe, ((index * 19) % 100 / 100 - 0.5) * 3.3, Math.sin(aci) * mesafe * 0.66);
+        const mesh = new THREE.Mesh(geometri, new THREE.MeshStandardMaterial({ color: RENKLER[index % RENKLER.length], emissive: RENKLER[index % RENKLER.length], emissiveIntensity: 0.12, roughness: 0.26, metalness: 0.08, transparent: true, opacity: 0.98 }));
+        mesh.scale.setScalar(yaricap);
+        parcalar.current[index] = { mesh, konum, hiz: new THREE.Vector3(), yaricap, kutle: Math.max(0.35, yaricap ** 3 * 18), donus: new THREE.Vector3(0.2 + index * 0.003, 0.16, 0.12), tohum: index * 1.73 };
+        return <primitive key={index} object={mesh} />;
+      })}
     </group>
   );
 }
 
-function OrbitSahnesi() {
-  const scrollRef = useRef(0);
-
+export default function OrbitSahnesi() {
+  const scrollRef = useRef({ y: 0, hiz: 0 });
   useEffect(() => {
-    const onScroll = () => { scrollRef.current = window.scrollY; };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    let onceki = window.scrollY;
+    const kaydir = () => {
+      const y = window.scrollY;
+      scrollRef.current.hiz += y - onceki;
+      scrollRef.current.y = y;
+      onceki = y;
+    };
+    kaydir();
+    window.addEventListener("scroll", kaydir, { passive: true });
+    return () => window.removeEventListener("scroll", kaydir);
   }, []);
 
   return (
     <div className="orbit-3d-sahnesi" aria-hidden="true">
-      <div className="orbit-3d-fallback">
-        <span className="orbit-fallback-ring orbit-fallback-ring-one" />
-        <span className="orbit-fallback-ring orbit-fallback-ring-two" />
-        <span className="orbit-fallback-core" />
-      </div>
-      <Canvas camera={{ position: [0, 0, 3.8], fov: 42 }} dpr={[1, 1.5]} gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}>
-        <ambientLight intensity={1.4} color="#d0e6ec" />
-        <directionalLight position={[2, 3, 4]} intensity={3.2} color="#f7fbfd" />
-        <pointLight position={[-2, -1, 2]} intensity={12} distance={6} color="#5fa29d" />
-        <pointLight position={[2, 1, -1]} intensity={10} distance={5} color="#a8d4dd" />
-        <CamKiyasla scrollRef={scrollRef} />
-        <OrbitParcalari scrollRef={scrollRef} />
+      <Canvas camera={{ position: [0, 0.25, 5.8], fov: 38 }} dpr={[1, 1.75]} gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}>
+        <ambientLight intensity={1.05} color="#d7e4e5" />
+        <directionalLight position={[-4, 6, 7]} intensity={3.8} color="#fff8ee" />
+        <pointLight position={[3, 1, 2]} intensity={18} distance={8} color="#f3a953" />
+        <pointLight position={[-3, -1, 1]} intensity={14} distance={7} color="#76c5b1" />
+        <KaydirmaKuvveti scrollRef={scrollRef} />
+        <FizikOrbit scrollRef={scrollRef} />
         <AdaptiveDpr pixelated />
         <Preload all />
       </Canvas>
     </div>
   );
 }
-
-export default OrbitSahnesi;
