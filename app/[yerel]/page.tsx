@@ -162,6 +162,7 @@ export default function AnaSayfa() {
     <div className="min-h-screen bg-[#faf9f3] font-sans-govde antialiased text-[#1b1c19]">
       {/* ─── NAVBAR ─── */}
       {/* ─── HERO ─── */}
+      {/* Orbit scene removed: keep the hero free of legacy WebGL references. */}
       <section className="relative overflow-hidden border-b border-[#dcdcd1] bg-[#f6f5ef]">
         <div className="pointer-events-none absolute -end-24 -top-32 h-80 w-80 rounded-full bg-[#d3e7e8]/60 blur-3xl" aria-hidden="true" />
         <div className="pointer-events-none absolute -start-24 bottom-0 h-56 w-56 rounded-full bg-[#e8f4ee]/70 blur-3xl" aria-hidden="true" />
