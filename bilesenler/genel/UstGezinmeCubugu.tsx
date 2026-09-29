@@ -109,7 +109,7 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
         "shadow-[0_1px_0_rgb(193_200_197)]"
       )}
     >
-      <div className="max-w-7xl mx-auto h-16 px-4 sm:px-6 flex items-center justify-between gap-3 min-w-0">
+      <div className="mx-auto flex min-h-16 w-full max-w-7xl items-center justify-between gap-2 px-3 sm:gap-3 sm:px-6 lg:px-8">
         <Link href="/" aria-label={m("markaAdiKisa")} className="shrink-0 rounded-2xl transition-transform hover:scale-[1.015]">
           <Logo
             boyut="md"
@@ -120,7 +120,7 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
         </Link>
         <nav
           aria-label={t("anaSayfa")}
-          className="hidden md:flex items-center gap-3 xl:gap-5 text-govde-md font-medium text-yüzey-uzerinde/70 shrink-0"
+          className="hidden xl:flex items-center gap-4 2xl:gap-5 text-govde-md font-medium text-yüzey-uzerinde/70 shrink-0"
         >
           {baglantilar.slice(1).map((b) => (
             <Link
