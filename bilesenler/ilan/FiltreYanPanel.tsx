@@ -82,17 +82,57 @@ export default function FiltreYanPanel({
   const [acil, setAcil] = useState<boolean>(filtreler.acilMi ?? false);
   const [kademeliGevsetme, setKademeliGevsetme] = useState<boolean>(true);
 
+  const filtreDegerAnahtari = useMemo(
+    () =>
+      JSON.stringify({
+        ilceKodlari: filtreler.ilceKodlari ?? [],
+        sektorKodlari: filtreler.sektorKodlari ?? [],
+        calismaSekliKodlari: filtreler.calismaSekliKodlari ?? [],
+        izinTipiKodlari: filtreler.izinTipiKodlari ?? [],
+        minMaas: filtreler.minMaas ?? 0,
+        paraBirimi: filtreler.paraBirimi ?? "GBP",
+        yayinTarihiAraligiGun: filtreler.yayinTarihiAraligiGun,
+        b3OnayliMi: filtreler.b3OnayliMi ?? false,
+        acilMi: filtreler.acilMi ?? false,
+      }),
+    [
+      filtreler.ilceKodlari,
+      filtreler.sektorKodlari,
+      filtreler.calismaSekliKodlari,
+      filtreler.izinTipiKodlari,
+      filtreler.minMaas,
+      filtreler.paraBirimi,
+      filtreler.yayinTarihiAraligiGun,
+      filtreler.b3OnayliMi,
+      filtreler.acilMi,
+    ]
+  );
+
+  const filtreDurumu = JSON.parse(filtreDegerAnahtari) as {
+    ilceKodlari: IlceKodu[];
+    sektorKodlari: string[];
+    calismaSekliKodlari: (string | CalismaSekliKodu)[];
+    izinTipiKodlari: IzinTipiKodu[];
+    minMaas: number;
+    paraBirimi: ParaBirimiKodu;
+    yayinTarihiAraligiGun?: number;
+    b3OnayliMi: boolean;
+    acilMi: boolean;
+  };
+
   useEffect(() => {
-    setSecilenIlceler(filtreler.ilceKodlari ?? []);
-    setSecilenSektorler(filtreler.sektorKodlari ?? []);
-    setSecilenCalismaSekilleri(filtreler.calismaSekliKodlari ?? []);
-    setSecilenIzinTipleri(filtreler.izinTipiKodlari ?? []);
-    setMinMaas(filtreler.minMaas ?? 0);
-    setParaBirimi(filtreler.paraBirimi ?? "GBP");
-    setParaBirimiSecildi(filtreler.paraBirimi !== undefined);
-    setB3Onayli(filtreler.b3OnayliMi ?? false);
-    setAcil(filtreler.acilMi ?? false);
-  }, [filtreler]);
+    setSecilenIlceler(filtreDurumu.ilceKodlari ?? []);
+    setSecilenSektorler(filtreDurumu.sektorKodlari ?? []);
+    setSecilenCalismaSekilleri(filtreDurumu.calismaSekliKodlari ?? []);
+    setSecilenIzinTipleri(filtreDurumu.izinTipiKodlari ?? []);
+    setMinMaas(filtreDurumu.minMaas ?? 0);
+    setParaBirimi(filtreDurumu.paraBirimi ?? "GBP");
+    setParaBirimiSecildi(filtreDurumu.paraBirimi !== undefined);
+    const gun = filtreDurumu.yayinTarihiAraligiGun;
+    setYayinTarihi(gun === 1 ? "24s" : gun === 3 ? "3g" : gun === 7 ? "7g" : "tum");
+    setB3Onayli(filtreDurumu.b3OnayliMi ?? false);
+    setAcil(filtreDurumu.acilMi ?? false);
+  }, [filtreDurumu]);
 
   const toggleDizi = <T extends string>(
     dizi: T[],
