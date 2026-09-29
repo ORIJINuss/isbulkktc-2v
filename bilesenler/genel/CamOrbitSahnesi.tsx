@@ -116,6 +116,13 @@ type CamEtkilesimProps = {
   onKureSec: (ilce?: string) => void;
 };
 
+function sagTikSec(event: ThreeEvent<PointerEvent>, onKureSec: () => void) {
+  if (event.nativeEvent.button !== 2) return;
+  event.stopPropagation();
+  event.nativeEvent.preventDefault();
+  onKureSec();
+}
+
 function CamParcaciklar({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: boolean; onKureSec: (ilce: string) => void }) {
   const grup = useRef<THREE.Group>(null);
   const [kktcHaritasi, uyduHaritasi] = useTexture([
@@ -177,9 +184,13 @@ function CamParcaciklar({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bo
             key={index}
             position={[x, parca.yukseklik, z]}
             scale={parca.boyut}
-            onPointerDown={(event: ThreeEvent<PointerEvent>) => {
+            onContextMenu={(event: ThreeEvent<MouseEvent>) => {
               event.stopPropagation();
+              event.nativeEvent.preventDefault();
               onKureSec(ilceAdlari[index]);
+            }}
+            onPointerDown={(event: ThreeEvent<PointerEvent>) => {
+              if (event.nativeEvent.button === 2) sagTikSec(event, () => onKureSec(ilceAdlari[index]));
             }}
             onPointerOver={() => { document.body.style.cursor = "pointer"; }}
             onPointerOut={() => { document.body.style.cursor = ""; }}
@@ -226,7 +237,14 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
         <group>
           <mesh
             scale={1.08}
-            onPointerDown={(event) => { event.stopPropagation(); onKureSec(); }}
+            onContextMenu={(event: ThreeEvent<MouseEvent>) => {
+              event.stopPropagation();
+              event.nativeEvent.preventDefault();
+              onKureSec();
+            }}
+            onPointerDown={(event: ThreeEvent<PointerEvent>) => {
+              if (event.nativeEvent.button === 2) sagTikSec(event, onKureSec);
+            }}
             renderOrder={20}
           >
             <sphereGeometry args={[1, 64, 64]} />
@@ -236,7 +254,14 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
             ref={kure}
             castShadow
             receiveShadow
-            onPointerDown={(event) => { event.stopPropagation(); onKureSec(); }}
+            onContextMenu={(event: ThreeEvent<MouseEvent>) => {
+              event.stopPropagation();
+              event.nativeEvent.preventDefault();
+              onKureSec();
+            }}
+            onPointerDown={(event: ThreeEvent<PointerEvent>) => {
+              if (event.nativeEvent.button === 2) sagTikSec(event, onKureSec);
+            }}
             onPointerOver={() => { document.body.style.cursor = "pointer"; }}
             onPointerOut={() => { document.body.style.cursor = ""; }}
           >
@@ -336,6 +361,11 @@ export default function CamOrbitSahnesi({ onKureSec }: CamEtkilesimProps) {
     return () => medya.removeEventListener("change", guncelle);
   }, []);
 
+  const kureSec = (ilce?: string) => {
+    setCekim(true);
+    onKureSec(ilce);
+  };
+
   return (
     <div
       className="cam-orbit-sahnesi"
@@ -344,7 +374,7 @@ export default function CamOrbitSahnesi({ onKureSec }: CamEtkilesimProps) {
       aria-label="Etkileşimli cam orbit görseli"
     >
       <Canvas dpr={mobil ? [1, 1.35] : [1, 2]} camera={{ position: [0, 0, mobil ? 5.8 : 5.35], fov: mobil ? 32 : 29 }} frameloop="always" gl={{ alpha: true, antialias: !mobil, powerPreference: "high-performance" }} onPointerMissed={() => setCekim((deger) => !deger)}>
-        <Sahne cekim={cekim} mobil={mobil} onKureSec={onKureSec} kaydirma={kaydirma} />
+        <Sahne cekim={cekim} mobil={mobil} onKureSec={kureSec} kaydirma={kaydirma} />
       </Canvas>
       <span className="sr-only">Cam orbiti hareket ettirmek için tıklayın.</span>
     </div>

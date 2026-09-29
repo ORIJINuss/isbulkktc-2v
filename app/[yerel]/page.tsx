@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { useState, useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import { useRouter, Link } from "@/i18n/yonlendirme";
 import { CALISMA_SEKILLERI, ILCELER } from "@/lib/sabitler/alan-degiskenleri";
@@ -91,6 +91,7 @@ function Badge({ text }: { text: string }) {
 /* ─────────────────────────────────────────────── */
 export default function AnaSayfa() {
   const t = useTranslations("anaSayfa");
+  const locale = useLocale();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [location, setLocation] = useState("KKTC");
@@ -161,7 +162,9 @@ export default function AnaSayfa() {
 
   const kuredenIlanAra = (ilce?: string) => {
     const sorgu = ilce ? `?konum=${encodeURIComponent(ilce)}` : "";
-    router.push(`/ilan-ara${sorgu}` as Parameters<typeof router.push>[0]);
+    window.setTimeout(() => {
+      router.push(`/${locale}/ilan-ara${sorgu}` as Parameters<typeof router.push>[0]);
+    }, 420);
   };
 
   return (
