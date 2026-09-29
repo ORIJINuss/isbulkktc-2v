@@ -47,8 +47,10 @@ function OrbitParcalari({ scrollRef }: { scrollRef: React.MutableRefObject<numbe
     grup.current.rotation.y = time * 0.06 + scrollInfluence;
     grup.current.rotation.z = Math.sin(time * 0.16) * 0.06;
     grup.current.position.y = Math.sin(time * 0.28) * 0.035 - scrollInfluence * 0.3;
-    grup.current.children.slice(4).forEach((child, index) => {
-      const parca = parcaciklar[index];
+    parcaciklar.forEach((parca, index) => {
+      const child = grup.current?.children[index + 4];
+      if (!child) return;
+
       const angle = parca.phase + time * parca.speed + scrollInfluence * (index % 2 ? 1 : -1);
       child.position.set(
         Math.cos(angle) * parca.distance,
