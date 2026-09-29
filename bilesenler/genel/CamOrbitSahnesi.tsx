@@ -69,7 +69,7 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
         return (
           <mesh key={index} position={[x, parca.yukseklik, z]} scale={parca.boyut} castShadow receiveShadow>
             <icosahedronGeometry args={[1, 6]} />
-            <meshPhysicalMaterial color={parca.renk} metalness={0.01} transmission={0.88} thickness={0.38} roughness={0.035} ior={1.46} clearcoat={1} clearcoatRoughness={0.025} envMapIntensity={1.5} transparent opacity={0.97} />
+            <meshPhysicalMaterial color={parca.renk} metalness={0.015} transmission={0.96} thickness={0.52} roughness={0.018} ior={1.46} clearcoat={1} clearcoatRoughness={0.018} attenuationColor={parca.renk} attenuationDistance={0.8} envMapIntensity={2.1} transparent opacity={0.99} />
           </mesh>
         );
       })}
@@ -80,6 +80,8 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
 function CamOrbitKure({ cekim }: { cekim: boolean }) {
   const kure = useRef<THREE.Mesh>(null);
   const kktcHaritasi = useTexture("/images/kktc-uydu-haritasi.jpg");
+  kktcHaritasi.colorSpace = THREE.SRGBColorSpace;
+  kktcHaritasi.anisotropy = 16;
   useFrame((state, delta) => {
     if (!kure.current) return;
     kure.current.rotation.y += delta * (cekim ? 0.28 : 0.08);
@@ -104,15 +106,27 @@ function CamOrbitKure({ cekim }: { cekim: boolean }) {
             clearcoat={1}
             clearcoatRoughness={0.025}
             envMap={texture}
-            envMapIntensity={1.8}
-            map={kktcHaritasi}
+            envMapIntensity={2.25}
+            attenuationColor="#8fcbb8"
+            attenuationDistance={1.8}
             transparent
-            opacity={0.98}
+            opacity={0.99}
             />
           </mesh>
-          <mesh scale={1.025} renderOrder={2}>
+          <mesh scale={1.012} renderOrder={2}>
             <sphereGeometry args={[1.02, 128, 128]} />
-            <meshBasicMaterial map={kktcHaritasi} transparent opacity={0.18} depthWrite={false} blending={THREE.AdditiveBlending} />
+            <meshPhysicalMaterial
+              map={kktcHaritasi}
+              color="#d8eee6"
+              transmission={0.18}
+              roughness={0.12}
+              clearcoat={1}
+              clearcoatRoughness={0.035}
+              transparent
+              opacity={0.48}
+              depthWrite={false}
+              side={THREE.DoubleSide}
+            />
           </mesh>
         </group>
       )}
@@ -150,7 +164,7 @@ export default function CamOrbitSahnesi() {
       aria-label="Etkileşimli cam orbit görseli"
       onClick={() => setCekim((deger) => !deger)}
     >
-      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 4.7], fov: 34 }} frameloop="always" gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}>
+      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 5.35], fov: 29 }} frameloop="always" gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}>
         <Sahne cekim={cekim} />
       </Canvas>
       <span className="sr-only">Cam orbiti hareket ettirmek için tıklayın.</span>
