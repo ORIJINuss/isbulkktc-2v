@@ -9,6 +9,7 @@ const RENKLER = ["#f3a953", "#e37b88", "#76c5b1", "#ecc875", "#f3d6cf", "#bfe6dc
 const PARCA_SAYISI = 32;
 
 type ScrollDurumu = { y: number; hiz: number };
+type FareDurumu = { x: number; y: number; aktif: boolean };
 type Parca = { position: THREE.Vector3; velocity: THREE.Vector3; radius: number; mass: number; seed: number; spin: number };
 
 function KaydirmaKuvveti({ scrollRef }: { scrollRef: React.MutableRefObject<ScrollDurumu> }) {
@@ -25,7 +26,7 @@ function KaydirmaKuvveti({ scrollRef }: { scrollRef: React.MutableRefObject<Scro
   return null;
 }
 
-function FizikOrbit({ scrollRef }: { scrollRef: React.MutableRefObject<ScrollDurumu> }) {
+function FizikOrbit({ scrollRef, fareRef }: { scrollRef: React.MutableRefObject<ScrollDurumu>; fareRef: React.MutableRefObject<FareDurumu> }) {
   const grup = useRef<THREE.Group>(null);
   const meshRefs = useRef<Array<THREE.Mesh | null>>([]);
   const parcalar = useRef<Parca[]>([]);
@@ -57,6 +58,9 @@ function FizikOrbit({ scrollRef }: { scrollRef: React.MutableRefObject<ScrollDur
     const t = clock.getElapsedTime();
     const scroll = scrollRef.current;
     const vortex = THREE.MathUtils.clamp(Math.abs(scroll.hiz) * 0.025, 0, 1.4);
+    const mouseForce = fareRef.current.aktif ? 1 : 0;
+    const mouseTarget = new THREE.Vector3(fareRef.current.x * 2.6, -fareRef.current.y * 1.8, 0);
+    const mouseDistance = Math.max(mouseTarget.length(), 0.001);
 
     root.rotation.y = THREE.MathUtils.damp(root.rotation.y, -0.22 + t * 0.045 + scroll.y * 0.0002, 1.8, dt);
     root.rotation.z = THREE.MathUtils.damp(root.rotation.z, -0.1 + scroll.hiz * 0.00028, 1.8, dt);
@@ -69,8 +73,10 @@ function FizikOrbit({ scrollRef }: { scrollRef: React.MutableRefObject<ScrollDur
       const inward = radial.clone().multiplyScalar(-1.2 / radialLength);
       const tangent = new THREE.Vector3(-radial.z, 0, radial.x).multiplyScalar((scroll.hiz >= 0 ? 1 : -1) * vortex * 1.8 / radialLength);
       const spring = radial.clone().multiplyScalar(-0.3);
+      const mousePull = mouseTarget.clone().sub(item.position).multiplyScalar(0.8 / mouseDistance);
+      const mouseTangent = new THREE.Vector3(-mouseTarget.z, 0, mouseTarget.x).multiplyScalar(mouseForce * 0.75);
       const wobble = new THREE.Vector3(Math.sin(t * 0.8 + item.seed) * 0.045, Math.cos(t * 0.65 + item.seed) * 0.04, Math.sin(t * 0.52 + item.seed) * 0.045);
-      item.velocity.addScaledVector(inward.add(tangent).add(spring).add(wobble), dt / item.mass);
+      item.velocity.addScaledVector(inward.add(tangent).add(spring).add(mousePull).add(mouseTangent).add(wobble), dt / item.mass);
       item.velocity.multiplyScalar(Math.pow(0.88, dt * 60));
       item.position.addScaledVector(item.velocity, dt);
 
@@ -106,23 +112,23 @@ function FizikOrbit({ scrollRef }: { scrollRef: React.MutableRefObject<ScrollDur
     <group ref={grup} position={[0.72, 0.02, 0]} scale={1.42}>
       <mesh rotation={[Math.PI / 2.3, 0.1, 0]}>
         <torusGeometry args={[2.1, 0.012, 12, 160]} />
-        <meshBasicMaterial color="#4a7c8e" transparent opacity={0.62} />
+        <meshBasicMaterial color="#336b5f" transparent opacity={0.82} />
       </mesh>
       <mesh rotation={[0.64, 0.25, 0.35]} scale={[1, 0.62, 1]}>
         <torusGeometry args={[2.25, 0.012, 12, 160]} />
-        <meshBasicMaterial color="#5fa29d" transparent opacity={0.5} />
+        <meshBasicMaterial color="#5fa29d" transparent opacity={0.7} />
       </mesh>
       <mesh rotation={[0.2, 0.75, 0.18]} scale={[1, 0.7, 1]}>
         <torusGeometry args={[1.82, 0.009, 12, 160]} />
-        <meshBasicMaterial color="#d8a35b" transparent opacity={0.42} />
+        <meshBasicMaterial color="#d8a35b" transparent opacity={0.78} depthWrite={false} />
       </mesh>
-      <mesh position={[0, 0, 0]}>
-        <sphereGeometry args={[0.34, 32, 24]} />
-        <meshStandardMaterial color="#9ed2c6" emissive="#4e9586" emissiveIntensity={0.22} roughness={0.18} metalness={0.08} />
+      <mesh position={[0.55, 0, 0]}>
+        <sphereGeometry args={[0.9, 64, 48]} />
+        <meshStandardMaterial color="#75b9ae" emissive="#376f68" emissiveIntensity={0.28} roughness={0.16} metalness={0.12} />
       </mesh>
       {ilkParcalar.map((item, index) => (
         <mesh key={item.seed} ref={(mesh) => { meshRefs.current[index] = mesh; }} scale={item.radius} geometry={geometri}>
-          <meshStandardMaterial color={RENKLER[index % RENKLER.length]} emissive={RENKLER[index % RENKLER.length]} emissiveIntensity={0.1} roughness={0.2} metalness={0.08} />
+          <meshPhysicalMaterial color={RENKLER[index % RENKLER.length]} transmission={0.28} thickness={0.72} roughness={0.16} metalness={0.04} clearcoat={1} clearcoatRoughness={0.05} ior={1.45} transparent opacity={0.98} />
         </mesh>
       ))}
     </group>
@@ -131,6 +137,7 @@ function FizikOrbit({ scrollRef }: { scrollRef: React.MutableRefObject<ScrollDur
 
 export default function OrbitSahnesi() {
   const scrollRef = useRef<ScrollDurumu>({ y: 0, hiz: 0 });
+  const fareRef = useRef<FareDurumu>({ x: 0, y: 0, aktif: false });
   useEffect(() => {
     let previous = window.scrollY;
     const onScroll = () => {
@@ -145,15 +152,25 @@ export default function OrbitSahnesi() {
   }, []);
 
   return (
-    <div className="orbit-3d-sahnesi" aria-hidden="true">
-      <div className="orbit-focal" />
+    <div
+      className="orbit-3d-sahnesi"
+      aria-hidden="true"
+      onPointerMove={(event) => {
+        const bounds = event.currentTarget.getBoundingClientRect();
+        fareRef.current.x = ((event.clientX - bounds.left) / bounds.width - 0.72) * 2;
+        fareRef.current.y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
+        fareRef.current.aktif = true;
+      }}
+      onPointerLeave={() => { fareRef.current.aktif = false; }}
+    >
+      <div className="orbit-glass-visual" aria-hidden="true" />
       <Canvas camera={{ position: [0, 0.1, 6.2], fov: 39 }} dpr={[1, 2]} gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}>
         <ambientLight intensity={0.9} color="#e6f0ed" />
         <directionalLight position={[-4, 5, 6]} intensity={3.5} color="#fff7e8" />
         <pointLight position={[3, 1, 2]} intensity={14} distance={8} color="#f3a953" />
         <pointLight position={[-3, -1, 1]} intensity={10} distance={7} color="#76c5b1" />
         <KaydirmaKuvveti scrollRef={scrollRef} />
-        <FizikOrbit scrollRef={scrollRef} />
+        <FizikOrbit scrollRef={scrollRef} fareRef={fareRef} />
         <AdaptiveDpr pixelated />
         <Preload all />
       </Canvas>

@@ -144,40 +144,40 @@
     isolation: isolate;
   }
 
-  .orbit-focal {
+  .orbit-glass-visual {
     position: absolute;
     z-index: 1;
     top: 50%;
-    right: 8%;
-    width: min(31vw, 26rem);
+    right: 7%;
+    width: min(30vw, 25rem);
     aspect-ratio: 1;
     border-radius: 50%;
     transform: translateY(-50%);
-    background: radial-gradient(circle at 35% 28%, #fbfaf0 0 2%, #a9d4c7 9%, #4b8f80 27%, #254e4a 58%, rgba(37,78,74,0) 69%);
-    filter: drop-shadow(0 0 1.8rem rgba(90, 151, 138, .3));
+    background: radial-gradient(circle at 32% 24%, rgba(255,255,255,.9) 0 2%, rgba(218,245,232,.7) 8%, rgba(94,167,148,.78) 28%, rgba(34,91,82,.94) 66%, rgba(25,65,62,.65) 77%, transparent 78%), radial-gradient(circle, rgba(113,190,164,.26), transparent 68%);
+    box-shadow: inset 20px 18px 30px rgba(255,255,255,.35), inset -25px -30px 45px rgba(16,59,57,.42), 0 30px 65px rgba(31,82,73,.24);
+    filter: saturate(.9);
   }
 
-  .orbit-focal::before,
-  .orbit-focal::after {
+  .orbit-glass-visual::before,
+  .orbit-glass-visual::after {
     content: "";
     position: absolute;
-    inset: 17% -16%;
-    border: 1px solid rgba(77, 137, 126, .62);
+    border: 1px solid rgba(67,137,125,.54);
     border-radius: 50%;
-    transform: rotate(-18deg) scaleY(.42);
-    box-shadow: 0 0 1.5rem rgba(95, 162, 157, .2);
-    animation: orbit-focal-spin 14s linear infinite;
+    pointer-events: none;
   }
 
-  .orbit-focal::after {
-    inset: -7% 4%;
-    border-color: rgba(225, 166, 96, .45);
-    transform: rotate(57deg) scaleY(.55);
-    animation-duration: 21s;
-    animation-direction: reverse;
+  .orbit-glass-visual::before {
+    inset: 12% -22%;
+    transform: rotate(-16deg) scaleY(.43);
+    box-shadow: 0 0 26px rgba(95,162,157,.18);
   }
 
-  @keyframes orbit-focal-spin { to { transform: rotate(342deg) scaleY(.42); } }
+  .orbit-glass-visual::after {
+    inset: -14% 9%;
+    transform: rotate(58deg) scaleY(.56);
+    border-color: rgba(225,166,96,.34);
+  }
 
   .orbit-3d-sahnesi canvas {
     position: relative;
@@ -185,6 +185,7 @@
     display: block;
     width: 100% !important;
     height: 100% !important;
+    pointer-events: auto;
   }
 
   @media (max-width: 767px) {
