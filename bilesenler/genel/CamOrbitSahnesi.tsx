@@ -79,19 +79,30 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
             <icosahedronGeometry args={[1, 6]} />
             <meshBasicMaterial color="#ffffff" transparent opacity={0.16} depthWrite={false} blending={THREE.AdditiveBlending} />
           </mesh>
-          <Text
-            position={[0, 0, 1.04]}
-            scale={1 / parca.boyut}
-            fontSize={0.075}
-            color="#173f39"
-            anchorX="center"
-            anchorY="middle"
-            outlineWidth={0.012}
-            outlineColor="#ffffff"
-            renderOrder={4}
-          >
-            {ilceAdi}
-          </Text>
+          <group position={[0, 0, 1.04]} scale={1 / parca.boyut} renderOrder={4}>
+            {Array.from(ilceAdi).map((harf, harfIndex, harfler) => {
+              const aralik = 0.075;
+              const merkez = (harfler.length - 1) / 2;
+              const yayX = (harfIndex - merkez) * aralik;
+              const yayAcisi = yayX * 0.42;
+              const yayZ = Math.cos(yayAcisi) * 0.018;
+              return (
+                <Text
+                  key={`${ilceAdi}-${harfIndex}`}
+                  position={[yayX, 0, yayZ]}
+                  rotation={[0, -yayAcisi, 0]}
+                  fontSize={0.075}
+                  color="#173f39"
+                  anchorX="center"
+                  anchorY="middle"
+                  outlineWidth={0.012}
+                  outlineColor="#ffffff"
+                >
+                  {harf}
+                </Text>
+              );
+            })}
+          </group>
         </group>
       )}
     </CubeCamera>
