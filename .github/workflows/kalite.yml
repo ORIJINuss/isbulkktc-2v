@@ -53,7 +53,7 @@ jobs:
           cache: npm
 
       - name: Bağımlılıkları kur
-        run: npm ci
+        run: npm ci --include=dev
 
       - name: Type-check (tsc --noEmit)
         run: npm run type-check
