@@ -140,43 +140,7 @@
     height: 100%;
     pointer-events: none;
     opacity: 1;
-    contain: layout paint;
-    isolation: isolate;
-  }
-
-  .orbit-glass-visual {
-    position: absolute;
-    z-index: 1;
-    top: 50%;
-    right: 7%;
-    width: min(30vw, 25rem);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    transform: translateY(-50%);
-    background: radial-gradient(circle at 32% 24%, rgba(255,255,255,.9) 0 2%, rgba(218,245,232,.7) 8%, rgba(94,167,148,.78) 28%, rgba(34,91,82,.94) 66%, rgba(25,65,62,.65) 77%, transparent 78%), radial-gradient(circle, rgba(113,190,164,.26), transparent 68%);
-    box-shadow: inset 20px 18px 30px rgba(255,255,255,.35), inset -25px -30px 45px rgba(16,59,57,.42), 0 30px 65px rgba(31,82,73,.24);
-    filter: saturate(.9);
-  }
-
-  .orbit-glass-visual::before,
-  .orbit-glass-visual::after {
-    content: "";
-    position: absolute;
-    border: 1px solid rgba(67,137,125,.54);
-    border-radius: 50%;
-    pointer-events: none;
-  }
-
-  .orbit-glass-visual::before {
-    inset: 12% -22%;
-    transform: rotate(-16deg) scaleY(.43);
-    box-shadow: 0 0 26px rgba(95,162,157,.18);
-  }
-
-  .orbit-glass-visual::after {
-    inset: -14% 9%;
-    transform: rotate(58deg) scaleY(.56);
-    border-color: rgba(225,166,96,.34);
+    overflow: visible;
   }
 
   .orbit-3d-sahnesi canvas {

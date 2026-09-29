@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 
 const RENKLER = ["#f3a953", "#e37b88", "#76c5b1", "#ecc875", "#f3d6cf", "#bfe6dc"];
-const PARCA_SAYISI = 32;
+const PARCA_SAYISI = 10;
 
 type ScrollDurumu = { y: number; hiz: number };
 type FareDurumu = { x: number; y: number; aktif: boolean };
@@ -17,10 +17,10 @@ function KaydirmaKuvveti({ scrollRef }: { scrollRef: React.MutableRefObject<Scro
     const t = clock.getElapsedTime();
     const scroll = scrollRef.current;
     const normalized = THREE.MathUtils.clamp(scroll.y / 900, -1, 3);
-    camera.position.x = THREE.MathUtils.damp(camera.position.x, 0.18 + Math.sin(t * 0.18) * 0.12, 2.4, delta);
+    camera.position.x = THREE.MathUtils.damp(camera.position.x, 0.0 + Math.sin(t * 0.18) * 0.12, 2.4, delta);
     camera.position.y = THREE.MathUtils.damp(camera.position.y, 0.1 - normalized * 0.12, 2.4, delta);
     camera.position.z = THREE.MathUtils.damp(camera.position.z, 6.2 - normalized * 0.25, 2.4, delta);
-    camera.lookAt(0.8, -0.05, 0);
+    camera.lookAt(0, 0, 0);
     scroll.hiz *= Math.pow(0.86, delta * 60);
   });
   return null;
@@ -109,7 +109,7 @@ function FizikOrbit({ scrollRef, fareRef }: { scrollRef: React.MutableRefObject<
   });
 
   return (
-    <group ref={grup} position={[0.72, 0.02, 0]} scale={1.42}>
+    <group ref={grup} position={[0.25, 0.05, 0]} scale={1.25}>
       <mesh rotation={[Math.PI / 2.3, 0.1, 0]}>
         <torusGeometry args={[2.1, 0.012, 12, 160]} />
         <meshBasicMaterial color="#336b5f" transparent opacity={0.82} />
@@ -122,9 +122,9 @@ function FizikOrbit({ scrollRef, fareRef }: { scrollRef: React.MutableRefObject<
         <torusGeometry args={[1.82, 0.009, 12, 160]} />
         <meshBasicMaterial color="#d8a35b" transparent opacity={0.78} depthWrite={false} />
       </mesh>
-      <mesh position={[0.55, 0, 0]}>
-        <sphereGeometry args={[0.9, 64, 48]} />
-        <meshStandardMaterial color="#75b9ae" emissive="#376f68" emissiveIntensity={0.28} roughness={0.16} metalness={0.12} />
+      <mesh position={[0, 0, 0]}>
+        <sphereGeometry args={[1.15, 64, 48]} />
+        <meshBasicMaterial color="#4c9b8a" transparent opacity={0.94} />
       </mesh>
       {ilkParcalar.map((item, index) => (
         <mesh key={item.seed} ref={(mesh) => { meshRefs.current[index] = mesh; }} scale={item.radius} geometry={geometri}>
@@ -163,9 +163,8 @@ export default function OrbitSahnesi() {
       }}
       onPointerLeave={() => { fareRef.current.aktif = false; }}
     >
-      <div className="orbit-glass-visual" aria-hidden="true" />
-      <Canvas camera={{ position: [0, 0.1, 6.2], fov: 39 }} dpr={[1, 2]} gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}>
-        <ambientLight intensity={0.9} color="#e6f0ed" />
+      <Canvas camera={{ position: [0, 0.1, 6.2], fov: 39 }} dpr={[1, 2]} frameloop="always" gl={{ alpha: true, antialias: true, powerPreference: "high-performance", preserveDrawingBuffer: true }}>
+        <ambientLight intensity={1.25} color="#e6f0ed" />
         <directionalLight position={[-4, 5, 6]} intensity={3.5} color="#fff7e8" />
         <pointLight position={[3, 1, 2]} intensity={14} distance={8} color="#f3a953" />
         <pointLight position={[-3, -1, 1]} intensity={10} distance={7} color="#76c5b1" />
