@@ -433,6 +433,14 @@
     .auth-provider-grid { grid-template-columns: 1fr; }
   }
 
+  button, a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (hover: none) {
+    button:active, a:active { transform: scale(0.985); }
+  }
+
   .auth-panel {
     animation: auth-panel-giris 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
     background: linear-gradient(145deg, rgba(255,255,255,0.94), rgba(239,248,244,0.9));
@@ -541,7 +549,7 @@
     transform: translateY(-4px);
   }
 
-  /* ─── BUTTONS (Bedford Scarcity Principle) ─── */
+  /* ��── BUTTONS (Bedford Scarcity Principle) ─── */
   
   /* Base button styles */
   .buton {
