@@ -75,7 +75,7 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
     <CubeCamera frames={1} resolution={512} near={0.1} far={30}>
       {(yansima) => (
         <group>
-          <mesh castShadow receiveShadow>
+          <mesh castShadow receiveShadow renderOrder={30}>
             <icosahedronGeometry args={[1, 8]} />
             <meshPhysicalMaterial
               color="#ffffff"
@@ -93,17 +93,19 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
               attenuationDistance={0.42}
               transparent
               opacity={0.98}
+              depthTest={false}
+              depthWrite={false}
               side={THREE.DoubleSide}
             />
           </mesh>
-          <mesh scale={1.006} renderOrder={2}>
+          <mesh scale={1.006} renderOrder={31}>
             <icosahedronGeometry args={[1, 8]} />
-            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.24} depthWrite={false} blending={THREE.MultiplyBlending} />
+            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.24} depthTest={false} depthWrite={false} blending={THREE.MultiplyBlending} />
           </mesh>
           {isimDokusu && (
-            <mesh scale={1.012} renderOrder={3}>
+            <mesh scale={1.012} renderOrder={32}>
               <sphereGeometry args={[1, 96, 96]} />
-              <meshBasicMaterial map={isimDokusu} transparent opacity={0.82} depthWrite={false} />
+              <meshBasicMaterial map={isimDokusu} transparent opacity={0.82} depthTest={false} depthWrite={false} />
             </mesh>
           )}
         </group>
@@ -371,9 +373,9 @@ function Sahne({ cekim, mobil, onKureSec, kaydirma, imlec, kaydirmaIvmesi }: { c
     const takipY = THREE.MathUtils.clamp(imlecY, -1, 1);
     ivme.current = THREE.MathUtils.damp(ivme.current, 0, 3.2, delta);
     kaydirmaIvmesi.current = THREE.MathUtils.damp(kaydirmaIvmesi.current, 0, 2.8, delta);
-    grup.current.rotation.x = THREE.MathUtils.damp(grup.current.rotation.x, takipY * -0.34 + ilerleme * 0.22 + ivme.current * 0.12, 12, delta);
-    grup.current.rotation.y = THREE.MathUtils.damp(grup.current.rotation.y, takipX * 0.52 + ilerleme * 0.5 + kaydirmaIvmesi.current * 0.7 + ivme.current * 0.42, 12, delta);
-    grup.current.rotation.z = THREE.MathUtils.damp(grup.current.rotation.z, takipX * takipY * 0.16, 10, delta);
+    grup.current.rotation.x = THREE.MathUtils.damp(grup.current.rotation.x, takipY * -0.34 + ilerleme * 0.22 + ivme.current * 0.12, 18, delta);
+    grup.current.rotation.y = THREE.MathUtils.damp(grup.current.rotation.y, takipX * 0.52 + ilerleme * 0.5 + kaydirmaIvmesi.current * 0.7 + ivme.current * 0.42, 18, delta);
+    grup.current.rotation.z = THREE.MathUtils.damp(grup.current.rotation.z, takipX * takipY * 0.16, 16, delta);
     grup.current.position.y = THREE.MathUtils.damp(grup.current.position.y, takipY * 0.2 + ilerleme * (mobil ? -0.2 : -0.36), 4, delta);
     grup.current.position.x = THREE.MathUtils.damp(grup.current.position.x, takipX * 0.24 + ilerleme * (mobil ? 0.07 : 0.2), 4, delta);
   });
