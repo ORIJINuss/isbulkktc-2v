@@ -154,20 +154,8 @@ export default async function KökYerelDüzen({
           href="https://fonts.gstatic.com"
           crossOrigin=""
         />
-        <link rel="preload" as="style" href={MATERIAL_SYMBOLS_URL} />
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-        <link
-          rel="stylesheet"
-          href={MATERIAL_SYMBOLS_URL}
-          media="print"
-          onLoad={(event) => {
-            event.currentTarget.media = "all";
-          }}
-        />
-        <noscript>
-          {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-          <link rel="stylesheet" href={MATERIAL_SYMBOLS_URL} />
-        </noscript>
+        <link rel="stylesheet" href={MATERIAL_SYMBOLS_URL} />
       </head>
       <body
         className={siniflariBirlestir(
