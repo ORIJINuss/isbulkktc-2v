@@ -274,7 +274,8 @@
       margin: -1rem 0 0;
       opacity: 1;
       contain: layout paint;
-      pointer-events: none;
+      pointer-events: auto;
+      touch-action: manipulation;
     }
 
     .cam-orbit-sahnesi::before {

@@ -187,7 +187,7 @@ function CamParcaciklar({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bo
             key={index}
             position={[x, parca.yukseklik, z]}
             scale={parca.boyut}
-            onClick={(event: ThreeEvent<MouseEvent>) => {
+            onPointerDown={(event: ThreeEvent<PointerEvent>) => {
               event.stopPropagation();
               onKureSec(ilceAdlari[index]);
             }}
@@ -228,7 +228,7 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
             ref={kure}
             castShadow
             receiveShadow
-            onClick={(event) => { event.stopPropagation(); onKureSec(); }}
+            onPointerDown={(event) => { event.stopPropagation(); onKureSec(); }}
             onPointerOver={() => { document.body.style.cursor = "pointer"; }}
             onPointerOut={() => { document.body.style.cursor = ""; }}
           >
@@ -308,9 +308,8 @@ export default function CamOrbitSahnesi({ onKureSec }: CamEtkilesimProps) {
       data-cam-orbit-version={CAM_ORBIT_SURUM}
       role="img"
       aria-label="Etkileşimli cam orbit görseli"
-      onClick={() => setCekim((deger) => !deger)}
     >
-      <Canvas dpr={mobil ? [1, 1.35] : [1, 2]} camera={{ position: [0, 0, mobil ? 5.8 : 5.35], fov: mobil ? 32 : 29 }} frameloop="always" gl={{ alpha: true, antialias: !mobil, powerPreference: "high-performance" }}>
+      <Canvas dpr={mobil ? [1, 1.35] : [1, 2]} camera={{ position: [0, 0, mobil ? 5.8 : 5.35], fov: mobil ? 32 : 29 }} frameloop="always" gl={{ alpha: true, antialias: !mobil, powerPreference: "high-performance" }} onPointerMissed={() => setCekim((deger) => !deger)}>
         <Sahne cekim={cekim} mobil={mobil} onKureSec={onKureSec} />
       </Canvas>
       <span className="sr-only">Cam orbiti hareket ettirmek için tıklayın.</span>
