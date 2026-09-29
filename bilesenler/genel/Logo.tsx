@@ -77,7 +77,7 @@ export default function Logo({
           aria-hidden="true"
         >
           <Image
-            src="/marka-isbulkktc.svg"
+            src="/marka-isbulkktc.webp"
             alt=""
             width={ozelPiksel || 32}
             height={ozelPiksel || 32}
