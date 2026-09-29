@@ -17,6 +17,7 @@ declare global {
           sitekey: string;
           callback?: (token: string) => void;
           "error-callback"?: () => void;
+          "expired-callback"?: () => void;
           theme?: "light" | "dark" | "auto";
         }
       ) => string;
@@ -72,7 +73,11 @@ export default function TurnstileBileseni({
             setHata(false);
             onDogrulama?.(token);
           },
-          "error-callback": () => setHata(true),
+          "error-callback": () => {
+            setHata(true);
+            onDogrulama?.("");
+          },
+          "expired-callback": () => onDogrulama?.(""),
         });
       } catch {
         setHata(true);
@@ -82,6 +87,10 @@ export default function TurnstileBileseni({
     })();
     return () => {
       aktif = false;
+      if (widgetIdRef.current && window.turnstile) {
+        window.turnstile.reset(widgetIdRef.current);
+      }
+      widgetIdRef.current = undefined;
     };
   }, [anahtar, onDogrulama]);
 

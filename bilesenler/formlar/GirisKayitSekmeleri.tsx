@@ -54,6 +54,7 @@ export default function GirisKayitSekmeleri({
   const [sifreSifirlamaMesaji, setSifreSifirlamaMesaji] = useState<string | null>(null);
   const [gonderiliyor, setGonderiliyor] = useState(false);
   const [sifreSifirlamaBekliyor, setSifreSifirlamaBekliyor] = useState(false);
+  const [oauthYukleniyor, setOauthYukleniyor] = useState<string | null>(null);
   const gonderiliyorRef = useRef(false);
   const sifreSifirlamaRef = useRef(false);
   const router = useRouter();
@@ -112,6 +113,27 @@ export default function GirisKayitSekmeleri({
     }
     if (durum === 422) return t("hataKayitZatenVar");
     return t("hataIslemTamamlanamadi");
+  };
+
+  const oauthIleDevamEt = async (saglayici: "google" | "apple" | "linkedin_oidc") => {
+    if (oauthYukleniyor) return;
+    setOauthYukleniyor(saglayici);
+    setSunucuHatasi(null);
+    try {
+      const supabase = tarayiciIcinSupabaseOlustur();
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: saglayici,
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(window.location.pathname)}`,
+          queryParams: saglayici === "google" ? { access_type: "offline", prompt: "select_account" } : undefined,
+        },
+      });
+      if (error) setSunucuHatasi(authHataMesaji(error));
+    } catch (hata) {
+      setSunucuHatasi(authHataMesaji(hata as AuthHata));
+    } finally {
+      setOauthYukleniyor(null);
+    }
   };
 
   const gonder = async (veri: unknown): Promise<void> => {
@@ -733,38 +755,34 @@ export default function GirisKayitSekmeleri({
           </div>
         )}
 
-        <TurnstileBileseni
-          onDogrulama={setTurnstileToken}
-          sinif="pt-1"
-        />
+        {mod === "kayit" && (
+          <TurnstileBileseni
+            onDogrulama={setTurnstileToken}
+            sinif="pt-1"
+          />
+        )}
 
-        <div
-          className="flex flex-col sm:flex-row gap-3 pt-2"
-          aria-describedby="giris-alternatif-notu"
-        >
-          <Buton
-            tur="buton"
-            varyant="metinsel"
-            boyut="md"
-            ikon="gite"
-            disabled
-            sinif="sm:flex-1 order-2 sm:order-1 opacity-60 cursor-not-allowed"
-          >
-            {t("eDevletGiris")}
-          </Buton>
-          <Buton
-            tur="buton"
-            varyant="ikincil"
-            boyut="md"
-            ikon="google"
-            disabled
-            sinif="sm:flex-1 order-3 opacity-60 cursor-not-allowed"
-          >
-            {t("googleGiris")}
-          </Buton>
+        <div className="auth-provider-grid" aria-label="Alternatif giriş seçenekleri">
+          {([
+            { saglayici: "google", etiket: "Google ile devam et", ikon: "G", sinif: "auth-provider--google" },
+            { saglayici: "apple", etiket: "Apple ile devam et", ikon: "●", sinif: "auth-provider--apple" },
+            { saglayici: "linkedin_oidc", etiket: "LinkedIn ile devam et", ikon: "in", sinif: "auth-provider--linkedin" },
+          ] as const).map((saglayici) => (
+            <button
+              key={saglayici.saglayici}
+              type="button"
+              className={sb("auth-provider", saglayici.sinif)}
+              onClick={() => void oauthIleDevamEt(saglayici.saglayici)}
+              disabled={Boolean(oauthYukleniyor)}
+            >
+              <span className="auth-provider__icon" aria-hidden="true">{saglayici.ikon}</span>
+              <span>{oauthYukleniyor === saglayici.saglayici ? "Yönlendiriliyor..." : saglayici.etiket}</span>
+            </button>
+          ))}
         </div>
+        <div className="auth-divider"><span>veya e-posta ile</span></div>
         <p id="giris-alternatif-notu" className="text-[11px] text-ikincil/70 leading-snug">
-          {t("alternatifGirisNotu")}
+          E-posta seçeneği, sağlayıcı hesabı olmayan kullanıcılar için kullanılabilir.
         </p>
 
         <Buton
