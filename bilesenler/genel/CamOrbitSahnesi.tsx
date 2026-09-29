@@ -152,8 +152,8 @@ function CamOrbitKure({ cekim }: { cekim: boolean }) {
   kktcHaritasi.anisotropy = 16;
   kktcHaritasi.wrapS = THREE.ClampToEdgeWrapping;
   kktcHaritasi.wrapT = THREE.ClampToEdgeWrapping;
-  kktcHaritasi.repeat.set(0.42, 0.42);
-  kktcHaritasi.offset.set(0.29, 0.29);
+  kktcHaritasi.repeat.set(1, 1);
+  kktcHaritasi.offset.set(0, 0);
   useFrame((state, delta) => {
     if (!kure.current) return;
     kure.current.rotation.y += delta * (cekim ? 0.28 : 0.08);
@@ -195,7 +195,7 @@ function CamOrbitKure({ cekim }: { cekim: boolean }) {
               clearcoat={1}
               clearcoatRoughness={0.035}
               transparent
-              opacity={0.48}
+              opacity={0.68}
               depthWrite={false}
               side={THREE.DoubleSide}
             />
