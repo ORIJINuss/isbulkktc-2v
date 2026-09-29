@@ -17,7 +17,21 @@ type Parca = {
   renk: string;
 };
 
-function CamParca({ parca }: { parca: Parca }) {
+function CamParca({ parca, harita, index }: { parca: Parca; harita: THREE.Texture; index: number }) {
+  const ilceHaritasi = useMemo(() => {
+    const kopya = harita.clone();
+    const ilcePerspektifleri: [number, number][] = [[0.08, 0.22], [0.24, 0.3], [0.4, 0.18], [0.56, 0.34], [0.68, 0.2], [0.78, 0.38]];
+    const [x, y] = ilcePerspektifleri[index] ?? ilcePerspektifleri[0];
+    kopya.repeat.set(0.42, 0.42);
+    kopya.offset.set(x, y);
+    kopya.wrapS = THREE.ClampToEdgeWrapping;
+    kopya.wrapT = THREE.ClampToEdgeWrapping;
+    kopya.colorSpace = THREE.SRGBColorSpace;
+    kopya.anisotropy = 16;
+    kopya.needsUpdate = true;
+    return kopya;
+  }, [harita]);
+
   return (
     <CubeCamera frames={Infinity} resolution={512} near={0.1} far={30}>
       {(texture) => (
@@ -33,6 +47,7 @@ function CamParca({ parca }: { parca: Parca }) {
               ior={1.46}
               clearcoat={1}
               clearcoatRoughness={0.012}
+              map={ilceHaritasi}
               envMap={texture}
               envMapIntensity={2.4}
               attenuationColor={parca.renk}
@@ -53,6 +68,7 @@ function CamParca({ parca }: { parca: Parca }) {
 
 function CamParcaciklar({ cekim }: { cekim: boolean }) {
   const grup = useRef<THREE.Group>(null);
+  const kktcHaritasi = useTexture("/images/kktc-uydu-haritasi.jpg");
   const parcalar = useMemo<Parca[]>(() => [
     { aci: 0.2, yariCap: 1.72, yukseklik: 0.12, hiz: 0.34, boyut: 0.22, renk: CAM_RENKLERI[0] },
     { aci: 1.55, yariCap: 1.58, yukseklik: -0.25, hiz: -0.28, boyut: 0.15, renk: CAM_RENKLERI[1] },
@@ -107,6 +123,7 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
             <icosahedronGeometry args={[1, 6]} />
             <meshPhysicalMaterial
               color={parca.renk}
+              map={kktcHaritasi}
               metalness={0.02}
               transmission={0.97}
               thickness={0.58}
@@ -121,6 +138,7 @@ function CamParcaciklar({ cekim }: { cekim: boolean }) {
               opacity={0.995}
             />
           </mesh>
+
         );
       })}
     </group>
@@ -134,8 +152,8 @@ function CamOrbitKure({ cekim }: { cekim: boolean }) {
   kktcHaritasi.anisotropy = 16;
   kktcHaritasi.wrapS = THREE.ClampToEdgeWrapping;
   kktcHaritasi.wrapT = THREE.ClampToEdgeWrapping;
-  kktcHaritasi.repeat.set(0.7, 0.7);
-  kktcHaritasi.offset.set(0.15, 0.15);
+  kktcHaritasi.repeat.set(0.42, 0.42);
+  kktcHaritasi.offset.set(0.29, 0.29);
   useFrame((state, delta) => {
     if (!kure.current) return;
     kure.current.rotation.y += delta * (cekim ? 0.28 : 0.08);
