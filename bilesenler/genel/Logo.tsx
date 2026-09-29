@@ -81,7 +81,7 @@ export default function Logo({
             alt=""
             width={ozelPiksel || 32}
             height={ozelPiksel || 32}
-            className="w-full h-full object-contain bg-[var(--buzlu-derin)] text-[36px] shadow-none border-transparent"
+            className="h-full w-full border-transparent bg-[var(--buzlu-derin)] object-contain shadow-none"
             priority
           />
         </span>
@@ -89,7 +89,7 @@ export default function Logo({
       {!yalnizcaSembol && (
         <span
           className={sb(
-            "inline-flex min-w-0 flex-col items-start whitespace-nowrap font-extrabold tracking-tight leading-tight font-[Inter] text-[30px] italic text-[var(--bedford-mineral)] shadow-[0_4px_6px_-1px_rgb(0_0_0_/_0.1),0_2px_4px_-2px_rgb(0_0_0_/_0.1)]",
+            "inline-flex min-w-0 flex-col items-start whitespace-nowrap font-bold tracking-[-0.035em] leading-[0.92] font-[Inter] text-[clamp(0.95rem,4.8vw,1.625rem)] italic text-[var(--bedford-mineral)]",
             metinSinif
           )}
         >

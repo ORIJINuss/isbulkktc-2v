@@ -67,6 +67,10 @@
     --ease-mikro: cubic-bezier(0.4, 0, 0.2, 1);
     --ease-malzeme: cubic-bezier(0.2, 0, 0.2, 1);
     --ease-atmosferik: ease-in-out;
+    --motion-fizik: cubic-bezier(0.16, 1, 0.3, 1);
+    --motion-yay: cubic-bezier(0.22, 1, 0.36, 1);
+    --cam-parilti: rgba(247, 251, 253, 0.84);
+    --cam-golge: rgba(27, 58, 53, 0.18);
   }
 
   html {
@@ -190,6 +194,31 @@
       "opsz" 24;
   }
 
+  a .msimge,
+  button .msimge,
+  [role="button"] .msimge {
+    transition: transform 220ms cubic-bezier(.22, 1, .36, 1), color 220ms ease, font-variation-settings 220ms ease;
+    transform-origin: center;
+  }
+
+  a:hover .msimge,
+  a:focus-visible .msimge,
+  button:hover .msimge,
+  button:focus-visible .msimge,
+  [role="button"]:hover .msimge,
+  [role="button"]:focus-visible .msimge {
+    transform: translate3d(0, -2px, 0) scale(1.08) rotate(-3deg);
+    font-variation-settings: "FILL" 1, "wght" 600, "GRAD" 0, "opsz" 24;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    a .msimge,
+    button .msimge,
+    [role="button"] .msimge {
+      transition: none;
+    }
+  }
+
   button,
   a,
   input,
@@ -217,7 +246,89 @@
   }
 
   /* Reduce Motion: Honor user preference */
+  .cam-orbit-sahnesi {
+    position: absolute;
+    z-index: 1;
+    inset: 0 0 0 auto;
+    width: min(52vw, 43rem);
+    height: 100%;
+    cursor: pointer;
+    pointer-events: auto;
+    filter: drop-shadow(0 2rem 3rem var(--cam-golge));
+    will-change: transform;
+    contain: layout paint;
+  }
+
+  .cam-orbit-sahnesi::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    right: 8%;
+    width: min(31vw, 27rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    background: radial-gradient(circle at 30% 23%, rgba(255,255,255,.94) 0 2%, rgba(224,246,235,.82) 8%, rgba(117,191,169,.8) 25%, rgba(44,115,101,.88) 58%, rgba(20,67,62,.94) 78%);
+    box-shadow: inset 1.2rem 1.1rem 2.2rem rgba(255,255,255,.38), inset -1.8rem -2.2rem 3.2rem rgba(12,47,47,.5), 0 2rem 4rem rgba(26,80,69,.22);
+  }
+
+  .cam-orbit-sahnesi::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    right: -5%;
+    width: min(42vw, 37rem);
+    height: min(18vw, 11rem);
+    border: 1px solid rgba(75,145,132,.52);
+    border-radius: 50%;
+    transform: translateY(-50%) rotate(-16deg);
+    box-shadow: 0 0 2rem rgba(91,165,151,.16);
+  }
+
+  .cam-orbit-sahnesi canvas {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  @media (max-width: 767px) {
+    .cam-orbit-sahnesi {
+      position: relative;
+      inset: auto;
+      z-index: 0;
+      width: 100%;
+      height: min(23rem, 92vw);
+      margin: -1rem 0 0;
+      opacity: 1;
+      contain: layout paint;
+      pointer-events: auto;
+      touch-action: pan-y;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .cam-orbit-sahnesi::before {
+      top: 50%;
+      right: 50%;
+      width: min(76vw, 19rem);
+      transform: translate(50%, -50%);
+    }
+
+    .cam-orbit-sahnesi::after {
+      right: 50%;
+      width: min(100vw, 25rem);
+      opacity: .58;
+      transform: translate(50%, -50%) rotate(-16deg);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
+    .cam-orbit-sahnesi { display: none; }
+
     *,
     *::before,
     *::after {
