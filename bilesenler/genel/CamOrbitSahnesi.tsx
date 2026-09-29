@@ -75,7 +75,7 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
     <CubeCamera frames={1} resolution={512} near={0.1} far={30}>
       {(yansima) => (
         <group>
-          <mesh castShadow receiveShadow renderOrder={30}>
+          <mesh castShadow receiveShadow>
             <icosahedronGeometry args={[1, 8]} />
             <meshPhysicalMaterial
               color="#ffffff"
@@ -93,19 +93,18 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
               attenuationDistance={0.42}
               transparent
               opacity={0.98}
-              depthTest={false}
               depthWrite={false}
               side={THREE.DoubleSide}
             />
           </mesh>
-          <mesh scale={1.006} renderOrder={31}>
+          <mesh scale={1.006}>
             <icosahedronGeometry args={[1, 8]} />
-            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.24} depthTest={false} depthWrite={false} blending={THREE.MultiplyBlending} />
+            <meshBasicMaterial map={ilceHaritasi.uydu} transparent opacity={0.24} depthWrite={false} blending={THREE.MultiplyBlending} />
           </mesh>
           {isimDokusu && (
-            <mesh scale={1.012} renderOrder={32}>
+            <mesh scale={1.012}>
               <sphereGeometry args={[1, 96, 96]} />
-              <meshBasicMaterial map={isimDokusu} transparent opacity={0.82} depthTest={false} depthWrite={false} />
+              <meshBasicMaterial map={isimDokusu} transparent opacity={0.82} depthWrite={false} />
             </mesh>
           )}
         </group>
@@ -262,14 +261,12 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
               event.nativeEvent.preventDefault();
               onKureSec();
             }}
-            onPointerDown={(event: ThreeEvent<PointerEvent>) => {
-              event.stopPropagation();
-              if (event.nativeEvent.button === 2) {
-                event.nativeEvent.preventDefault();
+              onPointerDown={(event: ThreeEvent<PointerEvent>) => {
+                event.stopPropagation();
+                if (event.nativeEvent.button === 2) event.nativeEvent.preventDefault();
                 onKureSec();
-              }
-            }}
-            renderOrder={20}
+              }}
+              renderOrder={20}
           >
             <sphereGeometry args={[1, 64, 64]} />
             <meshBasicMaterial transparent opacity={0} depthWrite={false} />
@@ -320,22 +317,6 @@ function CamOrbitKure({ cekim, mobil, onKureSec }: { cekim: boolean; mobil: bool
             opacity={mobil ? 0.32 : 0.72}
             depthWrite={false}
             side={THREE.FrontSide}
-            />
-          </mesh>
-          <mesh scale={1.028} renderOrder={1} raycast={() => null}>
-            <sphereGeometry args={[1.02, 96, 96]} />
-            <meshPhysicalMaterial
-              color="#b9e4d8"
-              metalness={0.08}
-              roughness={0.12}
-              clearcoat={1}
-              clearcoatRoughness={0.015}
-              envMap={texture}
-              envMapIntensity={mobil ? 1.6 : 1.3}
-              transparent
-              opacity={mobil ? 0.12 : 0.12}
-              depthWrite={false}
-              side={THREE.DoubleSide}
             />
           </mesh>
             <mesh ref={haritaKuresi} scale={1.012} renderOrder={4} raycast={() => null}>
