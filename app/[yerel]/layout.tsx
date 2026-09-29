@@ -93,7 +93,7 @@ export async function generateMetadata({
       locale: yerel,
       images: [
         {
-          url: "/opengraph/kapak.jpg",
+          url: "/marka-isbulkktc.webp",
           width: 1200,
           height: 630,
           alt: `${marka} — KKTC İstihdam Portalı`,
@@ -105,7 +105,7 @@ export async function generateMetadata({
       title: `${marka} — ${slogan}`,
       description: aciklama,
       creator: "@isbukkibris",
-      images: ["/opengraph/kapak.jpg"],
+      images: ["/marka-isbulkktc.webp"],
     },
     robots: {
       index: true,

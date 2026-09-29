@@ -39,9 +39,12 @@ export async function POST(request: NextRequest) {
         },
         { onConflict: "idempotency_key" },
       )
-      .select("id, amount, currency, status, idempotency_key")
+      .select("id, company_id, package_id, amount, currency, status, idempotency_key")
       .single();
     if (siparisHatasi || !siparis) return apiHatasi("Sipariş oluşturulamadı.", 500);
+    if (siparis.company_id !== parsed.data.companyId || siparis.package_id !== parsed.data.packageId) {
+      return apiHatasi("Idempotency anahtarı başka bir siparişe ait.", 409, "GECERSIZ_ISTEK");
+    }
     if (siparis.status !== "pending") {
       return apiHatasi("Bu sipariş yeniden checkout için uygun değil.", 409, "GECERSIZ_ISTEK");
     }
