@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { ContactShadows, CubeCamera, Environment, Sparkles, Text, useTexture } from "@react-three/drei";
+import { ContactShadows, CubeCamera, Environment, Sparkles, useTexture } from "@react-three/drei";
 import { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 
@@ -47,6 +47,27 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
     return { sinir: kopya, uydu: uyduKopya };
   }, [harita, uydu, index]);
 
+  const isimDokusu = useMemo(() => {
+    const tuval = document.createElement("canvas");
+    tuval.width = 1024;
+    tuval.height = 512;
+    const ctx = tuval.getContext("2d");
+    if (!ctx) return null;
+    ctx.clearRect(0, 0, tuval.width, tuval.height);
+    ctx.font = "600 88px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "rgba(23, 63, 57, 0.9)";
+    ctx.shadowColor = "rgba(255, 255, 255, 0.65)";
+    ctx.shadowBlur = 12;
+    ctx.fillText(ilceAdi, 512, 256);
+    const doku = new THREE.CanvasTexture(tuval);
+    doku.colorSpace = THREE.SRGBColorSpace;
+    doku.anisotropy = 16;
+    doku.needsUpdate = true;
+    return doku;
+  }, [ilceAdi]);
+
   return (
     <CubeCamera frames={1} resolution={256} near={0.1} far={30}>
       {(texture) => (
@@ -79,18 +100,22 @@ function CamParca({ parca, harita, uydu, index, ilceAdi }: { parca: Parca; harit
             <icosahedronGeometry args={[1, 6]} />
             <meshBasicMaterial color="#ffffff" transparent opacity={0.16} depthWrite={false} blending={THREE.AdditiveBlending} />
           </mesh>
-          <Text
-            position={[0, 0, 0.78]}
-            scale={1 / parca.boyut}
-            fontSize={0.075}
-            color="#173f39"
-            anchorX="center"
-            anchorY="middle"
-            fillOpacity={0.7}
-            renderOrder={1}
-          >
-            {ilceAdi}
-          </Text>
+          {isimDokusu && (
+            <mesh scale={1.003} renderOrder={2}>
+              <sphereGeometry args={[1, 128, 128]} />
+              <meshPhysicalMaterial
+                map={isimDokusu}
+                transparent
+                opacity={0.86}
+                transmission={0.28}
+                thickness={0.2}
+                roughness={0.06}
+                clearcoat={1}
+                clearcoatRoughness={0.025}
+                depthWrite={false}
+              />
+            </mesh>
+          )}
         </group>
       )}
     </CubeCamera>
