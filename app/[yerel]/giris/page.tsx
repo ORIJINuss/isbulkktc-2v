@@ -31,32 +31,6 @@ export default function GirisSayfasi() {
               {t("sayfaAciklama")}
             </p>
           </div>
-
-          <section
-            aria-labelledby="alo-1002"
-            className="mineral-kart rounded-2xl p-5 flex items-start gap-4 border-hata-900/20"
-          >
-            <div className="w-12 h-12 shrink-0 rounded-2xl grid place-items-center bg-hata-900/10 border border-hata-900/25">
-              <span className="msimge text-hata-900 text-2xl" aria-hidden="true">
-                campaign
-              </span>
-            </div>
-            <div className="flex-1 min-w-0">
-              <h2 id="alo-1002" className="font-haber font-black text-ikincil text-xl leading-tight mb-1.5">
-                {t("alo")}
-              </h2>
-              <p className="text-sm text-ikincil/80 leading-relaxed text-pretty">{t("aloAciklama")}</p>
-              <div className="mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                <a
-                  href="tel:1002"
-                  className="font-bold text-2xl text-hata-900 tabular-nums tracking-wide hover:underline underline-offset-4"
-                >
-                  1002
-                </a>
-                <span className="text-xs text-ikincil/70">{t("aloNumaraEtiketi")}</span>
-              </div>
-            </div>
-          </section>
         </div>
 
         <div className="lg:sticky lg:top-24 space-y-4 order-1 lg:order-2">

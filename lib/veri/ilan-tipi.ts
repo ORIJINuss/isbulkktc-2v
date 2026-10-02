@@ -48,19 +48,12 @@ export type YabanciDilSeviyesi = {
   seviye: CefrSeviyesi;
 };
 
-export type AiEslestirme = {
-  skor?: number;
-  gerekce?: string;
-  oneriler?: string[];
-  oneriBasligi?: string;
-};
-
 export type Ilan = {
   id?: string;
   slug: string;
   referansNo: string;
   pozisyonBasligi: string;
-  sirketKodu: string;
+  sirketKodu?: string;
   sirketAdi: string;
   sirketLogoUrl?: string;
   sirketProfilOzeti?: string;
@@ -83,10 +76,7 @@ export type Ilan = {
   tercihEdilenBeceriler?: string[];
   minDeneyimYili?: number;
   yabanciDilSeviyesi?: YabanciDilSeviyesi[];
-  b3OnayliMi: boolean;
   acilMi: boolean;
-  atsSkorEsigi: number;
-  aiEslestirme?: AiEslestirme;
   yayinTarihi: string;
   sonBasvuruTarihi?: string;
   goruntulenmeSayisi: number;
@@ -101,10 +91,6 @@ export type Ilan = {
   minNetAylik?: number;
   /** @deprecated Yerine maasAraligi kullanın */
   makNetAylik?: number;
-  /** @deprecated Yerine aiEslestirme.oneriler kullanın */
-  oneriler?: string[];
-  /** @deprecated Yerine aiEslestirme.skor kullanın */
-  atsYuzdesi?: number;
   /** @deprecated Yerine calismaSekli + izinTipleri kullanın */
   calismaIzniTipiKodu?: IzinTipiKodu;
   /** @deprecated Yerine izinTipleri kullanın */
@@ -115,16 +101,12 @@ export type Ilan = {
   pozisyonTanimi?: string[];
   /** @deprecated Yerine zorunluBeceriler kullanın */
   teknikYetenekler?: { grup: string; etiketler: string[] }[];
-  /** @deprecated Yerine b3OnayliMi kullanın */
-  b3Onayli?: boolean;
   /** @deprecated Yerine acilMi kullanın */
   acilIlan?: boolean;
   /** @deprecated Yerine calismaSekli kullanın */
   calismaSekliKodu?: string;
   /** @deprecated Yerine maasAraligi.para kullanın */
   paraBirimi?: ParaBirimiKodu;
-  /** @deprecated Yerine aiEslestirme.gerekce kullanın */
-  eslesmeGerekcesi?: string;
 };
 
 export type IlanFiltreleri = {
@@ -137,9 +119,7 @@ export type IlanFiltreleri = {
   makMaas?: number;
   paraBirimi?: ParaBirimiKodu;
   yayinTarihiAraligiGun?: number;
-  b3OnayliMi?: boolean;
   acilMi?: boolean;
-  atsEsigiMin?: number;
   siralama?: "akilli" | "yeni" | "maas" | "acil";
   sadeceFreelance?: boolean;
   maasBelirtilmisMi?: boolean;

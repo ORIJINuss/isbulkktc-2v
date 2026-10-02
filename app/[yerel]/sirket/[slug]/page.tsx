@@ -1,13 +1,66 @@
 import Image from "next/image";
+import { cache } from "react";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Link } from "@/i18n/yonlendirme";
+import { getPathname, Link, yonlendirme, type Yerel } from "@/i18n/yonlendirme";
+import Ikon3D from "@/bilesenler/genel/Ikon3D";
 import { kamuyaAcikSirketiGetir } from "@/lib/depolar/isveren-deposu";
 import { getTranslations } from "next-intl/server";
 
-type Props = { params: { slug: string; yerel: string } };
+type Props = { params: { slug: string; yerel: Yerel } };
+const sirketiGetir = cache(kamuyaAcikSirketiGetir);
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const [sirket, t] = await Promise.all([
+    sirketiGetir(params.slug),
+    getTranslations({ locale: params.yerel, namespace: "workspace" }),
+  ]);
+  if (!sirket) {
+    return {
+      title: t("companyDirectory"),
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const href = {
+    pathname: "/sirket/[slug]" as const,
+    params: { slug: sirket.slug },
+  };
+  const pathFor = (locale: Yerel) => getPathname({ locale, href });
+  const languages: Record<string, string> = {};
+  for (const locale of yonlendirme.locales) {
+    languages[locale] = pathFor(locale);
+  }
+  languages["x-default"] = languages.tr;
+  const canonical = pathFor(params.yerel);
+  const description = (
+    sirket.description || t("companyDirectoryDescription")
+  ).slice(0, 155);
+
+  return {
+    title: sirket.company_name,
+    description,
+    alternates: { canonical, languages },
+    openGraph: {
+      type: "website",
+      url: canonical,
+      title: sirket.company_name,
+      description,
+      siteName: "İşBulKKTC",
+      images: ["/marka-isbulkktc.webp"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: sirket.company_name,
+      description,
+      creator: "@isbukkibris",
+      images: ["/marka-isbulkktc.webp"],
+    },
+  };
+}
 
 export default async function KamuyaAcikSirketProfili({ params }: Props) {
-  const sirket = await kamuyaAcikSirketiGetir(params.slug);
+  const sirket = await sirketiGetir(params.slug);
   if (!sirket) notFound();
   const t = await getTranslations({ locale: params.yerel, namespace: "workspace" });
 
@@ -32,8 +85,11 @@ export default async function KamuyaAcikSirketProfili({ params }: Props) {
                 <span className="msimge text-sm" aria-hidden="true">verified</span>
                 {t("verifiedCompany")}
               </div>
+              <p className="mb-2 max-w-xl text-xs leading-relaxed text-ikincil/65">
+                {t("verifiedCompanyDescription")}
+              </p>
               <h1 className="font-haber text-3xl font-black tracking-tight text-ikincil sm:text-4xl">{sirket.company_name}</h1>
-              {sirket.location && <p className="mt-2 flex items-center gap-1.5 text-sm text-ikincil/70"><span className="msimge" aria-hidden="true">location_on</span>{sirket.location}</p>}
+              {sirket.location && <p className="mt-2 flex items-center gap-1.5 text-sm text-ikincil/70"><Ikon3D tur="bolge" boyut={18} className="ikon-3d--bolge" />{sirket.location}</p>}
             </div>
           </div>
         </div>

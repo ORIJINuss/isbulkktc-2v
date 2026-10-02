@@ -23,6 +23,7 @@ declare global {
         }
       ) => string;
       reset: (widgetId?: string) => void;
+      remove: (widgetId?: string) => void;
     };
   }
 }
@@ -38,7 +39,9 @@ export default function TurnstileBileseni({
   const [hata, setHata] = useState(false);
   const [yenilemeSayisi, setYenilemeSayisi] = useState(0);
   const anahtar =
-    siteAnahtari ?? process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "1x00000000000000000000AA";
+    siteAnahtari ||
+    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
+    (process.env.NODE_ENV === "production" ? undefined : "1x00000000000000000000AA");
 
   const betikYukle = () =>
     new Promise<void>((tamamla, hata) => {
@@ -65,6 +68,13 @@ export default function TurnstileBileseni({
   useEffect(() => {
     let aktif = true;
     (async () => {
+      if (!anahtar) {
+        setHata(true);
+        setYukleniyor(false);
+        onDogrulama?.("");
+        return;
+      }
+
       try {
         await betikYukle();
         if (!aktif || !konteynerRef.current || !window.turnstile) return;
@@ -91,7 +101,7 @@ export default function TurnstileBileseni({
     return () => {
       aktif = false;
       if (widgetIdRef.current && window.turnstile) {
-        window.turnstile.reset(widgetIdRef.current);
+        window.turnstile.remove(widgetIdRef.current);
       }
       widgetIdRef.current = undefined;
     };

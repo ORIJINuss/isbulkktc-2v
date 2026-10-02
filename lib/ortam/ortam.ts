@@ -1,9 +1,6 @@
-const DEFAULT_LOCAL_SUPABASE_URL = "http://local-supabase.invalid";
-const DEFAULT_LOCAL_SUPABASE_ANON_KEY = "local-anon-key";
-const DEFAULT_LOCAL_SERVICE_ROLE_KEY = "local-service-role-key";
 const DEFAULT_LOCAL_TURNSTILE_SECRET = "1x0000000000000000000000000000000AA";
 const DEFAULT_LOCAL_TURNSTILE_SITE = "1x00000000000000000000AA";
-const VARSAYILAN_ANA_DOMAIN = "https://isbukkibris.com";
+const VARSAYILAN_ANA_DOMAIN = "https://isbulkktc.com";
 
 export class OrtamYapilandirmaHatasi extends Error {
   constructor(public readonly anahtar: string) {
@@ -45,11 +42,10 @@ export function anaDomain(): string {
 
 export function supabaseOrtamYapilandir() {
   return {
-    url: zorunluOrtamDegeri("NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_URL", DEFAULT_LOCAL_SUPABASE_URL),
+    url: zorunluOrtamDegeri("NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_URL"),
     anonAnahtar: zorunluOrtamDegeri(
       "NEXT_PUBLIC_SUPABASE_ANON_KEY",
       "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-      DEFAULT_LOCAL_SUPABASE_ANON_KEY,
     ),
   };
 }
@@ -59,23 +55,24 @@ export function tarayiciSupabaseOrtamYapilandir() {
     url: zorunluOrtamDegeriniDogrula(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
       "NEXT_PUBLIC_SUPABASE_URL",
-      DEFAULT_LOCAL_SUPABASE_URL,
     ),
     anonAnahtar: zorunluOrtamDegeriniDogrula(
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-      DEFAULT_LOCAL_SUPABASE_ANON_KEY,
     ),
   };
 }
 
 export function supabaseHizmetRoluOrtamYapilandir() {
-  const url = zorunluOrtamDegeri("NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_URL", DEFAULT_LOCAL_SUPABASE_URL);
-  const servisAnahtari = ortamDegeri("SUPABASE_SERVICE_ROLE_KEY");
-  if (process.env.NODE_ENV === "production" && !servisAnahtari) {
-    throw new OrtamYapilandirmaHatasi("SUPABASE_SERVICE_ROLE_KEY");
-  }
-  return { url, servisAnahtari: servisAnahtari ?? DEFAULT_LOCAL_SERVICE_ROLE_KEY };
+  const url = zorunluOrtamDegeri(
+    "NEXT_PUBLIC_SUPABASE_URL",
+    "NEXT_PUBLIC_SUPABASE_URL",
+  );
+  const servisAnahtari = zorunluOrtamDegeri(
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY",
+  );
+  return { url, servisAnahtari };
 }
 
 export function turnstileOrtamYapilandir() {

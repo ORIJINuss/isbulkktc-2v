@@ -1,11 +1,11 @@
 export const ILCELER = [
-  { deger: "KKTC", etiket: "Tüm KKTC", en: "All TRNC", ilanSayisi: 387 },
-  { deger: "LEF", etiket: "Lefkoşa", en: "Nicosia", ilanSayisi: 142 },
-  { deger: "GIR", etiket: "Girne", en: "Kyrenia", ilanSayisi: 98 },
-  { deger: "GAM", etiket: "Gazimağusa", en: "Famagusta", ilanSayisi: 76 },
-  { deger: "ISK", etiket: "İskele", en: "İskele", ilanSayisi: 35 },
-  { deger: "GUZ", etiket: "Güzelyurt", en: "Morphou", ilanSayisi: 24 },
-  { deger: "LEFKE", etiket: "Lefke", en: "Lefka", ilanSayisi: 12 }
+  { deger: "KKTC", etiket: "Tüm KKTC", en: "All TRNC" },
+  { deger: "LEF", etiket: "Lefkoşa", en: "Nicosia" },
+  { deger: "GIR", etiket: "Girne", en: "Kyrenia" },
+  { deger: "GAM", etiket: "Gazimağusa", en: "Famagusta" },
+  { deger: "ISK", etiket: "İskele", en: "İskele" },
+  { deger: "GUZ", etiket: "Güzelyurt", en: "Morphou" },
+  { deger: "LEFKE", etiket: "Lefke", en: "Lefka" }
 ] as const;
 
 export const KKTC_ILLER = ILCELER;
@@ -28,7 +28,7 @@ export const IZIN_TIPLERI = [
   {
     deger: "NORMAL_1",
     etiket: "Normal Çalışma İzni (1 Yıl)",
-    aciklama: "1 Yıllık, B3 Onaylı, Firma Sponsorlu",
+    aciklama: "1 yıllık çalışma izni",
     kisaltma: "1 Yıl İzin",
     renkSinifi: "rozet-ana"
   },
@@ -51,12 +51,12 @@ export const IZIN_TIPLERI = [
 export const CALISMA_IZIN_TIPLERI = IZIN_TIPLERI;
 
 export const SEKTORLER = [
-  { deger: "BILISIM", etiket: "Bilişim & Yazılım", ilanSayisi: 112 },
-  { deger: "TURIZM", etiket: "Turizm & Otelcilik", ilanSayisi: 89 },
-  { deger: "FINANS", etiket: "Finans & Bankacılık", ilanSayisi: 64 },
-  { deger: "EGITIM", etiket: "Eğitim & Üniversite", ilanSayisi: 48 },
-  { deger: "INSAT", etiket: "İnşaat & Gayrimenkul", ilanSayisi: 42 },
-  { deger: "PERAKENDE", etiket: "Perakende & Lojistik", ilanSayisi: 32 }
+  { deger: "BILISIM", etiket: "Bilişim & Yazılım" },
+  { deger: "TURIZM", etiket: "Turizm & Otelcilik" },
+  { deger: "FINANS", etiket: "Finans & Bankacılık" },
+  { deger: "EGITIM", etiket: "Eğitim & Üniversite" },
+  { deger: "INSAT", etiket: "İnşaat & Gayrimenkul" },
+  { deger: "PERAKENDE", etiket: "Perakende & Lojistik" }
 ] as const;
 
 export const CALISMA_SEKILLERI = [

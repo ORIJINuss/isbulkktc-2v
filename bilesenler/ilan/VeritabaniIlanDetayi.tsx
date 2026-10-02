@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/yonlendirme";
 import { tarihFormatla } from "@/lib/yardimcilar/bicimlendiriciler";
+import Ikon3D from "@/bilesenler/genel/Ikon3D";
 import Buton from "@/bilesenler/genel/Buton";
 import Rozet from "@/bilesenler/genel/Rozet";
 import VeritabaniIlanBasvurusu from "@/bilesenler/ilan/VeritabaniIlanBasvurusu";
@@ -128,9 +129,7 @@ export default function VeritabaniIlanDetayi({ slug }: Props) {
   if (durum === "bulunamadi" || !ilan) {
     return (
       <div className="mineral-kart rounded-3xl p-10 text-center space-y-3">
-        <span className="msimge text-5xl text-ikincil/30" aria-hidden="true">
-          search_off
-        </span>
+        <Ikon3D tur="arama" boyut={48} className="mx-auto ikon-3d--arama" />
         <h1 className="font-haber text-xl font-bold text-ikincil">
           {t("veriBulunamadi")}
         </h1>
@@ -139,9 +138,7 @@ export default function VeritabaniIlanDetayi({ slug }: Props) {
         </p>
         <div className="flex justify-center pt-1">
           <Link href="/ilan-ara" className="buton-ana text-sm">
-            <span className="msimge text-base" aria-hidden="true">
-              search
-            </span>
+            <Ikon3D tur="arama" boyut={18} className="ikon-3d--arama" />
             {g("tumunuGetir")}
           </Link>
         </div>
@@ -247,25 +244,19 @@ export default function VeritabaniIlanDetayi({ slug }: Props) {
             <div className="flex flex-wrap gap-3 text-xs text-ikincil/75 font-semibold">
               {ilan.location && (
                 <span className="inline-flex items-center gap-1">
-                  <span className="msimge text-[17px] text-ana" aria-hidden="true">
-                    place
-                  </span>
+                  <Ikon3D tur="bolge" boyut={17} className="ikon-3d--bolge" />
                   {ilan.location}
                 </span>
               )}
               {ilan.published_at && (
                 <span className="inline-flex items-center gap-1">
-                  <span className="msimge text-[17px] text-ana" aria-hidden="true">
-                    calendar_month
-                  </span>
+                  <Ikon3D tur="takvim" boyut={17} />
                   {a("yayin")}: {tarihFormatla(ilan.published_at, yerel)}
                 </span>
               )}
               {ilan.expires_at && (
                 <span className="inline-flex items-center gap-1">
-                  <span className="msimge text-[17px] text-ana" aria-hidden="true">
-                    event_busy
-                  </span>
+                  <Ikon3D tur="takvim" boyut={17} />
                   {a("sonBasvuru")}: {tarihFormatla(ilan.expires_at, yerel)}
                 </span>
               )}

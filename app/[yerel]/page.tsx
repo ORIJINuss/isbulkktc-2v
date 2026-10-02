@@ -1,24 +1,26 @@
 ﻿"use client";
 
-import { useState, useEffect } from "react";
-import { useLocale, useTranslations } from "next-intl";
+import { useState, useEffect, useRef } from "react";
+import type { KeyboardEvent } from "react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useRouter, Link } from "@/i18n/yonlendirme";
+import Ikon3D from "@/bilesenler/genel/Ikon3D";
 import { CALISMA_SEKILLERI, ILCELER } from "@/lib/sabitler/alan-degiskenleri";
 import CamOrbitSahnesi from "@/bilesenler/genel/CamOrbitSahnesi";
+import HeroHareketKatmani from "@/bilesenler/genel/HeroHareketKatmani";
 
 /* ─── Asset paths ─── */
 const A = "/assets";
-const imgSearch = `${A}/3bde3.svg`;
 
 /* ─── Static data ─── */
 const CATEGORIES = [
-  { key: "FINANS", icon: "account_balance" },
-  { key: "TURIZM", icon: "hotel" },
-  { key: "BILISIM", icon: "terminal" },
-  { key: "INSAT", icon: "apartment" },
-  { key: "EGITIM", icon: "school" },
-  { key: "PERAKENDE", icon: "storefront" },
+  { key: "FINANS", icon: "finans" },
+  { key: "TURIZM", icon: "konaklama" },
+  { key: "BILISIM", icon: "teknoloji" },
+  { key: "INSAT", icon: "insaat" },
+  { key: "EGITIM", icon: "egitim" },
+  { key: "PERAKENDE", icon: "perakende" },
 ] as const;
 
 type HomeJob = {
@@ -42,6 +44,9 @@ type HomeCompany = {
   initials: string;
   clr: string;
 };
+
+const ilceKonumMetni = (kod: string) =>
+  ILCELER.find((ilce) => ilce.deger === kod)?.etiket;
 
 const JOBS: HomeJob[] = [];
 const COMPANIES: HomeCompany[] = [];
@@ -78,6 +83,209 @@ function Ic({
   );
 }
 
+type AramaSecenegi<T extends string> = {
+  deger: T;
+  etiket: string;
+};
+
+function AramaSecicisi<T extends string>({
+  id,
+  etiket,
+  deger,
+  secenekler,
+  ikon,
+  sec,
+}: {
+  id: string;
+  etiket: string;
+  deger: T;
+  secenekler: readonly AramaSecenegi<T>[];
+  ikon: "bolge" | "calisma";
+  sec: (deger: T) => void;
+}) {
+  const [acik, setAcik] = useState(false);
+  const [aktifIndeks, setAktifIndeks] = useState(0);
+  const kapsayici = useRef<HTMLDivElement>(null);
+  const tetikleyici = useRef<HTMLButtonElement>(null);
+  const seciliIndeks = Math.max(
+    secenekler.findIndex((secenek) => secenek.deger === deger),
+    0,
+  );
+  const seciliEtiket = secenekler[seciliIndeks]?.etiket ?? "";
+  const secenekKimligi = `${id}-option-${aktifIndeks}`;
+
+  useEffect(() => {
+    if (!acik) return;
+    const disariTiklama = (event: PointerEvent) => {
+      if (
+        event.target instanceof Node &&
+        !kapsayici.current?.contains(event.target)
+      ) {
+        setAcik(false);
+      }
+    };
+    document.addEventListener("pointerdown", disariTiklama);
+    return () => document.removeEventListener("pointerdown", disariTiklama);
+  }, [acik]);
+
+  const klavyeIleSec = (event: KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === "Escape" && acik) {
+      event.preventDefault();
+      setAcik(false);
+      return;
+    }
+    if (event.key === "Tab") {
+      setAcik(false);
+      return;
+    }
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      if (!secenekler.length) return;
+      const yon = event.key === "ArrowDown" ? 1 : -1;
+      const baslangic = acik ? aktifIndeks : seciliIndeks;
+      setAktifIndeks(
+        (baslangic + yon + secenekler.length) % secenekler.length,
+      );
+      setAcik(true);
+      return;
+    }
+    if ((event.key === "Home" || event.key === "End") && acik) {
+      event.preventDefault();
+      setAktifIndeks(event.key === "Home" ? 0 : secenekler.length - 1);
+      return;
+    }
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      if (!acik) {
+        setAktifIndeks(seciliIndeks);
+        setAcik(true);
+        return;
+      }
+      const secilen = secenekler[aktifIndeks];
+      if (secilen) {
+        sec(secilen.deger);
+        setAcik(false);
+      }
+    }
+  };
+
+  return (
+    <div
+      ref={kapsayici}
+      className="home-select"
+      data-open={acik ? "true" : "false"}
+    >
+      <span
+        className={`home-field-icon home-field-icon--${ikon}`}
+        aria-hidden="true"
+      >
+        <Ikon3D
+          tur={ikon === "bolge" ? "bolge" : "evrak"}
+          boyut={20}
+          className={`ikon-3d--${ikon === "bolge" ? "bolge" : "evrak"}`}
+        />
+      </span>
+      <div className="home-select__body">
+        <label
+          id={`${id}-label`}
+          htmlFor={id}
+          className="block text-[11px] font-semibold text-[#717976] uppercase tracking-wider"
+        >
+          {etiket}
+        </label>
+        <button
+          ref={tetikleyici}
+          id={id}
+          type="button"
+          role="combobox"
+          aria-labelledby={`${id}-label ${id}-value`}
+          aria-haspopup="listbox"
+          aria-expanded={acik}
+          aria-controls={`${id}-options`}
+          aria-activedescendant={acik ? secenekKimligi : undefined}
+          className="home-select__trigger"
+          onClick={() => {
+            if (acik) {
+              setAcik(false);
+              return;
+            }
+            setAktifIndeks(seciliIndeks);
+            setAcik(true);
+          }}
+          onKeyDown={klavyeIleSec}
+          onBlur={(event) => {
+            if (
+              !(event.relatedTarget instanceof Node) ||
+              !kapsayici.current?.contains(event.relatedTarget)
+            ) {
+              setAcik(false);
+            }
+          }}
+        >
+          <span id={`${id}-value`} className="home-select__value">
+            {seciliEtiket}
+          </span>
+          <span className="home-select__chevron" aria-hidden="true">
+            <Ic src={`${A}/806dd.svg`} size={13} />
+          </span>
+        </button>
+      </div>
+      {acik && (
+        <div
+          id={`${id}-options`}
+          role="listbox"
+          aria-labelledby={`${id}-label`}
+          className="home-select__listbox"
+        >
+          {secenekler.map((secenek, indeks) => (
+            <button
+              key={secenek.deger || "tum"}
+              id={`${id}-option-${indeks}`}
+              type="button"
+              role="option"
+              tabIndex={-1}
+              aria-selected={secenek.deger === deger}
+              data-active={indeks === aktifIndeks ? "true" : "false"}
+              className="home-select__option"
+              onMouseEnter={() => setAktifIndeks(indeks)}
+              onClick={() => {
+                sec(secenek.deger);
+                setAcik(false);
+                tetikleyici.current?.focus();
+              }}
+            >
+              <span
+                className="home-select__option-orb"
+                data-region={ikon === "bolge" ? secenek.deger : undefined}
+                aria-hidden="true"
+              >
+                <span />
+              </span>
+              <span className="home-select__option-label">{secenek.etiket}</span>
+              {secenek.deger === deger && (
+                <svg
+                  className="home-select__check"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="m4.5 10.2 3.6 3.5 7.4-7.4"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Badge({ text }: { text: string }) {
   return (
     <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-[11px] font-sans-govde font-semibold bg-[rgba(24,58,51,0.07)] text-[#183a33]">
@@ -91,11 +299,12 @@ function Badge({ text }: { text: string }) {
 /* ─────────────────────────────────────────────── */
 export default function AnaSayfa() {
   const t = useTranslations("anaSayfa");
-  const locale = useLocale();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
-  const [location, setLocation] = useState("KKTC");
-  const [workType, setWorkType] = useState("");
+  const [location, setLocation] =
+    useState<(typeof ILCELER)[number]["deger"]>("KKTC");
+  const [workType, setWorkType] =
+    useState<(typeof CALISMA_SEKILLERI)[number]["deger"] | "">("");
   const [activeTab, setActiveTab] = useState<"seeker" | "employer">("seeker");
   const kategoriMetinleri = {
     FINANS: [t("sectorFinance"), t("sectorFinanceDescription")],
@@ -114,6 +323,14 @@ export default function AnaSayfa() {
     GUZ: t("districtMorphou"),
     LEFKE: t("districtLefke"),
   };
+  const ilceKureAdlari = [
+    ilceAdlari.GIR,
+    ilceAdlari.LEF,
+    ilceAdlari.GAM,
+    ilceAdlari.GUZ,
+    ilceAdlari.ISK,
+    ilceAdlari.LEFKE,
+  ] as const;
   const calismaSekliAdlari: Record<
     (typeof CALISMA_SEKILLERI)[number]["deger"],
     string
@@ -124,6 +341,21 @@ export default function AnaSayfa() {
     SEZONLUK: t("workSeasonal"),
     STAJYER: t("workInternship"),
   };
+  const bolgeSecenekleri: AramaSecenegi<
+    (typeof ILCELER)[number]["deger"]
+  >[] = ILCELER.map((ilce) => ({
+    deger: ilce.deger,
+    etiket: ilceAdlari[ilce.deger],
+  }));
+  const calismaSekliSecenekleri: AramaSecenegi<
+    (typeof CALISMA_SEKILLERI)[number]["deger"] | ""
+  >[] = [
+    { deger: "", etiket: t("allWorkTypes") },
+    ...CALISMA_SEKILLERI.map((sekil) => ({
+      deger: sekil.deger,
+      etiket: calismaSekliAdlari[sekil.deger],
+    })),
+  ];
   const arayanAdimlari = [
     { n: "01", title: t("seekerStepProfileTitle"), desc: t("seekerStepProfileDescription") },
     { n: "02", title: t("seekerStepExploreTitle"), desc: t("seekerStepExploreDescription") },
@@ -161,9 +393,12 @@ export default function AnaSayfa() {
   }, []);
 
   const kuredenIlanAra = (ilce?: string) => {
-    const sorgu = ilce ? `?konum=${encodeURIComponent(ilce)}` : "";
+    const params = new URLSearchParams();
+    const konum = ilce ? ilceKonumMetni(ilce) : undefined;
+    if (konum) params.set("konum", konum);
+    const sorgu = params.toString();
     window.setTimeout(() => {
-      router.push(`/${locale}/ilan-ara${sorgu}` as Parameters<typeof router.push>[0]);
+      router.push(`/ilan-ara${sorgu ? `?${sorgu}` : ""}` as Parameters<typeof router.push>[0]);
     }, 420);
   };
 
@@ -171,15 +406,14 @@ export default function AnaSayfa() {
     <div className="min-h-screen bg-[#faf9f3] font-sans-govde antialiased text-[#1b1c19]">
       {/* ─── NAVBAR ─── */}
       {/* ─── HERO ─── */}
-      {/* Orbit scene removed: keep the hero free of legacy WebGL references. */}
-      <section className="relative isolate overflow-hidden border-b border-[#dcdcd1] bg-[#f6f5ef]">
+      <section className="hero-experience relative isolate overflow-hidden border-b border-[#dcdcd1]">
+        <HeroHareketKatmani />
         <div className="pointer-events-none absolute -end-24 -top-32 z-0 h-80 w-80 rounded-full bg-[#d3e7e8]/60 blur-3xl" aria-hidden="true" />
         <div className="pointer-events-none absolute -start-24 bottom-0 z-0 h-56 w-56 rounded-full bg-[#e8f4ee]/70 blur-3xl" aria-hidden="true" />
-        <CamOrbitSahnesi onKureSec={kuredenIlanAra} />
-        <div className="relative z-10 mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:gap-10 sm:px-6 sm:py-14 md:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.58fr)] md:items-center md:px-8 md:py-24 lg:gap-12">
-          <div>
+        <div className="pointer-events-none relative z-10 mx-auto max-w-[88rem] px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-20">
+          <div className="pointer-events-auto min-w-0 lg:max-w-[56%]">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-md bg-[#e8f4ee] border border-[#b3dbc5]">
+          <div data-reveal className="inline-flex items-center gap-2 mb-5 px-3 py-1.5 rounded-md bg-[#e8f4ee] border border-[#b3dbc5]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#1e4b39]" />
             <span className="font-sans-govde font-semibold text-[#1e4b39] text-xs tracking-wider uppercase">
               {t("heroBadge")}
@@ -187,24 +421,27 @@ export default function AnaSayfa() {
           </div>
 
           {/* Headline */}
-          <h1 className="mb-4 max-w-3xl font-display text-[clamp(2.25rem,6vw,3.75rem)] font-bold leading-[1.06] tracking-[-0.045em] text-[#183a33]">
+          <h1 data-reveal className="hero-title mb-4 max-w-3xl font-display text-[clamp(2.25rem,5vw,3.5rem)] font-bold leading-[1.06] tracking-[-0.045em] text-[#183a33]" style={{ transitionDelay: "80ms" }}>
             {t("heroTitle")}
           </h1>
 
           {/* Subtitle */}
-          <p className="text-[#414846] text-base sm:text-lg leading-7 mb-8 max-w-2xl font-sans-govde">
+          <p data-reveal className="text-[#414846] text-base sm:text-lg leading-7 mb-8 max-w-2xl font-sans-govde" style={{ transitionDelay: "150ms" }}>
             {t("heroDescription")}
           </p>
 
           {/* Search box */}
           <form
-            className="w-full max-w-6xl mb-4 rounded-2xl border border-[#dcdcd1] bg-white/95 p-3 md:p-4 shadow-[0_18px_45px_-18px_rgba(26,50,44,0.24)] ring-1 ring-white/70 backdrop-blur-sm"
+            data-reveal
+            className="hero-search-panel mb-4 w-full max-w-3xl rounded-2xl border border-[#dcdcd1] bg-white/95 p-3 shadow-[0_18px_45px_-18px_rgba(26,50,44,0.24)] ring-1 ring-white/70 backdrop-blur-sm sm:p-4"
+            style={{ transitionDelay: "220ms" }}
             onSubmit={(event) => {
               event.preventDefault();
               const params = new URLSearchParams();
               const query = searchQuery.trim();
               if (query) params.set("arananKelime", query);
-              if (location !== "KKTC") params.append("ilceKodlari", location);
+              const konum = location !== "KKTC" ? ilceKonumMetni(location) : undefined;
+              if (konum) params.set("konum", konum);
               if (workType) params.append("calismaSekliKodlari", workType);
               const queryString = params.toString();
               router.push(
@@ -213,10 +450,15 @@ export default function AnaSayfa() {
               );
             }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.3fr)_minmax(0,0.85fr)_minmax(0,0.85fr)_auto] items-center gap-1">
+            <div className="grid grid-cols-1 items-center gap-1 sm:grid-cols-2">
               {/* Keyword */}
-              <div className="flex items-center gap-3 px-3 py-2.5 min-h-14 border-b md:border-b-0 md:border-r border-[#e6e6dd]">
-                <Ic src={imgSearch} size={20} />
+              <div className="flex min-h-14 items-center gap-3 border-b border-[#e6e6dd] px-3 py-2.5 sm:border-b-0 sm:border-e">
+                <span
+                  className="home-field-icon home-field-icon--search"
+                  aria-hidden="true"
+                >
+                  <Ikon3D tur="arama" boyut={20} className="ikon-3d--arama" priority />
+                </span>
                 <div className="w-full">
                   <label htmlFor="search-role" className="block text-[11px] font-semibold text-[#717976] uppercase tracking-wider">
                     {t("searchRoleLabel")}
@@ -232,74 +474,40 @@ export default function AnaSayfa() {
                 </div>
               </div>
               {/* Location */}
-              <div className="flex items-center gap-3 px-3 py-2.5 min-h-14 border-b md:border-b-0 md:border-r border-[#e6e6dd]">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#717976"
-                  strokeWidth="1.7"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="w-4 h-4 shrink-0"
-                >
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
-                <div className="w-full">
-                  <label htmlFor="search-location" className="block text-[11px] font-semibold text-[#717976] uppercase tracking-wider">
-                    {t("locationLabel")}
-                  </label>
-                  <select
-                    id="search-location"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    className="w-full bg-transparent p-0 text-[14px] font-sans-govde font-medium text-[#1b1c19] border-0 focus:ring-0 cursor-pointer"
-                  >
-                    {ILCELER.map((ilce) => (
-                      <option key={ilce.deger} value={ilce.deger}>
-                        {ilceAdlari[ilce.deger]}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <div className="flex min-h-14 items-center gap-3 border-b border-[#e6e6dd] px-3 py-2.5 sm:border-b-0">
+                <AramaSecicisi
+                  id="search-location"
+                  etiket={t("locationLabel")}
+                  deger={location}
+                  secenekler={bolgeSecenekleri}
+                  ikon="bolge"
+                  sec={setLocation}
+                />
               </div>
               {/* Employment type */}
-              <div className="flex items-center gap-3 px-3 py-2.5 min-h-14">
-                <span className="msimge text-[#42655c] text-xl" aria-hidden="true">
-                  work
-                </span>
-                <div className="w-full">
-                  <label htmlFor="search-work-type" className="block text-[11px] font-semibold text-[#717976] uppercase tracking-wider">
-                    {t("workTypeLabel")}
-                  </label>
-                  <select
-                    id="search-work-type"
-                    value={workType}
-                    onChange={(e) => setWorkType(e.target.value)}
-                    className="w-full bg-transparent p-0 text-[14px] font-sans-govde font-medium text-[#1b1c19] border-0 focus:ring-0 cursor-pointer"
-                  >
-                    <option value="">{t("allWorkTypes")}</option>
-                    {CALISMA_SEKILLERI.map((sekil) => (
-                      <option key={sekil.deger} value={sekil.deger}>
-                        {calismaSekliAdlari[sekil.deger]}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <div className="flex min-h-14 items-center gap-3 border-b border-[#e6e6dd] px-3 py-2.5 sm:border-e sm:border-t">
+                <AramaSecicisi
+                  id="search-work-type"
+                  etiket={t("workTypeLabel")}
+                  deger={workType}
+                  secenekler={calismaSekliSecenekleri}
+                  ikon="calisma"
+                  sec={setWorkType}
+                />
               </div>
               {/* Button */}
               <button
                 type="submit"
-                className="flex h-12 items-center justify-center gap-2 rounded-lg bg-[#305149] px-6 text-white font-sans-govde font-semibold text-[15px] hover:bg-[#42655d] transition-colors whitespace-nowrap"
+                className="hero-search-button flex h-12 items-center justify-center gap-2 rounded-lg px-6 text-white font-sans-govde font-semibold text-[15px] whitespace-nowrap sm:mt-1"
               >
-                <span className="msimge" aria-hidden="true">search</span>
+                <Ikon3D tur="arama" boyut={20} className="ikon-3d--arama" />
                 <span>{t("searchButton")}</span>
               </button>
             </div>
           </form>
 
           {/* Popular searches */}
-          <div className="flex flex-wrap items-center gap-2">
+          <div data-reveal className="flex flex-wrap items-center gap-2" style={{ transitionDelay: "300ms" }}>
             <span className="text-[13px] text-[#717976] font-sans-govde font-medium">
               {t("popularSearches")}
             </span>
@@ -309,7 +517,7 @@ export default function AnaSayfa() {
               <button
                 key={kw}
                 onClick={() => setSearchQuery(kw)}
-                className="text-[13px] font-sans-govde font-semibold text-[#42655c] bg-[#eeeee7] rounded-md px-3 py-1.5 hover:bg-[#e6e6dd] transition-colors"
+                className="hero-popular-search text-[13px] font-sans-govde font-semibold text-[#42655c] bg-[#eeeee7] rounded-md px-3 py-1.5"
               >
                 {kw}
               </button>
@@ -317,7 +525,9 @@ export default function AnaSayfa() {
             })}
           </div>
           </div>
-
+        </div>
+        <div className="hero-orbit-column" data-reveal style={{ transitionDelay: "160ms" }}>
+          <CamOrbitSahnesi onKureSec={kuredenIlanAra} ilceAdlari={ilceKureAdlari} />
         </div>
       </section>
 
@@ -358,8 +568,12 @@ export default function AnaSayfa() {
                 className="group flex flex-col justify-between gap-4 rounded-xl border border-[#dcdcd1] bg-white p-5 md:p-6 transition-all duration-200 hover:border-[#8eb5b0] hover:shadow-[0_4px_16px_-2px_rgba(26,50,44,0.06)]"
               >
                 <div className="flex items-start justify-between">
-                  <span className="msimge flex h-12 w-12 items-center justify-center rounded-lg border border-[#dcdcd1] bg-[#eeeee7] text-[#305149] text-[25px] transition-colors group-hover:bg-[#edf5fa]" aria-hidden="true">
-                    {icon}
+                  <span className="flex h-12 w-12 items-center justify-center rounded-lg border border-[#dcdcd1] bg-[#eeeee7] transition-colors group-hover:bg-[#edf5fa]">
+                    <Ikon3D
+                      tur={icon}
+                      boyut={40}
+                      className={`ikon-3d--kategori ikon-3d--${icon}`}
+                    />
                   </span>
                   <span className="text-[11px] font-sans-govde font-semibold text-[#717976] bg-[#f5f4ee] px-2.5 py-1 rounded">
                     {t("discoverSector")}
@@ -414,12 +628,7 @@ export default function AnaSayfa() {
           <div className="space-y-4">
             {JOBS.length === 0 && (
               <div className="rounded-xl border border-dashed border-[#c1c8c5] bg-white p-8 md:p-10 text-center">
-                <span
-                  className="msimge text-3xl text-[#40655c]"
-                  aria-hidden="true"
-                >
-                  search_off
-                </span>
+                <Ikon3D tur="arama" boyut={48} className="ikon-3d--arama mx-auto" />
                 <h3 className="mt-3 font-sans-govde text-lg text-[#183a33]">
                   {t("noJobsTitle")}
                 </h3>

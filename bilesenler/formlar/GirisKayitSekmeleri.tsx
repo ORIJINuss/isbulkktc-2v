@@ -32,25 +32,6 @@ const EPOSTA_DESENI = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 type AuthHata = { status?: number; message?: string };
 
-type Saglayici = "google" | "apple" | "linkedin_oidc";
-
-function SaglayiciIsareti({ saglayici }: { saglayici: Saglayici }) {
-  if (saglayici === "google") {
-    return (
-      <svg viewBox="0 0 24 24" aria-hidden="true" className="auth-provider__mark">
-        <path fill="#4285F4" d="M21.8 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.5a4.7 4.7 0 0 1-2 3.1v2.6h3.2c1.9-1.8 3.1-4.4 3.1-7.5Z" />
-        <path fill="#34A853" d="M12 22c2.7 0 5-.9 6.7-2.4l-3.2-2.6c-.9.6-2 .9-3.5.9-2.7 0-5-1.8-5.8-4.3H2.9v2.7A10.1 10.1 0 0 0 12 22Z" />
-        <path fill="#FBBC05" d="M6.2 13.6a6 6 0 0 1 0-3.2V7.7H2.9a10 10 0 0 0 0 8.6l3.3-2.7Z" />
-        <path fill="#EA4335" d="M12 6.1c1.6 0 3 .6 4.1 1.7l3-3A10.1 10.1 0 0 0 2.9 7.7l3.3 2.7C7 7.9 9.3 6.1 12 6.1Z" />
-      </svg>
-    );
-  }
-  if (saglayici === "apple") {
-    return <svg viewBox="0 0 24 24" aria-hidden="true" className="auth-provider__mark"><path fill="currentColor" d="M17.1 12.7c0-2.3 1.9-3.4 2-3.5a4.3 4.3 0 0 0-3.4-1.8c-1.4-.1-2.7.8-3.4.8-.7 0-1.8-.8-3-.8a4.5 4.5 0 0 0-3.8 2.3c-1.6 2.8-.4 7 1.1 9.2.8 1.1 1.6 2.3 2.8 2.3 1.1-.1 1.6-.7 3-.7s1.8.7 3 .7c1.2 0 2-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.4-.9-2.4-3.5ZM14.9 6c.6-.8 1-1.8.9-2.9-.9 0-2 .6-2.7 1.3-.6.7-1.1 1.7-1 2.8 1 .1 2.1-.4 2.8-1.2Z" /></svg>;
-  }
-  return <svg viewBox="0 0 24 24" aria-hidden="true" className="auth-provider__mark"><path fill="currentColor" d="M20.5 3.5h-17c-.8 0-1.5.7-1.5 1.5v14c0 .8.7 1.5 1.5 1.5h17c.8 0 1.5-.7 1.5-1.5V5c0-.8-.7-1.5-1.5-1.5ZM8 18H5V9h3v9ZM6.5 7.8A1.8 1.8 0 1 1 6.5 4a1.8 1.8 0 0 1 0 3.8ZM19 18h-3v-4.4c0-1-.1-2.4-1.5-2.4s-1.7 1.1-1.7 2.3V18h-3V9h2.9v1.2h.1c.4-.8 1.4-1.6 2.9-1.6 3.1 0 3.3 2 3.3 4.5V18Z" /></svg>;
-}
-
 export default function GirisKayitSekmeleri({
   sinif,
   initialUserType = "aday",
@@ -73,7 +54,6 @@ export default function GirisKayitSekmeleri({
   const [sifreSifirlamaMesaji, setSifreSifirlamaMesaji] = useState<string | null>(null);
   const [gonderiliyor, setGonderiliyor] = useState(false);
   const [sifreSifirlamaBekliyor, setSifreSifirlamaBekliyor] = useState(false);
-  const [oauthYukleniyor, setOauthYukleniyor] = useState<string | null>(null);
   const gonderiliyorRef = useRef(false);
   const sifreSifirlamaRef = useRef(false);
   const router = useRouter();
@@ -98,19 +78,21 @@ export default function GirisKayitSekmeleri({
     resolver: zodResolver(ISVEREN_KAYIT_SEMA),
     defaultValues: {
       sirketAdi: "",
-      b3SirketNo: "",
       vergiKimlikNo: "",
-      naceKodu: "",
-      ilce: "",
-      yetkiliAdSoyad: "",
       yetkiliEposta: "",
-      yetkiliCep: "",
       sifre: "",
-      isverenHukukiBeyan: false as unknown as true,
       kvkOnay: false as unknown as true,
     },
     mode: "onTouched",
   });
+
+  const authDurumunuTemizle = () => {
+    setSunucuHatasi(null);
+    setBilgiMesaji(null);
+    setSifreSifirlamaMesaji(null);
+    adayForm.clearErrors();
+    isverenForm.clearErrors();
+  };
 
   const epostaDegeriniAl = (alanlar: Record<string, unknown>): string =>
     String((kullaniciTuru === "aday" ? alanlar.email : alanlar.yetkiliEposta) ?? "").trim();
@@ -132,27 +114,6 @@ export default function GirisKayitSekmeleri({
     }
     if (durum === 422) return t("hataKayitZatenVar");
     return t("hataIslemTamamlanamadi");
-  };
-
-  const oauthIleDevamEt = async (saglayici: "google" | "apple" | "linkedin_oidc") => {
-    if (oauthYukleniyor) return;
-    setOauthYukleniyor(saglayici);
-    setSunucuHatasi(null);
-    try {
-      const supabase = tarayiciIcinSupabaseOlustur();
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: saglayici,
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(window.location.pathname)}`,
-          queryParams: saglayici === "google" ? { access_type: "offline", prompt: "select_account" } : undefined,
-        },
-      });
-      if (error) setSunucuHatasi(authHataMesaji(error));
-    } catch (hata) {
-      setSunucuHatasi(authHataMesaji(hata as AuthHata));
-    } finally {
-      setOauthYukleniyor(null);
-    }
   };
 
   const gonder = async (veri: unknown): Promise<void> => {
@@ -193,21 +154,21 @@ export default function GirisKayitSekmeleri({
           email,
           password: sifre,
           options: {
+            captchaToken: turnstileToken,
+            emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(
+              kullaniciTuru === "aday" ? "/aday-profilim" : "/isveren/yeni-ilan"
+            )}`,
             data: {
               role: kullaniciTuru === "aday" ? "candidate" : "employer",
               full_name:
                 kullaniciTuru === "aday"
                   ? String(alanlar.adSoyad ?? "")
-                  : String(alanlar.yetkiliAdSoyad ?? ""),
+                  : String(alanlar.sirketAdi ?? ""),
               company_name:
                 kullaniciTuru === "isveren" ? String(alanlar.sirketAdi ?? "") : undefined,
-              company_legal_name:
+              company_tax_identifier:
                 kullaniciTuru === "isveren" ? String(alanlar.vergiKimlikNo ?? "") : undefined,
               company_email: kullaniciTuru === "isveren" ? email : undefined,
-              company_phone:
-                kullaniciTuru === "isveren" ? String(alanlar.yetkiliCep ?? "") : undefined,
-              company_location:
-                kullaniciTuru === "isveren" ? String(alanlar.ilce ?? "") : undefined,
             },
           },
         });
@@ -288,7 +249,10 @@ export default function GirisKayitSekmeleri({
       <div className="inline-flex p-1 bg-ikincil-kapsayici rounded-2xl mb-6 w-full">
         <button
           type="button"
-          onClick={() => setKullaniciTuru("aday")}
+          onClick={() => {
+            setKullaniciTuru("aday");
+            authDurumunuTemizle();
+          }}
           className={sb(
             "flex-1 py-2.5 px-3 rounded-xl text-sm font-semibold transition-all",
             kullaniciTuru === "aday"
@@ -303,7 +267,10 @@ export default function GirisKayitSekmeleri({
         </button>
         <button
           type="button"
-          onClick={() => setKullaniciTuru("isveren")}
+          onClick={() => {
+            setKullaniciTuru("isveren");
+            authDurumunuTemizle();
+          }}
           className={sb(
             "flex-1 py-2.5 px-3 rounded-xl text-sm font-semibold transition-all",
             kullaniciTuru === "isveren"
@@ -325,7 +292,10 @@ export default function GirisKayitSekmeleri({
             <button
               key={m}
               type="button"
-              onClick={() => setMod(m)}
+              onClick={() => {
+                setMod(m);
+                authDurumunuTemizle();
+              }}
               className={sb(
                 "text-sm font-semibold pb-1 border-b-2 transition-colors",
                 mod === m
@@ -431,12 +401,11 @@ export default function GirisKayitSekmeleri({
               <>
                 <div>
                   <label className="block text-xs font-semibold text-ana mb-1.5 ms-0.5">
-                    Şirket / Kurum Adı
+                    {t("sirketAdi")}
                   </label>
                   <input
                     {...register("sirketAdi")}
                     className="girdi w-full"
-                    placeholder="Kıbrıs Akdeniz Turizm A.Ş."
                   />
                   {errors.sirketAdi && (
                     <p className="text-xs text-hata-900 mt-1 ps-1">
@@ -444,119 +413,37 @@ export default function GirisKayitSekmeleri({
                     </p>
                   )}
                 </div>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-ana mb-1.5 ms-0.5">
-                      B3 / İhtiyat Sandığı No
-                    </label>
-                    <input
-                      {...register("b3SirketNo")}
-                      className="girdi w-full"
-                      placeholder="B3-998123-LFKO"
-                    />
-                    {errors.b3SirketNo && (
-                      <p className="text-xs text-hata-900 mt-1 ps-1">
-                        {(errors.b3SirketNo?.message as string) ?? ""}
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ana mb-1.5 ms-0.5">
-                      Vergi Kimlik No (VKN)
-                    </label>
-                    <input
-                      {...register("vergiKimlikNo")}
-                      className="girdi w-full"
-                      placeholder="0301 02345 67890"
-                    />
-                    {errors.vergiKimlikNo && (
-                      <p className="text-xs text-hata-900 mt-1 ps-1">
-                        {(errors.vergiKimlikNo?.message as string) ?? ""}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-ana mb-1.5 ms-0.5">
-                      NACE Kodu (İş Kolu)
-                    </label>
-                    <input
-                      {...register("naceKodu")}
-                      className="girdi w-full"
-                      placeholder="6201 - Yazılım Geliştirme"
-                    />
-                    {errors.naceKodu && (
-                      <p className="text-xs text-hata-900 mt-1 ps-1">
-                        {(errors.naceKodu?.message as string) ?? ""}
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ana mb-1.5 ms-0.5">
-                      İlçe
-                    </label>
-                    <input
-                      {...register("ilce")}
-                      className="girdi w-full"
-                      placeholder="Lefkoşa"
-                    />
-                    {errors.ilce && (
-                      <p className="text-xs text-hata-900 mt-1 ps-1">
-                        {(errors.ilce?.message as string) ?? ""}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-ana mb-1.5 ms-0.5">
-                      Yetkili Kişi Ad Soyad
-                    </label>
-                    <input
-                      {...register("yetkiliAdSoyad")}
-                      className="girdi w-full"
-                      placeholder="Selin Demir"
-                    />
-                    {errors.yetkiliAdSoyad && (
-                      <p className="text-xs text-hata-900 mt-1 ps-1">
-                        {(errors.yetkiliAdSoyad?.message as string) ?? ""}
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-ana mb-1.5 ms-0.5">
-                      Yetkili Kişi Cep Telefonu
-                    </label>
-                    <input
-                      {...register("yetkiliCep")}
-                      className="girdi w-full"
-                      placeholder="+90 (533) 123 45 67"
-                    />
-                    {errors.yetkiliCep && (
-                      <p className="text-xs text-hata-900 mt-1 ps-1">
-                        {(errors.yetkiliCep?.message as string) ?? ""}
-                      </p>
-                    )}
-                  </div>
+                <div>
+                  <label className="block text-xs font-semibold text-ana mb-1.5 ms-0.5">
+                    {t("vergiKimlikNo")}
+                  </label>
+                  <input
+                    {...register("vergiKimlikNo")}
+                    className="girdi w-full"
+                  />
+                  {errors.vergiKimlikNo && (
+                    <p className="text-xs text-hata-900 mt-1 ps-1">
+                      {(errors.vergiKimlikNo?.message as string) ?? ""}
+                    </p>
+                  )}
                 </div>
               </>
             )}
             {mod === "kayit" && (
               <div>
                 <label
-                  htmlFor="giris-kurumsal-eposta"
+                  htmlFor="kayit-isveren-eposta"
                   className="block text-xs font-semibold text-ana mb-1.5 ms-0.5"
                 >
                   {t("kurumsalEposta")}
                 </label>
                 <input
-                  id="giris-kurumsal-eposta"
+                  id="kayit-isveren-eposta"
                   type="email"
                   autoComplete="email"
                   {...register("yetkiliEposta")}
                   className="girdi w-full"
-                  placeholder="insankaynaklari@sirket.com.ku"
+                  placeholder="ornek@example.com"
                 />
                 {errors.yetkiliEposta && (
                   <p className="text-xs text-hata-900 mt-1 ps-1">
@@ -606,7 +493,7 @@ export default function GirisKayitSekmeleri({
               autoComplete="email"
               {...register("yetkiliEposta")}
               className="girdi w-full"
-              placeholder="insankaynaklari@sirket.com.ku"
+              placeholder="ornek@example.com"
             />
             {errors.yetkiliEposta && (
               <p className="text-xs text-hata-900 mt-1 ps-1">
@@ -732,12 +619,6 @@ export default function GirisKayitSekmeleri({
           <div className="space-y-2.5 pt-2">
             {([
               {
-                anahtar: "isverenHukukiBeyan",
-                baslik: t("isverenBeyanBaslik"),
-                ikon: "gavel",
-                aciklama: t("isverenBeyanAciklama"),
-              },
-              {
                 anahtar: "kvkOnay",
                 baslik: t("isverenKvkBaslik"),
                 ikon: "verified_user",
@@ -766,7 +647,7 @@ export default function GirisKayitSekmeleri({
                 </div>
               </label>
             ))}
-            {(errors.isverenHukukiBeyan || errors.kvkOnay) && (
+            {errors.kvkOnay && (
               <p role="alert" className="text-xs text-hata-900 ps-1">
                 {t("onayZorunluIsveren")}
               </p>
@@ -781,25 +662,10 @@ export default function GirisKayitSekmeleri({
           />
         )}
 
-        {kullaniciTuru === "aday" && (
-          <>
-            <div className="auth-provider-grid" aria-label="Aday için alternatif giriş seçenekleri">
-              {([
-                { saglayici: "google", etiket: "Google ile devam et", sinif: "auth-provider--google" },
-                { saglayici: "apple", etiket: "Apple ile devam et", sinif: "auth-provider--apple" },
-                { saglayici: "linkedin_oidc", etiket: "LinkedIn ile devam et", sinif: "auth-provider--linkedin" },
-              ] as const).map((saglayici) => (
-                <button key={saglayici.saglayici} type="button" className={sb("auth-provider", saglayici.sinif)} onClick={() => void oauthIleDevamEt(saglayici.saglayici)} disabled={Boolean(oauthYukleniyor)}>
-                  <SaglayiciIsareti saglayici={saglayici.saglayici} />
-                  <span>{oauthYukleniyor === saglayici.saglayici ? "Yönlendiriliyor..." : saglayici.etiket}</span>
-                </button>
-              ))}
-            </div>
-            <div className="auth-divider"><span>veya e-posta ile</span></div>
+        {mod === "giris" && kullaniciTuru === "aday" && (
             <p id="giris-alternatif-notu" className="text-[11px] text-ikincil/70 leading-snug">
-              Aday hesabınız için hızlı ve güvenli bir giriş yöntemi seçin.
+              {t("alternatifGirisNotu")}
             </p>
-          </>
         )}
 
         <Buton

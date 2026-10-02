@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { MouseEvent } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/yonlendirme";
+import Ikon3D from "@/bilesenler/genel/Ikon3D";
 import DilSecici from "@/bilesenler/genel/DilSecici";
 import Logo from "@/bilesenler/genel/Logo";
 import Buton from "@/bilesenler/genel/Buton";
@@ -93,10 +94,10 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
   };
 
   const baglantilar = [
-    { etiket: t("ilanAra"), yol: "/ilan-ara", ikon: "travel_explore" },
-    { etiket: t("freelance"), yol: "/freelance", ikon: "handshake" },
-    { etiket: t("sirketler"), yol: "/sirketler", ikon: "apartment" },
-    { etiket: t("paketler"), yol: "/ilan-paketleri", ikon: "sell" }
+    { etiket: t("ilanAra"), yol: "/ilan-ara", ikon: "search", ikon3d: "arama" },
+    { etiket: t("freelance"), yol: "/freelance", ikon: "handshake", ikon3d: "evrak" },
+    { etiket: t("sirketler"), yol: "/sirketler", ikon: "apartment", ikon3d: null },
+    { etiket: t("paketler"), yol: "/ilan-paketleri", ikon: "sell", ikon3d: "finans" }
   ] as const;
 
   const ibrisi = yerel === "he";
@@ -125,15 +126,19 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
         </Link>
         <nav
           aria-label={t("anaSayfa")}
-          className="hidden xl:flex items-center gap-4 2xl:gap-5 text-govde-md font-medium text-yüzey-uzerinde/70 shrink-0"
+          className="hidden lg:flex items-center gap-2 2xl:gap-5 text-govde-md font-medium text-yüzey-uzerinde/70 shrink-0"
         >
-          {baglantilar.slice(1).map((b) => (
+          {baglantilar.map((b) => (
             <Link
               key={b.yol}
               href={b.yol}
               className="py-2 rounded-lg hover:text-ana transition-colors flex items-center gap-1.5"
             >
-              <span className="msimge text-[18px]" aria-hidden="true">{b.ikon}</span>
+              {b.ikon3d ? (
+                <Ikon3D tur={b.ikon3d} boyut={20} className="ikon-3d--nav" />
+              ) : (
+                <span className="msimge text-[18px]" aria-hidden="true">{b.ikon}</span>
+              )}
               <span>{b.etiket}</span>
             </Link>
           ))}
@@ -148,11 +153,11 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
               aria-label={t("bildirimler")}
               className="relative p-1.5 rounded-xl hover:bg-yüzey-kapsayici text-yüzey-uzerinde/70 hover:text-ana transition-colors"
             >
-              <span className="msimge text-xl" aria-hidden="true">notifications</span>
+              <Ikon3D tur="bildirim" boyut={24} className="ikon-3d--nav" />
             </Link>
           )}
 
-          <div className="hidden xl:flex items-center gap-2">
+          <div className="hidden lg:flex items-center gap-2">
             <Link
               href="/giris"
               onClick={(event) => kayitEkraninaGit(event, "aday")}
@@ -174,13 +179,13 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
             )}
           </div>
 
-          <div className="xl:hidden flex items-center gap-1">
+          <div className="lg:hidden flex items-center gap-1">
             <Link
               href="/ilan-ara"
               aria-label={t("ilanAra")}
-              className="p-2 rounded-xl text-ana hover:bg-yüzey-kapsayici md:hidden"
+              className="p-2 rounded-xl text-ana hover:bg-yüzey-kapsayici sm:hidden"
             >
-              <span className="msimge text-xl" aria-hidden="true">search</span>
+              <Ikon3D tur="arama" boyut={24} className="ikon-3d--nav" />
             </Link>
             <button
               type="button"
@@ -211,7 +216,7 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
         <nav
           id="mobil-menu"
           aria-label={t("anaSayfa")}
-          className="xl:hidden border-t border-cizgi-degisken/70 bg-yüzey px-4 sm:px-6 py-3"
+          className="lg:hidden border-t border-cizgi-degisken/70 bg-yüzey px-4 sm:px-6 py-3"
         >
           <div className="flex flex-col gap-1 text-sm font-semibold text-yüzey-uzerinde/80">
             {baglantilar.map((baglanti) => (
@@ -221,7 +226,11 @@ export default function UstGezinmeCubugu({ yerel }: { yerel: Yerel }) {
                 onClick={() => setMobilMenuAcik(false)}
                 className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 hover:bg-yüzey-kapsayici hover:text-ana"
               >
-                <span className="msimge text-[20px]" aria-hidden="true">{baglanti.ikon}</span>
+                {baglanti.ikon3d ? (
+                  <Ikon3D tur={baglanti.ikon3d} boyut={22} className="ikon-3d--nav" />
+                ) : (
+                  <span className="msimge text-[20px]" aria-hidden="true">{baglanti.ikon}</span>
+                )}
                 {baglanti.etiket}
               </Link>
             ))}

@@ -8,7 +8,9 @@ type HazirlikKontrolleri = {
   supabaseAnonKey: boolean;
   supabaseServiceRoleKey: boolean;
   turnstile: boolean;
-  paymentWebhook: boolean;
+  stripeSecretKey: boolean;
+  stripeWebhookSecret: boolean;
+  siteUrl: boolean;
 };
 
 export async function GET() {
@@ -20,7 +22,9 @@ export async function GET() {
     turnstile:
       Boolean(ortamDegeri("NEXT_PUBLIC_TURNSTILE_SITE_KEY")) &&
       Boolean(ortamDegeri("TURNSTILE_SECRET_KEY")),
-    paymentWebhook: Boolean(ortamDegeri("PAYMENT_WEBHOOK_SECRET")),
+    stripeSecretKey: Boolean(ortamDegeri("STRIPE_SECRET_KEY")),
+    stripeWebhookSecret: Boolean(ortamDegeri("STRIPE_WEBHOOK_SECRET")),
+    siteUrl: Boolean(ortamDegeri("NEXT_PUBLIC_SITE_URL")),
   };
 
   const zorunluKontroller = [
@@ -28,7 +32,9 @@ export async function GET() {
     kontroller.supabaseAnonKey,
     kontroller.supabaseServiceRoleKey,
     kontroller.turnstile,
-    kontroller.paymentWebhook,
+    kontroller.stripeSecretKey,
+    kontroller.stripeWebhookSecret,
+    kontroller.siteUrl,
   ];
   const hazir = zorunluKontroller.every(Boolean);
 

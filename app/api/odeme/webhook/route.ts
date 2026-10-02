@@ -17,24 +17,41 @@ export async function POST(istek: Request) {
   }
 
   const supabase = await hizmetRoluIcinSupabaseOlustur();
+  if (olay.status === "succeeded") {
+    const { error } = await supabase.rpc("apply_paid_order", {
+      p_order_id: olay.orderId,
+      p_provider: olay.provider,
+      p_provider_reference: olay.providerReference,
+      p_amount: (olay.amountTotal ?? 0) / 100,
+      p_currency: olay.currency ?? "",
+    });
+    if (error) return NextResponse.json({ basarili: false, hata: "Ödeme siparişe uygulanamadı." }, { status: 500 });
+  } else if (olay.status === "failed") {
+    const { error } = await supabase.rpc("fail_pending_order", {
+      p_order_id: olay.orderId,
+      p_provider: olay.provider,
+      p_provider_reference: olay.providerReference,
+    });
+    if (error) return NextResponse.json({ basarili: false, hata: "Sipariş durumu güncellenemedi." }, { status: 500 });
+  }
+
   const { data: yeniOlay, error: olayHatasi } = await supabase.rpc("record_payment_event", {
     p_order_id: olay.orderId,
     p_provider: olay.provider,
     p_event_id: olay.providerEventId,
     p_event_type: olay.type,
-    p_payload: { orderId: olay.orderId, status: olay.status, provider: olay.provider, type: olay.type },
+    p_payload: {
+      orderId: olay.orderId,
+      status: olay.status,
+      provider: olay.provider,
+      providerReference: olay.providerReference,
+      amountTotal: olay.amountTotal,
+      currency: olay.currency,
+      type: olay.type,
+    },
   });
   if (olayHatasi) return NextResponse.json({ basarili: false, hata: "Webhook kaydedilemedi." }, { status: 500 });
   if (!yeniOlay) return NextResponse.json({ basarili: true, yinelenen: true });
-
-  if (olay.status === "succeeded") {
-    const { error } = await supabase.rpc("apply_paid_order", {
-      p_order_id: olay.orderId,
-      p_provider: olay.provider,
-      p_provider_reference: olay.providerEventId,
-    });
-    if (error) return NextResponse.json({ basarili: false, hata: "Ödeme siparişe uygulanamadı." }, { status: 500 });
-  }
 
   return NextResponse.json({ basarili: true });
 }

@@ -1,39 +1,33 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { ilanGetir } from "@/lib/depolar/ilan-deposu";
+import { getPathname, yonlendirme, type Yerel } from "@/i18n/yonlendirme";
 import { canliIlanGetir } from "@/lib/depolar/ilan-arama-deposu";
 import type { IlanAramaSatiri } from "@/lib/depolar/ilan-arama-deposu";
-import type { Ilan } from "@/lib/veri/ilan-tipi";
 import { log } from "@/lib/sunucu/loglama";
 
 type Props = {
-  params: { slug: string; yerel: string };
+  params: { slug: string; yerel: Yerel };
   children: React.ReactNode;
 };
 
 type SlugKaynagi =
-  | { tur: "demo"; demoIlan: Ilan; canliIlan: null }
-  | { tur: "canli"; demoIlan: null; canliIlan: IlanAramaSatiri }
-  | { tur: "yok" | "hata"; demoIlan: null; canliIlan: null };
+  | { tur: "canli"; canliIlan: IlanAramaSatiri }
+  | { tur: "yok" | "hata"; canliIlan: null };
 
 /**
  * REQ-JOB-LIVE-001 — Slug kaynagini tek noktada cozer:
- * demo ilan mi, canli job_posts ilani mi, yoksa hicbiri mi?
- * Demo slug'lari asla veritabanina sorgulanmaz.
+ * canli job_posts ilani mi, yoksa hicbir mi? Demo veriye dusturulmez.
  */
 async function kaynagiCoz(slug: string): Promise<SlugKaynagi> {
-  const demoIlan = ilanGetir(slug);
-  if (demoIlan) return { tur: "demo", demoIlan, canliIlan: null };
-
   try {
     const canliIlan = await canliIlanGetir(slug);
-    if (canliIlan) return { tur: "canli", demoIlan: null, canliIlan };
-    return { tur: "yok", demoIlan: null, canliIlan: null };
+    if (canliIlan) return { tur: "canli", canliIlan };
+    return { tur: "yok", canliIlan: null };
   } catch (hata) {
     // Veritabani hatasi 404 sebebi degildir; hata detay sayfasinda gosterilir.
     log.hata("ilan/[slug] layout: canli ilan cozumlenemedi", hata, { slug });
-    return { tur: "hata", demoIlan: null, canliIlan: null };
+    return { tur: "hata", canliIlan: null };
   }
 }
 
@@ -44,30 +38,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     namespace: "ilanDetay",
   });
 
-  if (kaynak.tur === "demo" && kaynak.demoIlan) {
-    const ilan = kaynak.demoIlan;
-    const description =
-      ilan.isTanimi?.slice(0, 155) ?? `${ilan.pozisyonBasligi} iş ilanı`;
-    return {
-      title: `${ilan.pozisyonBasligi} - ${ilan.sirketAdi}`,
-      description,
-      alternates: {
-        canonical: `/${params.yerel}/ilan/${ilan.slug}`,
-        languages: {
-          tr: `/tr/ilan/${ilan.slug}`,
-          en: `/en/ilan/${ilan.slug}`,
-          ru: `/ru/ilan/${ilan.slug}`,
-          he: `/he/ilan/${ilan.slug}`,
-        },
-      },
-      openGraph: {
-        type: "website",
-        title: `${ilan.pozisyonBasligi} - ${ilan.sirketAdi}`,
-        description,
-      },
-    };
-  }
-
   if (kaynak.tur === "canli" && kaynak.canliIlan) {
     const ilan = kaynak.canliIlan;
     const sirketAdi = ilan.companies?.company_name?.trim() ?? "";
@@ -76,22 +46,40 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ilan.summary?.slice(0, 155) ||
       ilan.description?.slice(0, 155) ||
       d("veriBulunamadi");
+    const href = {
+      pathname: "/ilan/[slug]" as const,
+      params: { slug: ilan.slug },
+    };
+    const pathFor = (locale: Yerel) =>
+      getPathname({ locale, href });
+    const languages: Record<string, string> = {};
+    for (const locale of yonlendirme.locales) {
+      languages[locale] = pathFor(locale);
+    }
+    languages["x-default"] = languages.tr;
+    const canonical = pathFor(params.yerel);
+
     return {
       title: baslik,
       description: aciklama,
       alternates: {
-        canonical: `/${params.yerel}/ilan/${ilan.slug}`,
-        languages: {
-          tr: `/tr/ilan/${ilan.slug}`,
-          en: `/en/ilan/${ilan.slug}`,
-          ru: `/ru/ilan/${ilan.slug}`,
-          he: `/he/ilan/${ilan.slug}`,
-        },
+        canonical,
+        languages,
       },
       openGraph: {
         type: "website",
+        url: canonical,
         title: baslik,
         description: aciklama,
+        siteName: "İşBulKKTC",
+        images: ["/marka-isbulkktc.webp"],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: baslik,
+        description: aciklama,
+        creator: "@isbukkibris",
+        images: ["/marka-isbulkktc.webp"],
       },
     };
   }

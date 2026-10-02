@@ -10,10 +10,6 @@ import type {
 export class IlanServisi {
   constructor(private kaynak: Ilan[] = []) {}
 
-  private eslesmeSkoru(ilan: Ilan): number {
-    return ilan.aiEslestirme?.skor ?? ilan.atsYuzdesi ?? 0;
-  }
-
   private maasMin(ilan: Ilan): number {
     if (ilan.maasAraligi?.min !== undefined && ilan.maasAraligi.min > 0) {
       return ilan.maasAraligi.min;
@@ -44,9 +40,6 @@ export class IlanServisi {
         const tanim = (i.isTanimi ?? "").toLowerCase();
         const ilceUzun = (i.ilce ?? "").toLowerCase();
         const beceriler = (i.zorunluBeceriler ?? []).join(" ").toLowerCase();
-        const oneriler = (i.aiEslestirme?.oneriler ?? i.oneriler ?? [])
-          .join(" ")
-          .toLowerCase();
         return [
           baslik,
           sirket,
@@ -54,7 +47,6 @@ export class IlanServisi {
           tanim,
           ilceUzun,
           beceriler,
-          oneriler,
         ].some((parca) => parca.includes(arananKelime));
       });
     }
@@ -124,9 +116,6 @@ export class IlanServisi {
       });
     }
 
-    if (filtreler.b3OnayliMi === true) {
-      sonuc = sonuc.filter((i) => i.b3OnayliMi);
-    }
     if (filtreler.acilMi === true) {
       sonuc = sonuc.filter((i) => i.acilMi);
     }
@@ -138,10 +127,6 @@ export class IlanServisi {
     }
     if (filtreler.paraBirimi) {
       sonuc = sonuc.filter((i) => i.maasAraligi?.para === filtreler.paraBirimi);
-    }
-    const atsEsigiMin = filtreler.atsEsigiMin;
-    if (atsEsigiMin !== undefined && atsEsigiMin > 0) {
-      sonuc = sonuc.filter((i) => this.eslesmeSkoru(i) >= atsEsigiMin);
     }
     const tarihAraligiGun = filtreler.yayinTarihiAraligiGun;
     if (tarihAraligiGun !== undefined && tarihAraligiGun > 0) {
@@ -156,12 +141,7 @@ export class IlanServisi {
     const akilliPuan = (i: Ilan): number => {
       const gunFarki =
         (suAn - new Date(i.yayinTarihi).getTime()) / (1000 * 60 * 60 * 24);
-      return (
-        this.eslesmeSkoru(i) * 0.55 +
-        (i.b3OnayliMi ? 12 : 0) +
-        (i.acilMi ? 6 : 0) +
-        Math.max(0, 30 - gunFarki) * 0.15
-      );
+      return (i.acilMi ? 6 : 0) + Math.max(0, 30 - gunFarki) * 0.15;
     };
 
     sonuc.sort((a, b) => {
@@ -197,16 +177,6 @@ export class IlanServisi {
       kdv,
       genelToplam: Math.round((araToplam + kdv) * 100) / 100,
     };
-  }
-
-  atsAralikOzeti(yuzde: number): string {
-    if (yuzde >= 90)
-      return "Mükemmel uyum — röportaj listesine girmeniz bekleniyor.";
-    if (yuzde >= 75)
-      return "Yüksek uyum — CV'nize 1-2 proje detayı ekleyerek öne geçebilirsiniz.";
-    if (yuzde >= 55)
-      return "Orta uyum — Beceri ve deneyim bölümünü genişletmek faydalı olur.";
-    return "Düşük uyum — Alternatif 2-3 pozisyon inceleyin veya eğitime başvurun.";
   }
 }
 

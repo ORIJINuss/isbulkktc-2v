@@ -4,7 +4,6 @@ import { useState, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { sb } from "@/lib/yardimcilar/sinif-yardimcisi";
 import Buton from "@/bilesenler/genel/Buton";
-import Rozet from "@/bilesenler/genel/Rozet";
 import {
   ILCELER,
   SEKTORLER,
@@ -76,11 +75,7 @@ export default function FiltreYanPanel({
     if (gun === 7) return "7g";
     return "tum";
   });
-  const [b3Onayli, setB3Onayli] = useState<boolean>(
-    filtreler.b3OnayliMi ?? false
-  );
   const [acil, setAcil] = useState<boolean>(filtreler.acilMi ?? false);
-  const [kademeliGevsetme, setKademeliGevsetme] = useState<boolean>(true);
 
   const filtreDegerAnahtari = useMemo(
     () =>
@@ -92,7 +87,6 @@ export default function FiltreYanPanel({
         minMaas: filtreler.minMaas ?? 0,
         paraBirimi: filtreler.paraBirimi ?? "GBP",
         yayinTarihiAraligiGun: filtreler.yayinTarihiAraligiGun,
-        b3OnayliMi: filtreler.b3OnayliMi ?? false,
         acilMi: filtreler.acilMi ?? false,
       }),
     [
@@ -103,22 +97,24 @@ export default function FiltreYanPanel({
       filtreler.minMaas,
       filtreler.paraBirimi,
       filtreler.yayinTarihiAraligiGun,
-      filtreler.b3OnayliMi,
       filtreler.acilMi,
     ]
   );
 
-  const filtreDurumu = JSON.parse(filtreDegerAnahtari) as {
-    ilceKodlari: IlceKodu[];
-    sektorKodlari: string[];
-    calismaSekliKodlari: (string | CalismaSekliKodu)[];
-    izinTipiKodlari: IzinTipiKodu[];
-    minMaas: number;
-    paraBirimi: ParaBirimiKodu;
-    yayinTarihiAraligiGun?: number;
-    b3OnayliMi: boolean;
-    acilMi: boolean;
-  };
+  const filtreDurumu = useMemo(
+    () =>
+      JSON.parse(filtreDegerAnahtari) as {
+        ilceKodlari: IlceKodu[];
+        sektorKodlari: string[];
+        calismaSekliKodlari: (string | CalismaSekliKodu)[];
+        izinTipiKodlari: IzinTipiKodu[];
+        minMaas: number;
+        paraBirimi: ParaBirimiKodu;
+        yayinTarihiAraligiGun?: number;
+        acilMi: boolean;
+      },
+    [filtreDegerAnahtari]
+  );
 
   useEffect(() => {
     setSecilenIlceler(filtreDurumu.ilceKodlari ?? []);
@@ -130,7 +126,6 @@ export default function FiltreYanPanel({
     setParaBirimiSecildi(filtreDurumu.paraBirimi !== undefined);
     const gun = filtreDurumu.yayinTarihiAraligiGun;
     setYayinTarihi(gun === 1 ? "24s" : gun === 3 ? "3g" : gun === 7 ? "7g" : "tum");
-    setB3Onayli(filtreDurumu.b3OnayliMi ?? false);
     setAcil(filtreDurumu.acilMi ?? false);
   }, [filtreDurumu]);
 
@@ -151,7 +146,6 @@ export default function FiltreYanPanel({
     setParaBirimi("GBP");
     setParaBirimiSecildi(false);
     setYayinTarihi("tum");
-    setB3Onayli(false);
     setAcil(false);
     degisince?.({
       ...filtreler,
@@ -163,7 +157,6 @@ export default function FiltreYanPanel({
       makMaas: undefined,
       paraBirimi: undefined,
       yayinTarihiAraligiGun: undefined,
-      b3OnayliMi: undefined,
       acilMi: undefined,
       maasBelirtilmisMi: undefined,
       lojmanVarMi: undefined,
@@ -184,7 +177,6 @@ export default function FiltreYanPanel({
       minMaas: minMaas > 0 ? minMaas : undefined,
       paraBirimi: paraBirimiSecildi ? paraBirimi : undefined,
       yayinTarihiAraligiGun: yayinTarihindenGune(yayinTarihi),
-      b3OnayliMi: b3Onayli || undefined,
       acilMi: acil || undefined,
       sadeceFreelance: sadeceFreelance || undefined,
       maasBelirtilmisMi: filtreler.maasBelirtilmisMi,
@@ -193,12 +185,11 @@ export default function FiltreYanPanel({
     degisince(yeni);
   };
 
-  const sektorSayilari = useMemo(
+  const sektorler = useMemo(
     () =>
-      SEKTORLER.map((s, i) => ({
+      SEKTORLER.map((s) => ({
         deger: s.deger,
         etiket: s.etiket,
-        adet: [12, 8, 26, 14, 9, 19][i] ?? 3,
       })),
     []
   );
@@ -211,40 +202,6 @@ export default function FiltreYanPanel({
       )}
     >
       <div className="mineral-kart p-6 me-2 lg:ms-2 space-y-6">
-        {!sadeceFreelance && (
-          <div className="bg-ana-kapsayici border border-ana-outline/50 rounded-2xl p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="msimge text-ana text-xl">auto_awesome</span>
-              <h4 className="font-haber text-ana font-semibold text-sm leading-tight">
-                {t("kademeliGevsetme")}
-              </h4>
-            </div>
-            <p className="text-xs text-ikincil/80 leading-relaxed mb-3">
-              {t("kademeliAciklama")}
-            </p>
-            <label className="flex items-center justify-between cursor-pointer">
-              <span className="text-xs text-ikincil font-medium">
-                Aktifleştir
-              </span>
-              <button
-                type="button"
-                onClick={() => setKademeliGevsetme(!kademeliGevsetme)}
-                className={sb(
-                  "relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors",
-                  kademeliGevsetme ? "bg-ana" : "bg-ikincil-kapsayici"
-                )}
-              >
-                <span
-                  className={sb(
-                    "inline-block h-4 w-4 transform rounded-full bg-beyaz transition-transform",
-                    kademeliGevsetme ? "ms-4" : "ms-0.5"
-                  )}
-                />
-              </button>
-            </label>
-          </div>
-        )}
-
         {!sadeceFreelance && (
           <div>
             <div className="flex items-center justify-between mb-3">
@@ -291,30 +248,25 @@ export default function FiltreYanPanel({
             </span>
           </div>
           <div className="space-y-1.5 max-h-52 overflow-y-auto pr-1">
-            {sektorSayilari.map((s) => (
+            {sektorler.map((s) => (
               <label
                 key={s.deger}
                 className={sb(
-                  "flex items-center justify-between p-2.5 rounded-xl cursor-pointer transition-colors",
+                  "flex items-center gap-2.5 p-2.5 rounded-xl cursor-pointer transition-colors",
                   secilenSektorler.includes(s.deger)
                     ? "bg-ana-kapsayici"
                     : "hover:bg-ikincil-kapsayici/60"
                 )}
               >
-                <div className="flex items-center gap-2.5">
-                  <input
-                    type="checkbox"
-                    checked={secilenSektorler.includes(s.deger)}
-                    onChange={() =>
-                      toggleDizi(secilenSektorler, s.deger, setSecilenSektorler)
-                    }
-                    className="w-4 h-4 rounded border-ana-outline text-ana focus:ring-ana"
-                  />
-                  <span className="text-sm text-ikincil">{s.etiket}</span>
-                </div>
-                <span className="text-xs text-ikincil/60 tabular-nums">
-                  {s.adet}
-                </span>
+                <input
+                  type="checkbox"
+                  checked={secilenSektorler.includes(s.deger)}
+                  onChange={() =>
+                    toggleDizi(secilenSektorler, s.deger, setSecilenSektorler)
+                  }
+                  className="w-4 h-4 rounded border-ana-outline text-ana focus:ring-ana"
+                />
+                <span className="text-sm text-ikincil">{s.etiket}</span>
               </label>
             ))}
           </div>
@@ -474,13 +426,6 @@ export default function FiltreYanPanel({
 
         <div className="pt-2 border-t border-ana-outline/30 space-y-2.5">
           {[
-            {
-              anahtar: "b3",
-              acik: b3Onayli,
-              degistir: () => setB3Onayli(!b3Onayli),
-              etiket: "Kurumsal B3 Onaylı",
-              ikon: "verified",
-            },
             !sadeceFreelance && {
               anahtar: "acil",
               acik: acil,
@@ -516,18 +461,6 @@ export default function FiltreYanPanel({
                 </button>
               </label>
             ))}
-        </div>
-
-        <div className="camsi-kart rounded-2xl p-4 border border-altin-cila/40">
-          <div className="flex items-center gap-2 mb-2">
-            <Rozet tur="altin" ikon="shield_person" kucuk>
-              B3 Kurumsal
-            </Rozet>
-          </div>
-          <p className="text-[11px] leading-relaxed text-ikincil/80">
-            B3 İhtiyat Sandığı kayıtlı işverenlerin yayınladığı ilanlar öncelikli
-            gösterilir ve PES Lisansı ile denetlenir.
-          </p>
         </div>
 
         <div className="flex items-center gap-2 pt-2">

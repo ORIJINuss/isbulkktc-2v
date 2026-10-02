@@ -6,7 +6,6 @@ import { Link, useRouter } from "@/i18n/yonlendirme";
 import { sb } from "@/lib/yardimcilar/sinif-yardimcisi";
 import Buton from "@/bilesenler/genel/Buton";
 import Rozet from "@/bilesenler/genel/Rozet";
-import ATSGöstergesi from "@/bilesenler/ilan/ATSGöstergesi";
 import type {
   adayBasvurulariniGetir,
   adayCvBelgeleriniGetir,
@@ -52,13 +51,6 @@ function ilanVeSirketAdi(basvuru: Props["basvurular"][number]) {
   return { ilan, sirketAdi: sirketAdi ?? "" };
 }
 
-function atsSkoru(belge: Props["belgeler"][number] | undefined): number | null {
-  if (!belge) return null;
-  const versiyon = ilkKayit(belge.cv_versions);
-  const skor = Number(versiyon?.ats_score);
-  return Number.isFinite(skor) && skor >= 0 && skor <= 100 ? skor : null;
-}
-
 function profilTamamlanma(profil: Props["profil"]): number {
   if (!profil) return 0;
   const alanlar = [
@@ -73,7 +65,7 @@ function profilTamamlanma(profil: Props["profil"]): number {
   return Math.round((alanlar.filter((alan) => Boolean(alan?.trim())).length / alanlar.length) * 100);
 }
 
-export default function ATSCVYonetimKarti({
+export default function AdayCvYonetimKarti({
   profil,
   basvurular,
   belgeler,
@@ -89,7 +81,6 @@ export default function ATSCVYonetimKarti({
   const [yukleniyor, setYukleniyor] = useState(false);
   const [hata, setHata] = useState<string | null>(null);
   const etkinBelge = belgeler.find((belge) => belge.is_active) ?? belgeler[0];
-  const skor = atsSkoru(etkinBelge);
   const tamamlanma = profilTamamlanma(profil);
 
   async function belgeYukle(dosya: File) {
@@ -131,11 +122,7 @@ export default function ATSCVYonetimKarti({
                   {[profil?.city, profil?.country].filter(Boolean).join(", ") || w("locationMissing")}
                 </p>
               </div>
-              {skor !== null ? (
-                <ATSGöstergesi yuzde={skor} boyut="sm" />
-              ) : (
-                <span className="msimge text-3xl text-ana" aria-hidden="true">badge</span>
-              )}
+              <span className="msimge text-3xl text-ana" aria-hidden="true">description</span>
             </div>
 
             <div className="mb-5 rounded-xl border border-ana-outline/30 bg-ana-kapsayici/40 p-4">
@@ -156,11 +143,9 @@ export default function ATSCVYonetimKarti({
               <p className="mt-2 text-xs leading-relaxed text-ikincil/70">{t("profileCompletionHelp")}</p>
             </div>
 
-            {skor === null ? (
-              <p className="mb-4 rounded-xl border border-ana-outline/30 p-3 text-xs leading-relaxed text-ikincil/70">
-                {t("atsScoreUnavailable")}
-              </p>
-            ) : null}
+            <p className="mb-4 rounded-xl border border-ana-outline/30 p-3 text-xs leading-relaxed text-ikincil/70">
+              {t("cvProcessingUnavailable")}
+            </p>
 
             <div className="flex flex-wrap gap-2">
               <input

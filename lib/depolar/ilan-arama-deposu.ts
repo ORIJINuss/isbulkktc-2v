@@ -3,7 +3,7 @@ import { sunucuIcinSupabaseOlustur } from "@/lib/supabase/sunucu-istemci";
 import { log } from "@/lib/sunucu/loglama";
 
 /**
- * REQ-JOB-LIVE-001 — Doğrulanmış canlı ilan verisi.
+ * REQ-JOB-LIVE-001 — Canli ilan verisi.
  *
  * Yalnızca kanıtlanmış alanlar okunur:
  *  - job_posts: id, company_id, title, slug, summary, description, location,
@@ -11,12 +11,11 @@ import { log } from "@/lib/sunucu/loglama";
  *    is_featured, published_at, expires_at
  *  - companies (herkese acik alanlar): company_name, slug, logo_url
  *
- * Kolon semantigi dogrulanmayan filtreler (sektor, calisma izni, B3, acil,
- * lojman, ATS, analitik) bu katmana hic girmez.
+ * Kolon semantigi dogrulanmayan filtreler bu katmana hic girmez.
  */
 
 export const ILAN_ALANLARI =
-  "id, company_id, title, slug, summary, description, location, employment_type, remote_policy, salary_min, salary_max, currency, is_featured, published_at, expires_at, companies(company_name, slug, logo_url)";
+  "id, company_id, title, slug, summary, description, location, employment_type, remote_policy, salary_min, salary_max, currency, is_featured, published_at, expires_at, companies!inner(company_name, slug, logo_url, is_verified)";
 
 export const ILAN_SIRALAMALARI = ["akilli", "yeni", "maas"] as const;
 export type IlanSiralamasi = (typeof ILAN_SIRALAMALARI)[number];
@@ -25,10 +24,8 @@ export type IlanSiralamasi = (typeof ILAN_SIRALAMALARI)[number];
 export const DESTEKLENMEYEN_FILTRELER = [
   "sektorKodlari",
   "izinTipiKodlari",
-  "b3OnayliMi",
   "acilMi",
   "lojmanVarMi",
-  "atsEsigiMin",
   "calismaSekliKodlari",
   "siralaAcil",
 ] as const;
@@ -41,6 +38,7 @@ export type IlanAramaFiltreleri = {
   makMaas?: number;
   paraBirimi?: string;
   maasBelirtilmisMi?: boolean;
+  dogrulanmisIsverenMi?: boolean;
   oneCikanlarMi?: boolean;
   yayinGun?: number;
   siralama?: IlanSiralamasi;
@@ -52,6 +50,7 @@ const SirketSatiriSema = z.object({
   company_name: z.string().nullable(),
   slug: z.string().nullable(),
   logo_url: z.string().nullable(),
+  is_verified: z.boolean().nullish().transform((deger) => deger ?? false),
 });
 
 export type IlanSirketSatiri = z.infer<typeof SirketSatiriSema>;
@@ -201,6 +200,10 @@ export async function ilanlariAra(filtreler: IlanAramaFiltreleri = {}) {
 
   if (filtreler.maasBelirtilmisMi) {
     sorgu = sorgu.not("salary_min", "is", null);
+  }
+
+  if (filtreler.dogrulanmisIsverenMi) {
+    sorgu = sorgu.eq("companies.is_verified", true);
   }
 
   if (filtreler.oneCikanlarMi) {

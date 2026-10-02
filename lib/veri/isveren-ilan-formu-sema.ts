@@ -39,16 +39,6 @@ const YasalAdimSema = z.object({
     .array(z.string() as z.ZodType<IzinTipiKodu>)
     .min(1, "En az bir çalışma izni türü seçmelisiniz")
     .max(5),
-  isverenOnIzınTeminat: z.literal(true, {
-    errorMap: () => ({
-      message: "Ön izin teminatını ve B3 sorumluluğunu kabul etmelisiniz",
-    }),
-  }),
-  b3PrimUyumlulugu: z.literal(true, {
-    errorMap: () => ({
-      message: "B3 prim ve İş Yasası Md 59 uyumluluğunu onaylamalısınız",
-    }),
-  }),
 });
 
 const MaasAdimSema = z.object({
@@ -84,12 +74,6 @@ const EslestirmeAdimSema = z.object({
     "C2",
     "RU_B2",
   ]) as z.ZodType<CefrSeviyesi | "YOK" | "RU_B2">,
-  atsEsikYuzdesi: z.coerce
-    .number()
-    .int()
-    .min(30, "ATS eşiği en az %30 olmalı")
-    .max(95, "ATS eşiği en fazla %95 olmalı")
-    .default(75),
 });
 
 const PaketAdimSema = z.object({
@@ -117,5 +101,5 @@ export const ADIM_BASLIKLARI = [
   "Temel Bilgiler",
   "Yasal & İzin",
   "Maaş & Yan Haklar",
-  "Eşleştirme & ATS",
+  "Aday Kriterleri",
 ];

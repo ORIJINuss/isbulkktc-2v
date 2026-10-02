@@ -6,7 +6,7 @@ import {
   setRequestLocale,
   getTranslations,
 } from "next-intl/server";
-import { yonlendirme, Yerel } from "@/i18n/yonlendirme";
+import { getPathname, yonlendirme, Yerel } from "@/i18n/yonlendirme";
 import { anaDomain } from "@/lib/ortam/ortam";
 import { clsx, siniflariBirlestir } from "@/lib/yardimcilar/sinif-yardimcisi";
 import UstGezinmeCubugu from "@/bilesenler/genel/UstGezinmeCubugu";
@@ -47,17 +47,21 @@ export async function generateMetadata({
   const { yerel } = params;
   const ceviriler = await getTranslations({ locale: yerel, namespace: "meta" });
 
-  const aciklama = ceviriler("tanitim");
+  const aciklama = ceviriler("anaSayfaDescription");
   const marka = ceviriler("markaAdi");
-  const slogan = ceviriler("slogan");
+  const slogan = ceviriler("anaSayfaTitle");
   const domain = anaDomain();
-  const url = new URL(`/${yerel}`, domain).toString();
+  const localizedHomePath = getPathname({ locale: yerel, href: "/" });
+  const url = new URL(localizedHomePath, domain).toString();
 
   const alternatifler: Record<string, string> = {};
   for (const l of yonlendirme.locales) {
-    alternatifler[l] = new URL(`/${l}`, domain).toString();
+    alternatifler[l] = new URL(
+      getPathname({ locale: l, href: "/" }),
+      domain,
+    ).toString();
   }
-  alternatifler["x-default"] = new URL("/", domain).toString();
+  alternatifler["x-default"] = alternatifler.tr;
 
   return {
     metadataBase: new URL(domain),
@@ -71,7 +75,7 @@ export async function generateMetadata({
       "KKTC iş ilanları",
       "Kıbrıs kariyer",
       "Kuzey Kıbrıs iş",
-      "B3 onaylı ilanlar",
+      "Kuzey Kıbrıs iş ilanları",
       "İşBulKKTC",
       "Lefkoşa iş",
       "Girne iş",

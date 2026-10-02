@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import Buton from "@/bilesenler/genel/Buton";
+import Ikon3D from "@/bilesenler/genel/Ikon3D";
 import VeritabaniIlanKart from "@/bilesenler/ilan/VeritabaniIlanKart";
 import type {
   IlanAramaSatiri,
@@ -31,9 +32,11 @@ type FormDurumu = {
   arananKelime: string;
   konum: string;
   minMaas: string;
+  makMaas: string;
   paraBirimi: string;
   uzaktan: boolean;
   maasBelirtilmisMi: boolean;
+  dogrulanmisIsverenMi: boolean;
   oneCikanlarMi: boolean;
   yayinGun: number;
   siralama: IlanSiralamasi;
@@ -43,9 +46,11 @@ const BOS_FORM: FormDurumu = {
   arananKelime: "",
   konum: "",
   minMaas: "",
+  makMaas: "",
   paraBirimi: "",
   uzaktan: false,
   maasBelirtilmisMi: false,
+  dogrulanmisIsverenMi: false,
   oneCikanlarMi: false,
   yayinGun: 0,
   siralama: "akilli",
@@ -74,11 +79,18 @@ function filtreSorgusu(form: FormDurumu): string {
   const maas = Number(form.minMaas);
   if (form.minMaas.trim() !== "" && Number.isFinite(maas) && maas > 0) {
     params.set("minMaas", String(maas));
-    if (form.paraBirimi) params.set("paraBirimi", form.paraBirimi);
   }
+  const makMaas = Number(form.makMaas);
+  if (form.makMaas.trim() !== "" && Number.isFinite(makMaas) && makMaas > 0) {
+    params.set("makMaas", String(makMaas));
+  }
+  if (form.paraBirimi) params.set("paraBirimi", form.paraBirimi);
 
   if (form.uzaktan) params.set("uzaktan", "true");
   if (form.maasBelirtilmisMi) params.set("maasBelirtilmisMi", "true");
+  if (form.dogrulanmisIsverenMi) {
+    params.set("dogrulanmisIsverenMi", "true");
+  }
   if (form.oneCikanlarMi) params.set("oneCikanlarMi", "true");
   if (form.yayinGun > 0) params.set("yayinGun", String(form.yayinGun));
 
@@ -109,9 +121,12 @@ const formuUrlDenOku = (): { form: FormDurumu; sayfa: number } => {
       arananKelime: (params.get("arananKelime") ?? "").slice(0, 120),
       konum: (params.get("konum") ?? "").slice(0, 80),
       minMaas: (params.get("minMaas") ?? "").slice(0, 12),
+      makMaas: (params.get("makMaas") ?? "").slice(0, 12),
       paraBirimi: (params.get("paraBirimi") ?? "").slice(0, 3),
       uzaktan: params.get("uzaktan") === "true",
       maasBelirtilmisMi: params.get("maasBelirtilmisMi") === "true",
+      dogrulanmisIsverenMi:
+        params.get("dogrulanmisIsverenMi") === "true",
       oneCikanlarMi: params.get("oneCikanlarMi") === "true",
       yayinGun: yayinGecerli ? yayinHam : 0,
       siralama:
@@ -169,12 +184,21 @@ export default function IlanAraSayfasi() {
     if (!urlOkundu) return;
     const numara = istekSayaci.current + 1;
     istekSayaci.current = numara;
+    const controller = new AbortController();
+    let istekIptalEdildi = false;
+    let zamanAsimi = false;
+    let zamanlayiciIptal: ReturnType<typeof setTimeout> | null = null;
 
     const zamanlayici = setTimeout(async () => {
       setDurum("yukleniyor");
+      zamanlayiciIptal = setTimeout(() => {
+        zamanAsimi = true;
+        controller.abort();
+      }, 15_000);
       try {
         const cevap = await fetch(`/api/ilanlar?${sorguDizesi}`, {
           cache: "no-store",
+          signal: controller.signal,
         });
         const govde = (await cevap.json().catch(() => null)) as ApiCevabi | null;
         if (istekSayaci.current !== numara) return;
@@ -197,15 +221,24 @@ export default function IlanAraSayfasi() {
         setHataMesaji(null);
         setDurum("hazir");
       } catch {
-        if (istekSayaci.current !== numara) return;
-        setHataMesaji(t("sonucHatasiAciklama"));
+        if (istekIptalEdildi || istekSayaci.current !== numara) return;
+        setHataMesaji(
+          zamanAsimi ? t("sonucZamanAsimi") : t("sonucHatasiAciklama"),
+        );
         setIlanlar([]);
         setToplam(0);
         setDurum("hata");
+      } finally {
+        if (zamanlayiciIptal) clearTimeout(zamanlayiciIptal);
       }
     }, 300);
 
-    return () => clearTimeout(zamanlayici);
+    return () => {
+      istekIptalEdildi = true;
+      clearTimeout(zamanlayici);
+      if (zamanlayiciIptal) clearTimeout(zamanlayiciIptal);
+      controller.abort();
+    };
   }, [sorguDizesi, urlOkundu, denemeNo, t]);
 
   const formGuncelle = (yeni: FormDurumu) => {
@@ -366,25 +399,51 @@ export default function IlanAraSayfasi() {
             </div>
 
             <div>
-              <label className="girdiEtiket" htmlFor="min-maas">
+              <div className="girdiEtiket" id="maas-araligi-etiket">
                 {t("maaşAraligi")}
-              </label>
-              <div className="flex items-center gap-2">
-                <input
-                  id="min-maas"
-                  type="number"
-                  inputMode="numeric"
-                  min={0}
-                  step={100}
-                  className="girdi w-full"
-                  placeholder={t("maasYerTutucu")}
-                  value={form.minMaas}
-                  onChange={(olay) =>
-                    formGuncelle({ ...form, minMaas: olay.target.value })
-                  }
-                />
+              </div>
+              <div
+                className="mt-1.5 grid grid-cols-2 gap-2"
+                aria-labelledby="maas-araligi-etiket"
+              >
+                <div>
+                  <label className="sr-only" htmlFor="min-maas">
+                    {t("minMaasFiltre")}
+                  </label>
+                  <input
+                    id="min-maas"
+                    type="number"
+                    inputMode="numeric"
+                    min={0}
+                    step={100}
+                    className="girdi w-full"
+                    placeholder={t("minMaasFiltre")}
+                    value={form.minMaas}
+                    onChange={(olay) =>
+                      formGuncelle({ ...form, minMaas: olay.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <label className="sr-only" htmlFor="max-maas">
+                    {t("makMaasFiltre")}
+                  </label>
+                  <input
+                    id="max-maas"
+                    type="number"
+                    inputMode="numeric"
+                    min={0}
+                    step={100}
+                    className="girdi w-full"
+                    placeholder={t("makMaasFiltre")}
+                    value={form.makMaas}
+                    onChange={(olay) =>
+                      formGuncelle({ ...form, makMaas: olay.target.value })
+                    }
+                  />
+                </div>
                 <select
-                  className="girdi"
+                  className="girdi col-span-2 w-full"
                   aria-label={t("paraBirimiEtiketi")}
                   value={form.paraBirimi}
                   onChange={(olay) =>
@@ -419,6 +478,17 @@ export default function IlanAraSayfasi() {
                   formGuncelle({
                     ...form,
                     maasBelirtilmisMi: !form.maasBelirtilmisMi,
+                  }),
+              },
+              {
+                anahtar: "dogrulanmisIsverenMi",
+                ikon: "verified",
+                yazi: t("dogrulanmisIsveren"),
+                kontrol: form.dogrulanmisIsverenMi,
+                degistir: () =>
+                  formGuncelle({
+                    ...form,
+                    dogrulanmisIsverenMi: !form.dogrulanmisIsverenMi,
                   }),
               },
               {
@@ -525,6 +595,7 @@ export default function IlanAraSayfasi() {
                 key={secim.mod}
                 type="button"
                 aria-pressed={form.siralama === secim.mod}
+                aria-label={secim.etiket}
                 onClick={() => formGuncelle({ ...form, siralama: secim.mod })}
                 className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold inline-flex items-center gap-1 transition-colors ${
                   form.siralama === secim.mod
@@ -584,9 +655,7 @@ export default function IlanAraSayfasi() {
 
         {durum === "hazir" && ilanlar.length === 0 ? (
           <div className="mineral-kart rounded-3xl p-10 text-center space-y-3">
-            <span className="msimge text-6xl text-ikincil/30" aria-hidden="true">
-              search_off
-            </span>
+            <Ikon3D tur="arama" boyut={56} className="mx-auto ikon-3d--arama" />
             <h2 className="font-haber text-lg font-bold text-ikincil">
               {t("bosSonucBaslik")}
             </h2>

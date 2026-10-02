@@ -1,5 +1,5 @@
-import Link from "next/link";
 import type { ReactNode, ButtonHTMLAttributes, AnchorHTMLAttributes } from "react";
+import { Link } from "@/i18n/yonlendirme";
 import { siniflariBirlestir as sb } from "@/lib/yardimcilar/sinif-yardimcisi";
 
 type Varyant = "ikincil" | "ana" | "tersiyer" | "kristal" | "metinsel" | "silinmis";
@@ -21,7 +21,7 @@ type ButonOzellikleri = TemelOzellikler &
   };
 
 type BaglantiOzellikleri = TemelOzellikler &
-  AnchorHTMLAttributes<HTMLAnchorElement> & {
+  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "popover"> & {
     tur: "baglanti";
     href: string;
     disKonum?: boolean;
@@ -118,7 +118,12 @@ export default function Buton(ozellikler: Ozellikler) {
     }
 
     return (
-      <Link {...kalan} href={href} className={birlesikSinif} aria-busy={yukleniyor || undefined}>
+      <Link
+        {...kalan}
+        href={href as Parameters<typeof Link>[0]["href"]}
+        className={birlesikSinif}
+        aria-busy={yukleniyor || undefined}
+      >
         {govde(ozellikler, children)}
       </Link>
     );

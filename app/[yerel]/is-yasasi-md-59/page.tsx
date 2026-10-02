@@ -1,5 +1,5 @@
 import BilgiSayfasi from "@/bilesenler/genel/BilgiSayfasi";
 
 export default function IsYasasiSayfasi() {
-  return <BilgiSayfasi baslik="İş Yasası Md. 59" ikon="gavel" aciklama="İlan ve işveren süreçlerinde çalışma izni, sözleşme ve çalışan haklarına ilişkin temel bilgilendirme." maddeler={["İşverenler ilanlarında pozisyon ve çalışma koşullarını açıkça belirtmelidir.", "Çalışma izni ve B3 yükümlülükleri pozisyona göre değişebilir.", "Hukuki danışmanlık için yetkili kurumlara başvurun."]} />;
+  return <BilgiSayfasi baslik="Çalışma ve İş İlişkileri" ikon="gavel" aciklama="Çalışma izni, sözleşme ve çalışan hakları kişiye ve pozisyona göre değişebilir. Bu sayfa hukuki danışmanlık yerine geçmez." maddeler={["İşverenlerden pozisyon ve çalışma koşullarını ilanlarda açıkça belirtmelerini bekleriz.", "Güncel yükümlülükleri ve hakları ilgili resmi kurumlarla teyit edin.", "Hukuki danışmanlık için yetkili kurumlara başvurun."]} />;
 }

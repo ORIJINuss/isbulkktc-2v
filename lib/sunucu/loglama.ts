@@ -11,6 +11,19 @@ export function istekBaglamiOlustur(istek: Request): IstekBaglami {
 }
 
 type LogAlanlari = Record<string, unknown>;
+
+function hataMesajiniAl(hata: unknown): string {
+  if (hata instanceof Error) return hata.message;
+  if (typeof hata === "object" && hata !== null) {
+    const alanlar = [
+      "code" in hata && typeof hata.code === "string" ? hata.code : undefined,
+      "message" in hata && typeof hata.message === "string" ? hata.message : undefined,
+    ].filter((alan): alan is string => Boolean(alan));
+    if (alanlar.length > 0) return alanlar.join(": ");
+  }
+  return String(hata);
+}
+
 function yaz(seviye: "bilgi" | "uyari" | "hata", mesaj: string, alanlar: LogAlanlari = {}) {
   const kayit = JSON.stringify({ zaman: new Date().toISOString(), seviye, mesaj, ...alanlar });
   if (seviye === "hata") console.error(kayit);
@@ -22,5 +35,5 @@ export const log = {
   bilgi: (mesaj: string, alanlar?: LogAlanlari) => yaz("bilgi", mesaj, alanlar),
   uyari: (mesaj: string, alanlar?: LogAlanlari) => yaz("uyari", mesaj, alanlar),
   hata: (mesaj: string, hata: unknown, alanlar: LogAlanlari = {}) =>
-    yaz("hata", mesaj, { ...alanlar, hata: hata instanceof Error ? hata.message : String(hata) }),
+    yaz("hata", mesaj, { ...alanlar, hata: hataMesajiniAl(hata) }),
 };

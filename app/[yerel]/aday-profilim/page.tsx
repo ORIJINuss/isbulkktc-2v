@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Link, redirect } from "@/i18n/yonlendirme";
-import ATSCVYonetimKarti from "@/bilesenler/cv/ATSCVYonetimKarti";
+import AdayCvYonetimKarti from "@/bilesenler/cv/AdayCvYonetimKarti";
 import Buton from "@/bilesenler/genel/Buton";
 import {
   adayBasvurulariniGetir,
@@ -57,7 +57,7 @@ export default async function AdayProfilimSayfasi({ params }: Props) {
         </div>
       </section>
 
-      <ATSCVYonetimKarti
+      <AdayCvYonetimKarti
         profil={profil}
         basvurular={basvurular}
         belgeler={belgeler}

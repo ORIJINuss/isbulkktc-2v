@@ -26,7 +26,6 @@ export const IlanAraSema = z.object({
     ParaBirimiKodu | undefined
   >,
   yayinTarihiAraligiGun: z.enum(["1", "3", "7", "0"]).default("0"),
-  b3OnayliMi: z.boolean().default(false),
   acilMi: z.boolean().default(false),
   siralama: z
     .enum(["akilli", "yeni", "maas", "acil"])
@@ -39,7 +38,6 @@ export const IlanAraSema = z.object({
   sadeceFreelance: z.boolean().default(false),
   maasBelirtilmisMi: z.boolean().default(false),
   lojmanVarMi: z.boolean().default(false),
-  atsEsigiMin: z.coerce.number().int().min(0).max(100).optional(),
 }).superRefine((veri, ctx) => {
   if (
     veri.minMaas !== undefined &&
@@ -71,12 +69,10 @@ export function aramaSorgusundanFiltreye(
     makMaas: sorgu.makMaas,
     paraBirimi: sorgu.paraBirimi as ParaBirimiKodu | undefined,
     yayinTarihiAraligiGun: yayinGun > 0 ? yayinGun : undefined,
-    b3OnayliMi: sorgu.b3OnayliMi || undefined,
     acilMi: sorgu.acilMi || undefined,
     siralama: sorgu.siralama,
     sadeceFreelance: sorgu.sadeceFreelance || undefined,
     maasBelirtilmisMi: sorgu.maasBelirtilmisMi || undefined,
     lojmanVarMi: sorgu.lojmanVarMi || undefined,
-    atsEsigiMin: sorgu.atsEsigiMin,
   };
 }

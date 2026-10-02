@@ -2,17 +2,26 @@ import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/yonlendirme";
 import { kamuyaAcikSirketleriGetir } from "@/lib/depolar/isveren-deposu";
+import { OrtamYapilandirmaHatasi } from "@/lib/ortam/ortam";
+import { log } from "@/lib/sunucu/loglama";
 
 export const dynamic = "force-dynamic";
 
 export default async function SirketlerSayfasi({ params }: { params: { yerel: string } }) {
   const t = await getTranslations({ locale: params.yerel, namespace: "workspace" });
+  const arama = await getTranslations({ locale: params.yerel, namespace: "ilanAra" });
+  const g = await getTranslations({ locale: params.yerel, namespace: "genel" });
   let sirketler: Awaited<ReturnType<typeof kamuyaAcikSirketleriGetir>> = [];
+  let yuklemeHatasi = false;
+  let yapilandirmaEksik = false;
 
   try {
     sirketler = await kamuyaAcikSirketleriGetir();
-  } catch {
+  } catch (error) {
     sirketler = [];
+    yuklemeHatasi = true;
+    yapilandirmaEksik = error instanceof OrtamYapilandirmaHatasi;
+    log.hata("Şirket dizini yüklenemedi.", error, { yerel: params.yerel });
   }
 
   return (
@@ -24,11 +33,51 @@ export default async function SirketlerSayfasi({ params }: { params: { yerel: st
         </span>
         <h1 className="font-haber text-3xl font-black tracking-tight text-ikincil sm:text-4xl">{t("companyDirectory")}</h1>
         <p className="leading-relaxed text-ikincil/75">{t("companyDirectoryDescription")}</p>
+        <p className="text-sm leading-relaxed text-ikincil/65">{t("verifiedCompanyDescription")}</p>
       </header>
-      {sirketler.length === 0 ? (
-        <div className="mineral-kart rounded-2xl border-dashed p-8 text-center text-sm leading-relaxed text-ikincil/70">
-          {t("noVerifiedCompanies")}
-        </div>
+      {yuklemeHatasi ? (
+        <section
+          role="alert"
+          className="mineral-kart flex flex-col items-center gap-4 rounded-3xl border border-hata/25 bg-hata-kapsayici/30 px-6 py-10 text-center sm:px-10"
+        >
+          <span className="grid h-14 w-14 place-items-center rounded-2xl bg-hata-kapsayici text-hata-900" aria-hidden="true">
+            <span className="msimge text-2xl">cloud_off</span>
+          </span>
+          <div className="max-w-xl space-y-2">
+            <h2 className="text-xl font-bold text-ikincil">{t("companyDirectory")}</h2>
+            <p className="text-sm leading-relaxed text-ikincil/75">
+              {yapilandirmaEksik
+                ? arama("servisYapilandirilmamis")
+                : arama("sonucHatasiAciklama")}
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link href="/ilan-ara" className="buton-ana">
+              <span className="msimge" aria-hidden="true">search</span>
+              {g("tumunuGetir")}
+            </Link>
+            <Link href="/sirketler" className="buton-ikincil">
+              <span className="msimge" aria-hidden="true">refresh</span>
+              {arama("yenidenDene")}
+            </Link>
+          </div>
+        </section>
+      ) : sirketler.length === 0 ? (
+        <section
+          aria-label={t("companyDirectory")}
+          className="mineral-kart flex flex-col items-center gap-5 rounded-3xl border border-dashed border-ana-outline/50 bg-yüzey-kapsayici-alt/40 px-6 py-10 text-center sm:px-10 sm:py-12"
+        >
+          <span className="grid h-14 w-14 place-items-center rounded-2xl bg-ana-kapsayici/15 text-ana" aria-hidden="true">
+            <span className="msimge text-2xl">apartment</span>
+          </span>
+          <p className="max-w-xl text-sm leading-relaxed text-ikincil/75">
+            {t("noVerifiedCompanies")}
+          </p>
+          <Link href="/isveren/sirket-kaydi" className="buton-ana">
+            <span className="msimge" aria-hidden="true">business_center</span>
+            {t("companyRegistration")}
+          </Link>
+        </section>
       ) : (
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {sirketler.map((sirket) => (

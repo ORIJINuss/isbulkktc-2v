@@ -5,7 +5,7 @@ export const yonlendirme = defineRouting({
   locales: ["tr", "en", "ru", "he"],
   defaultLocale: "tr",
   localePrefix: "as-needed",
-  localeDetection: true,
+  localeDetection: false,
   pathnames: {
     "/": "/",
     "/giris": {
@@ -121,18 +121,6 @@ export const yonlendirme = defineRouting({
       en: "/gdpr",
       ru: "/fz-152",
       he: "/gdpr"
-    },
-    "/pes-lisans": {
-      tr: "/pes-lisans",
-      en: "/pes-license",
-      ru: "/pes-litsenziya",
-      he: "/pes-license"
-    },
-    "/b3-dogrulama": {
-      tr: "/b3-dogrulama",
-      en: "/b3-verification",
-      ru: "/b3-proverka",
-      he: "/b3-verification"
     },
     "/sirketler": {
       tr: "/sirketler",

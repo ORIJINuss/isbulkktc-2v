@@ -37,6 +37,10 @@ const IlanAraSorguSema = z.object({
     .enum(["true", "false"])
     .default("false")
     .transform((deger) => deger === "true"),
+  dogrulanmisIsverenMi: z
+    .enum(["true", "false"])
+    .default("false")
+    .transform((deger) => deger === "true"),
   oneCikanlarMi: z
     .enum(["true", "false"])
     .default("false")
@@ -62,6 +66,7 @@ export async function GET(request: NextRequest) {
     paraBirimi: params.get("paraBirimi") || undefined,
     yayinGun: params.get("yayinGun") || 0,
     maasBelirtilmisMi: params.get("maasBelirtilmisMi") || "false",
+    dogrulanmisIsverenMi: params.get("dogrulanmisIsverenMi") || "false",
     oneCikanlarMi: params.get("oneCikanlarMi") || "false",
     uzaktan: params.get("uzaktan") || "false",
     siralama: params.get("siralama") || "akilli",
@@ -102,6 +107,7 @@ export async function GET(request: NextRequest) {
       makMaas: parse.data.makMaas,
       paraBirimi: parse.data.paraBirimi,
       maasBelirtilmisMi: parse.data.maasBelirtilmisMi,
+      dogrulanmisIsverenMi: parse.data.dogrulanmisIsverenMi,
       oneCikanlarMi: parse.data.oneCikanlarMi,
       uzaktan: parse.data.uzaktan,
       yayinGun: parse.data.yayinGun,

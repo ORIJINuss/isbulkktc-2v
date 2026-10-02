@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/yonlendirme";
 import { tarihFormatla } from "@/lib/yardimcilar/bicimlendiriciler";
+import Ikon3D from "@/bilesenler/genel/Ikon3D";
 import Rozet from "@/bilesenler/genel/Rozet";
 import type {
   IlanAramaSatiri,
@@ -110,22 +111,19 @@ export default function VeritabaniIlanKart({ ilan }: Props) {
         )}
         {ilan.location && (
           <span className="inline-flex items-center gap-1 text-[12px] font-semibold text-ikincil/70">
-            <span className="msimge text-[15px]" aria-hidden="true">
-              location_on
-            </span>
+            <Ikon3D tur="bolge" boyut={16} className="ikon-3d--bolge" />
             {ilan.location}
           </span>
         )}
         {ilan.published_at && (
-          <span className="text-[12px] text-ikincil/60">
+          <span className="inline-flex items-center gap-1 text-[12px] text-ikincil/60">
+            <Ikon3D tur="takvim" boyut={16} />
             {t("yayin")}: {tarihFormatla(ilan.published_at, yerel)}
           </span>
         )}
         {ilan.expires_at && (
           <span className="inline-flex items-center gap-1 text-[12px] font-semibold text-altin-cila">
-            <span className="msimge text-[15px]" aria-hidden="true">
-              event_busy
-            </span>
+            <Ikon3D tur="takvim" boyut={16} />
             {t("sonBasvuru")}: {tarihFormatla(ilan.expires_at, yerel)}
           </span>
         )}

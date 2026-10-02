@@ -2,14 +2,50 @@ import { randomUUID } from "node:crypto";
 import { NextRequest } from "next/server";
 import { z } from "zod";
 import { apiHatasi, apiJson } from "@/lib/api/yanit";
-import { sirketUyeliginiDogrula } from "@/lib/guvenlik/yetki";
+import {
+  rolKontrolluKullaniciGetir,
+  sirketUyeliginiDogrula,
+  YetkiHatasi,
+} from "@/lib/guvenlik/yetki";
 import { odemeSaglayicisi } from "@/lib/odemeler/saglayici";
 
-const istekSema = z.object({
+const ortakIstekSema = z.object({
   companyId: z.string().uuid(),
-  packageId: z.string().uuid(),
-  idempotencyKey: z.string().min(16).max(128).optional(),
+  idempotencyKey: z.string().regex(/^[A-Za-z0-9._:-]{16,128}$/).optional(),
+  locale: z.enum(["tr", "en", "ru", "he"]).default("tr"),
 });
+const istekSema = z.union([
+  ortakIstekSema.extend({ packageId: z.string().uuid() }),
+  ortakIstekSema.extend({ packageCode: z.string().min(1).max(64) }),
+]);
+
+export async function GET() {
+  try {
+    const { supabase, kullanici } = await rolKontrolluKullaniciGetir(["employer"]);
+    const { data, error } = await supabase
+      .from("company_members")
+      .select("company_id, companies!inner(company_name)")
+      .eq("user_id", kullanici.id)
+      .eq("member_role", "owner");
+
+    if (error) return apiHatasi("Şirketleriniz alınamadı.", 500);
+
+    const sirketler = (data ?? []).flatMap((uyelik) => {
+      const iliski = uyelik.companies;
+      const sirket = Array.isArray(iliski) ? iliski[0] : iliski;
+      return sirket
+        ? [{ id: uyelik.company_id, ad: sirket.company_name }]
+        : [];
+    });
+
+    return apiJson({ sirketler });
+  } catch (error) {
+    if (error instanceof YetkiHatasi) {
+      return apiHatasi(error.message, error.durum);
+    }
+    throw error;
+  }
+}
 
 export async function POST(request: NextRequest) {
   const parsed = istekSema.safeParse(await request.json().catch(() => null));
@@ -17,34 +53,26 @@ export async function POST(request: NextRequest) {
 
   try {
     const { supabase } = await sirketUyeliginiDogrula(parsed.data.companyId, ["owner"]);
-    const { data: paket, error: paketHatasi } = await supabase
+    let paketSorgusu = supabase
       .from("packages")
       .select("id, price, currency, is_active")
-      .eq("id", parsed.data.packageId)
-      .eq("is_active", true)
-      .single();
+      .eq("is_active", true);
+    paketSorgusu = "packageId" in parsed.data
+      ? paketSorgusu.eq("id", parsed.data.packageId)
+      : paketSorgusu.eq("code", parsed.data.packageCode);
+    const { data: paket, error: paketHatasi } = await paketSorgusu.single();
     if (paketHatasi || !paket) return apiHatasi("Paket bulunamadı veya satışa kapalı.", 404, "GECERSIZ_ISTEK");
 
     const idempotencyKey = parsed.data.idempotencyKey ?? randomUUID();
-    const { data: siparis, error: siparisHatasi } = await supabase
-      .from("orders")
-      .upsert(
-        {
-          company_id: parsed.data.companyId,
-          package_id: paket.id,
-          amount: paket.price,
-          currency: paket.currency,
-          idempotency_key: idempotencyKey,
-          status: "pending",
-        },
-        { onConflict: "idempotency_key" },
-      )
-      .select("id, company_id, package_id, amount, currency, status, idempotency_key")
-      .single();
-    if (siparisHatasi || !siparis) return apiHatasi("Sipariş oluşturulamadı.", 500);
-    if (siparis.company_id !== parsed.data.companyId || siparis.package_id !== parsed.data.packageId) {
+    const { data: siparis, error: siparisHatasi } = await supabase.rpc("create_pending_order", {
+      p_company_id: parsed.data.companyId,
+      p_package_id: paket.id,
+      p_idempotency_key: idempotencyKey,
+    });
+    if (siparisHatasi?.message === "idempotency_key_conflict") {
       return apiHatasi("Idempotency anahtarı başka bir siparişe ait.", 409, "GECERSIZ_ISTEK");
     }
+    if (siparisHatasi || !siparis) return apiHatasi("Sipariş oluşturulamadı.", 500);
     if (siparis.status !== "pending") {
       return apiHatasi("Bu sipariş yeniden checkout için uygun değil.", 409, "GECERSIZ_ISTEK");
     }
@@ -55,6 +83,7 @@ export async function POST(request: NextRequest) {
         amount: Number(siparis.amount),
         currency: siparis.currency,
         idempotencyKey: siparis.idempotency_key,
+        locale: parsed.data.locale,
       });
       return apiJson({ basarili: true, siparis, checkout }, 201);
     } catch (error) {
